@@ -49,10 +49,6 @@
 
 ---
 
-![Architecture](architecture.png)
-![Network](network.png)
-![Pipeline](pipeline.png)
-![Monitoring](monitoring.png)
 
 ## 🎯 О проекте
 
