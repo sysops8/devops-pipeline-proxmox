@@ -278,8 +278,8 @@ ip addr show vmbr1
 | nexus | 2 | 4GB | 40GB | 192.168.100.31 | Artifact Repository |
 | harbor | 2 | 4GB | 50GB | 192.168.100.32 | Container Registry |
 | monitoring | 4 | 6GB | 40GB | 192.168.100.40 | Prometheus+Grafana |
-| jumphost | 2 | 2GB | 10GB | 192.168.100.5 | Jumphost |
-| ngrok-tunnel | 2 | 2GB | 10GB | 10.0.10.60 / 10.0.10.60 | access and nat |
+| jumphost | 2 | 2GB | 10GB | 192.168.100.5 / 10.0.10.102 | Jumphost |
+| ngrok-tunnel | 2 | 2GB | 10GB | 192.168.100.60 / 10.0.10.60 | access and nat |
 | dns-server | 2 | 2GB | 10GB | 192.168.100.53 / 10.0.10.53 | DNS server |
 
 
