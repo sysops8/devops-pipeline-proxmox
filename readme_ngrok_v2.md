@@ -1540,9 +1540,9 @@ sudo rndc reload
 
 *Это руководство является частью The Ultimate CI/CD Corporate DevOps Pipeline Project. Полная версия доступна в репозитории проекта.*
 
-## Этап 3: Установка K3s кластера
+## Этап 6: Установка K3s кластера
 
-### 3.1 Установка K3s Master Node
+### 6.1 Установка K3s Master Node
 
 Подключитесь к master node:
 
@@ -1577,7 +1577,7 @@ sudo systemctl status k3s
 sudo kubectl get nodes
 ```
 
-### 3.2 Подключение Worker Nodes
+### 6.2 Подключение Worker Nodes
 
 **На k3s-worker1:**
 
@@ -1599,7 +1599,7 @@ curl -sfL https://get.k3s.io | K3S_URL=https://192.168.100.10:6443 \
   sh -
 ```
 
-### 3.3 Проверка кластера
+### 6.3 Проверка кластера
 
 На master node:
 
@@ -1616,7 +1616,7 @@ k3s-worker1   Ready    <none>                 2m    v1.28.x
 k3s-worker2   Ready    <none>                 2m    v1.28.x
 ```
 
-### 3.4 Настройка kubectl на локальной машине
+### 6.4 Настройка kubectl на локальной машине
 
 На вашей Windows машине (WSL/Git Bash):
 
@@ -1636,9 +1636,9 @@ kubectl get nodes
 
 ---
 
-## Этап 4: Установка MetalLB (Load Balancer)
+## Этап 7: Установка MetalLB (Load Balancer)
 
-### 4.1 Установка MetalLB
+### 7.1 Установка MetalLB
 
 ```bash
 # Применяем манифест
@@ -1651,7 +1651,7 @@ kubectl wait --namespace metallb-system \
   --timeout=90s
 ```
 
-### 4.2 Конфигурация IP Pool
+### 7.2 Конфигурация IP Pool
 
 Создайте файл `metallb-config.yaml`:
 
@@ -1691,15 +1691,15 @@ kubectl get l2advertisements -n metallb-system
 
 ---
 
-## Этап 5: Установка Traefik Ingress
+## Этап 8: Установка Traefik Ingress
 
-### 5.1 Установка Helm
+### 8.1 Установка Helm
 
 ```bash
 curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 ```
 
-### 5.2 Установка Traefik
+### 8.2 Установка Traefik
 
 ```bash
 # Добавление репозитория
@@ -1717,7 +1717,7 @@ helm install traefik traefik/traefik \
   --set ports.websecure.port=443
 ```
 
-### 5.3 Проверка
+### 8.3 Проверка
 
 ```bash
 kubectl get svc -n traefik
@@ -1727,9 +1727,9 @@ kubectl get svc -n traefik
 
 ---
 
-## Этап 6: Настройка внешнего доступа через Cloudflare Tunnel
+## Этап 9: Настройка внешнего доступа через Cloudflare Tunnel
 
-### 6.1 Установка cloudflared на Proxmox хосте
+### 9.1 Установка cloudflared на Proxmox хосте
 
 ```bash
 ssh root@10.0.10.200
@@ -1749,7 +1749,7 @@ cloudflared tunnel create devops-pipeline
 - Tunnel ID
 - Path to credentials file
 
-### 6.2 Конфигурация туннеля
+### 9.2 Конфигурация туннеля
 
 Создайте файл `/etc/cloudflared/config.yml`:
 
@@ -1787,7 +1787,7 @@ ingress:
   - service: http_status:404
 ```
 
-### 6.3 Создание DNS записей
+### 9.3 Создание DNS записей
 
 ```bash
 # Для каждого hostname создайте CNAME запись
@@ -1799,7 +1799,7 @@ cloudflared tunnel route dns devops-pipeline grafana.your-domain.com
 cloudflared tunnel route dns devops-pipeline "*.apps.your-domain.com"
 ```
 
-### 6.4 Запуск туннеля как systemd сервиса
+### 9.4 Запуск туннеля как systemd сервиса
 
 ```bash
 # Установка сервиса
@@ -1820,9 +1820,9 @@ sudo journalctl -u cloudflared -f
 
 ---
 
-## Этап 7: Установка инструментов на VM
+## Этап 10: Установка инструментов на VM
 
-### 7.1 Jenkins Server (192.168.100.20)
+### 10.1 Jenkins Server (192.168.100.20)
 
 ```bash
 ssh ubuntu@192.168.100.20
@@ -1883,7 +1883,7 @@ mvn --version
 
 **Доступ:** `https://jenkins.your-domain.com`
 
-### 7.2 SonarQube Server (192.168.100.30)
+### 10.2 SonarQube Server (192.168.100.30)
 
 ```bash
 ssh ubuntu@192.168.100.30
@@ -1924,7 +1924,7 @@ docker logs -f sonarqube
 **Доступ:** `https://sonar.your-domain.com`  
 **Логин:** admin/admin (измените после первого входа)
 
-### 7.3 Nexus Repository (192.168.100.31)
+### 10.3 Nexus Repository (192.168.100.31)
 
 ```bash
 ssh ubuntu@192.168.100.31
@@ -1960,7 +1960,7 @@ docker exec nexus cat /nexus-data/admin.password
 3. Создайте: `maven-releases` (maven2 hosted)
 4. Создайте: `maven-snapshots` (maven2 hosted)
 
-### 7.4 Harbor Registry (192.168.100.32)
+### 10.4 Harbor Registry (192.168.100.32)
 
 ```bash
 ssh ubuntu@192.168.100.32
@@ -2029,7 +2029,7 @@ docker-compose ps
 3. Access Level: Public
 4. OK
 
-### 7.5 Monitoring Server (192.168.100.40)
+### 10.5 Monitoring Server (192.168.100.40)
 
 ```bash
 ssh ubuntu@192.168.100.40
@@ -2333,9 +2333,9 @@ docker-compose logs -f
 
 ---
 
-## Этап 8: Настройка Jenkins Pipeline
+## Этап 11: Настройка Jenkins Pipeline
 
-### 8.1 Первоначальная настройка Jenkins
+### 11.1 Первоначальная настройка Jenkins
 
 Откройте `https://jenkins.your-domain.com`
 
@@ -2344,7 +2344,7 @@ docker-compose logs -f
 3. Create First Admin User
 4. Save and Continue
 
-### 8.2 Установка плагинов
+### 11.2 Установка плагинов
 
 **Manage Jenkins → Manage Plugins → Available**
 
@@ -2362,7 +2362,7 @@ docker-compose logs -f
 
 После установки: **Restart Jenkins**
 
-### 8.3 Настройка Tools
+### 11.3 Настройка Tools
 
 **Manage Jenkins → Global Tool Configuration**
 
@@ -2386,7 +2386,7 @@ docker-compose logs -f
 - ✓ Install automatically
 - Version: Latest
 
-### 8.4 Настройка Credentials
+### 11.4 Настройка Credentials
 
 **Manage Jenkins → Manage Credentials → Global → Add Credentials**
 
@@ -2438,7 +2438,7 @@ SonarQube → Administration → Security → Users → Administrator → Tokens
 Google Account → Security → 2-Step Verification → App passwords → Jenkins
 ```
 
-### 8.5 Настройка SonarQube Server
+### 11.5 Настройка SonarQube Server
 
 **Manage Jenkins → Configure System → SonarQube servers**
 
@@ -2447,7 +2447,7 @@ Google Account → Security → 2-Step Verification → App passwords → Jenkin
 - Server URL: `http://192.168.100.30:9000`
 - Server authentication token: Select `sonar-token`
 
-### 8.6 Настройка Maven Settings
+### 11.6 Настройка Maven Settings
 
 **Manage Jenkins → Managed files → Add a new Config → Global Maven settings.xml**
 
@@ -2479,7 +2479,7 @@ Google Account → Security → 2-Step Verification → App passwords → Jenkin
 
 Submit
 
-### 8.7 Настройка Email
+### 11.7 Настройка Email
 
 **Manage Jenkins → Configure System**
 
@@ -2504,9 +2504,9 @@ Submit
 
 ---
 
-## Этап 9: Создание Jenkins Pipeline
+## Этап 12: Создание Jenkins Pipeline
 
-### 9.1 Подготовка репозитория
+### 12.1 Подготовка репозитория
 
 На вашей локальной машине:
 
@@ -2631,7 +2631,7 @@ spec:
     secretName: boardgame-tls
 ```
 
-### 9.3 Обновление pom.xml
+### 12.3 Обновление pom.xml
 
 Добавьте в `pom.xml` секцию `distributionManagement`:
 
@@ -2650,7 +2650,7 @@ spec:
 </distributionManagement>
 ```
 
-### 9.4 Создание Jenkinsfile
+### 12.4 Создание Jenkinsfile
 
 Создайте файл `Jenkinsfile`:
 
@@ -2933,7 +2933,7 @@ pipeline {
 }
 ```
 
-### 9.5 Коммит и пуш изменений
+### 12.5 Коммит и пуш изменений
 
 ```bash
 git add .
@@ -2943,9 +2943,9 @@ git push origin main
 
 ---
 
-## Этап 10: Установка мониторинга на Jenkins
+## Этап 13: Установка мониторинга на Jenkins
 
-### 10.1 Установка Node Exporter на Jenkins
+### 13.1 Установка Node Exporter на Jenkins
 
 ```bash
 ssh ubuntu@192.168.100.20
@@ -2986,7 +2986,7 @@ sudo systemctl status node-exporter
 curl http://localhost:9100/metrics
 ```
 
-### 10.2 Настройка Jenkins Prometheus Plugin
+### 13.2 Настройка Jenkins Prometheus Plugin
 
 В Jenkins:
 
@@ -3008,7 +3008,7 @@ curl http://localhost:9100/metrics
 curl http://192.168.100.20:8080/prometheus
 ```
 
-### 10.3 Настройка Grafana дашбордов
+### 13.3 Настройка Grafana дашбордов
 
 Откройте Grafana: `https://grafana.your-domain.com` (admin/admin)
 
@@ -3051,9 +3051,9 @@ curl http://192.168.100.20:8080/prometheus
 
 ---
 
-## Этап 11: Настройка безопасности K8s
+## Этап 14: Настройка безопасности K8s
 
-### 11.1 Установка Kubeaudit
+### 14.1 Установка Kubeaudit
 
 На k3s-master:
 
@@ -3073,7 +3073,7 @@ kubeaudit all > kubeaudit-report.txt
 cat kubeaudit-report.txt
 ```
 
-### 11.2 Создание RBAC для Jenkins
+### 14.2 Создание RBAC для Jenkins
 
 Создайте файл `jenkins-rbac.yaml`:
 
@@ -3145,7 +3145,7 @@ kubectl get secret jenkins-token -n default -o jsonpath='{.data.token}' | base64
 # Сохраните токен!
 ```
 
-### 11.3 Создание kubeconfig для Jenkins
+### 14.3 Создание kubeconfig для Jenkins
 
 Создайте файл `create-jenkins-kubeconfig.sh`:
 
@@ -3196,7 +3196,7 @@ chmod +x create-jenkins-kubeconfig.sh
 # Обновите credentials в Jenkins этим файлом
 ```
 
-### 11.4 Network Policies (опционально)
+### 14.4 Network Policies (опционально)
 
 Создайте файл `network-policies.yaml`:
 
@@ -3236,9 +3236,9 @@ spec:
 
 ---
 
-## Этап 12: Запуск Pipeline
+## Этап 15: Запуск Pipeline
 
-### 12.1 Создание Pipeline Job в Jenkins
+### 15.1 Создание Pipeline Job в Jenkins
 
 1. Jenkins → New Item
 2. Item name: `boardgame-pipeline`
@@ -3264,7 +3264,7 @@ spec:
 
 **Save**
 
-### 12.2 Настройка GitHub Webhook (опционально)
+### 15.2 Настройка GitHub Webhook (опционально)
 
 В вашем GitHub репозитории:
 
@@ -3275,7 +3275,7 @@ spec:
 5. ✓ Active
 6. Add webhook
 
-### 12.3 Первый запуск Pipeline
+### 15.3 Первый запуск Pipeline
 
 В Jenkins:
 
@@ -3285,7 +3285,7 @@ spec:
 
 **⏱️ Ожидаемое время: 10-15 минут**
 
-### 12.4 Мониторинг выполнения
+### 15.4 Мониторинг выполнения
 
 **Console Output:**
 ```
@@ -3306,9 +3306,9 @@ Running on Jenkins in /var/lib/jenkins/workspace/boardgame-pipeline
 
 ---
 
-## Этап 13: Проверка результатов
+## Этап 16: Проверка результатов
 
-### 13.1 Проверка Kubernetes Deployment
+### 16.1 Проверка Kubernetes Deployment
 
 ```bash
 # Pods
@@ -3332,7 +3332,7 @@ kubectl logs -f deployment/boardgame -n default
 kubectl get events -n default --sort-by='.lastTimestamp' | tail -20
 ```
 
-### 13.2 Доступ к приложению
+### 16.2 Доступ к приложению
 
 **Через Ingress (рекомендуется):**
 ```
@@ -3355,7 +3355,7 @@ kubectl port-forward svc/boardgame-service 8080:80 -n default
 # Доступ: http://localhost:8080
 ```
 
-### 13.3 Тестирование приложения
+### 16.3 Тестирование приложения
 
 **Тестовые пользователи:**
 
@@ -3392,7 +3392,7 @@ kubectl port-forward svc/boardgame-service 8080:80 -n default
    - ✓ Можно добавить отзыв
    - ✓ Можно редактировать/удалять отзывы
 
-### 13.4 Проверка артефактов
+### 16.4 Проверка артефактов
 
 **Jenkins:**
 - Build Artifacts: `target/*.jar`
@@ -3438,7 +3438,7 @@ kubectl port-forward svc/boardgame-service 8080:80 -n default
    - Resource Usage
    - Network I/O
 
-### 13.6 Проверка Email уведомлений
+### 16.6 Проверка Email уведомлений
 
 Проверьте ваш email:
 
@@ -3454,9 +3454,9 @@ kubectl port-forward svc/boardgame-service 8080:80 -n default
 
 ---
 
-## Этап 14: Оптимизация и Best Practices
+## Этап 17: Оптимизация и Best Practices
 
-### 14.1 Horizontal Pod Autoscaler (HPA)
+### 17.1 Horizontal Pod Autoscaler (HPA)
 
 Создайте файл `hpa.yaml`:
 
@@ -3514,7 +3514,7 @@ kubectl apply -f hpa.yaml
 kubectl get hpa -n default
 ```
 
-### 14.2 Persistent Volumes для данных
+### 17.2 Persistent Volumes для данных
 
 Создайте файл `pv-pvc.yaml`:
 
@@ -3549,7 +3549,7 @@ spec:
   storageClassName: manual
 ```
 
-### 14.3 ConfigMap для конфигурации
+### 17.3 ConfigMap для конфигурации
 
 Создайте файл `configmap.yaml`:
 
@@ -3568,7 +3568,7 @@ data:
     logging.level.com.devops.boardgame=DEBUG
 ```
 
-### 14.4 Resource Quotas для namespace
+### 17.4 Resource Quotas для namespace
 
 ```yaml
 apiVersion: v1
@@ -3586,7 +3586,7 @@ spec:
     services.loadbalancers: "5"
 ```
 
-### 14.5 Pod Disruption Budget
+### 17.5 Pod Disruption Budget
 
 ```yaml
 apiVersion: policy/v1
@@ -3603,9 +3603,9 @@ spec:
 
 ---
 
-## Этап 15: Troubleshooting
+## Этап 18: Troubleshooting
 
-### 15.1 Распространенные проблемы и решения
+### 18.1 Распространенные проблемы и решения
 
 #### Проблема: Jenkins не может подключиться к K8s
 
