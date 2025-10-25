@@ -7,6 +7,9 @@
 [![Jenkins](https://img.shields.io/badge/Jenkins-CI%2FCD-D24939?logo=jenkins)](https://www.jenkins.io/)
 [![Terraform](https://img.shields.io/badge/Terraform-IaC-7B42BC?logo=terraform)](https://www.terraform.io/)
 
+<img width="1150" height="824" alt="image" src="https://github.com/user-attachments/assets/a7ac7ef6-d24a-4506-8dcf-cd5088571936" />
+
+
 ## 📋 Содержание
 
 - [О проекте](#о-проекте)
