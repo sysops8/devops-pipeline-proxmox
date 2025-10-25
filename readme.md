@@ -278,6 +278,7 @@ ip addr show vmbr1
 | nexus | 2 | 4GB | 40GB | 192.168.100.31 | Artifact Repository |
 | harbor | 2 | 4GB | 50GB | 192.168.100.32 | Container Registry |
 | monitoring | 4 | 6GB | 40GB | 192.168.100.40 | Prometheus+Grafana |
+| jumphost | 4 | 2GB | 10GB | 192.168.100.5 | Jumphost |
 
 **Итого:** 24 vCPU, 46GB RAM, 360GB Storage
 
