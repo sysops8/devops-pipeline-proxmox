@@ -1164,6 +1164,7 @@ export KUBECONFIG=~/.kube/config
 sudo mkdir ~/.kube 2> /dev/null
 sudo k3s kubectl config view --raw > "$KUBECONFIG"
 sudo chmod 600 "$KUBECONFIG"
+echo export KUBECONFIG=~/.kube/config  >> ~/.profile
 ```
 
 Получите токен для worker nodes:
