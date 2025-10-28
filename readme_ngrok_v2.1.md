@@ -1599,8 +1599,8 @@ sudo docker run -d \
 **Проверка:**
 
 ```bash
-docker ps
-docker logs -f sonarqube
+sudo docker ps
+sudo docker logs -f sonarqube
 ```
 
 **Доступ:** `https://sonar.your-domain.com`  
