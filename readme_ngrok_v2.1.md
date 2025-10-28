@@ -1623,8 +1623,9 @@ volumes:
 EOF
 ```
 # Запуск SonarQube
+```bash
 sudo docker compose up -d
-
+```
 **Проверка:**
 ```bash
 sudo docker ps
