@@ -2014,7 +2014,7 @@ EOF
 
 ```bash
 # На k3s-master
-ssh ubuntu@192.168.100.10
+ssh admin@192.168.100.10
 kubectl -n kube-system get secret $(kubectl -n kube-system get sa default -o jsonpath='{.secrets[0].name}') -o jsonpath='{.data.token}' | base64 -d
 
 # Скопируйте токен
