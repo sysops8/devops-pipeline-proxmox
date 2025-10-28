@@ -1586,7 +1586,6 @@ echo "fs.file-max=131072" | sudo tee -a /etc/sysctl.conf
 
 ```yaml
 sudo tee docker-compose.yml > /dev/null <<EOF
-version: "3"
 services:
   db:
     image: postgres:15
