@@ -1965,7 +1965,7 @@ groups:
           description: "Memory usage above 85% (current: {{ printf \"%.2f\" $value }}%)"
 
       - alert: HighCPUUsage
-        expr: 100 - (avg by(instance) (irate(node_cpu_seconds_total{mode=\"idle\"}[5m])) * 100) > 80
+        expr: 100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
         for: 5m
         labels:
           severity: warning
@@ -1974,7 +1974,7 @@ groups:
           description: "CPU usage above 80% (current: {{ printf \"%.2f\" $value }}%)"
 
       - alert: DiskSpaceLow
-        expr: (node_filesystem_avail_bytes{mountpoint=\"/\"} / node_filesystem_size_bytes{mountpoint=\"/\"}) * 100 < 15
+        expr: (node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"}) * 100 < 15
         for: 5m
         labels:
           severity: warning
@@ -1991,6 +1991,7 @@ groups:
           summary: "Pod {{ $labels.pod }} is crash looping"
           description: "Pod {{ $labels.pod }} in namespace {{ $labels.namespace }} is restarting frequently"
 EOF
+
 
 ```
 
