@@ -1634,7 +1634,7 @@ sleep 120
 sudo docker exec nexus cat /nexus-data/admin.password
 ```
 
-**Доступ:** `https://nexus.your-domain.com`  
+**Доступ:** `https://nexus.your-domain.com:8081`  
 **Логин:** admin + пароль из команды выше
 
 **Создание репозиториев:**
