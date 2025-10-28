@@ -1672,7 +1672,7 @@ sudo apt update && sudo apt upgrade -y
 # Установка Docker и Docker Compose
 curl -fsSL https://get.docker.com -o get-docker.sh
 sudo sh get-docker.sh
-sudo apt install -y docker-compose
+
 
 # Скачивание Harbor
 cd ~
