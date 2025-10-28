@@ -495,7 +495,7 @@ sudo tee /etc/netplan/00-installer-config.yaml > /dev/null <<'EOF'
 network:
   version: 2
   ethernets:
-    ens18:
+    eth0:
       dhcp4: no
       addresses:
         - 10.0.10.53/24
@@ -506,7 +506,7 @@ network:
         addresses:
           - 127.0.0.1
           - 8.8.8.8
-    ens19:
+    eth1:
       dhcp4: no
       addresses:
         - 192.168.100.53/24
@@ -539,7 +539,7 @@ sudo tee /etc/netplan/00-installer-config.yaml > /dev/null <<'EOF'
 network:
   version: 2
   ethernets:
-    ens18:
+    eth0:
       dhcp4: no
       addresses:
         - 10.0.10.102/24
@@ -552,7 +552,7 @@ network:
           - 8.8.8.8
         search:
           - local.lab
-    ens19:
+    eth1:
       dhcp4: no
       addresses:
         - 192.168.100.5/24
