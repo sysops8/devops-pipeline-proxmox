@@ -1765,7 +1765,8 @@ services:
     restart: unless-stopped
     ports:
       - "9090:9090"
-    volumes:
+    volumes:  
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
       - ./prometheus/alerts.yml:/etc/prometheus/alerts.yml
       - prometheus_data:/prometheus
