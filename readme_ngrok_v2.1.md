@@ -1160,6 +1160,10 @@ sudo apt update && sudo apt upgrade -y
 
 ```bash
 curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--disable traefik --node-ip=192.168.100.10" sh -
+export KUBECONFIG=~/.kube/config
+sudo mkdir ~/.kube 2> /dev/null
+sudo k3s kubectl config view --raw > "$KUBECONFIG"
+sudo chmod 600 "$KUBECONFIG"
 ```
 
 Получите токен для worker nodes:
