@@ -1624,10 +1624,8 @@ EOF
 ```
 # Запуск SonarQube
 sudo docker compose up -d
-```
 
 **Проверка:**
-
 ```bash
 sudo docker ps
 sudo docker logs -f sonarqube
