@@ -1733,6 +1733,7 @@ cd ~/monitoring
 **Создайте `docker-compose.yml`:**
 
 ```yaml
+sudo tee docker-compose.yml > /dev/null <<EOF
 version: '3.8'
 
 services:
@@ -1794,11 +1795,13 @@ services:
 volumes:
   prometheus_data:
   grafana_data:
+EOF
 ```
 
 **Создайте `prometheus/prometheus.yml`:**
 
 ```yaml
+sudo tee prometheus/prometheus.yml > /dev/null <<EOF
 global:
   scrape_interval: 15s
   evaluation_interval: 15s
@@ -1909,11 +1912,13 @@ scrape_configs:
         regex: ([^:]+)(?::\d+)?;(\d+)
         replacement: $1:$2
         target_label: __address__
+EOF
 ```
 
 **Создайте `prometheus/alerts.yml`:**
 
 ```yaml
+sudo tee prometheus/alerts.yml > /dev/null <<EOF
 groups:
   - name: application_alerts
     interval: 30s
@@ -1962,11 +1967,13 @@ groups:
         annotations:
           summary: "Pod {{ $labels.pod }} is crash looping"
           description: "Pod is restarting frequently in namespace {{ $labels.namespace }}"
+EOF
 ```
 
 **Создайте `blackbox/blackbox.yml`:**
 
 ```yaml
+sudo tee blackbox/blackbox.yml > /dev/null <<EOF
 modules:
   http_2xx:
     prober: http
@@ -1979,6 +1986,7 @@ modules:
       fail_if_ssl: false
       fail_if_not_ssl: false
       preferred_ip_protocol: "ip4"
+EOF
 ```
 
 **Получение K3s token для Prometheus:**
