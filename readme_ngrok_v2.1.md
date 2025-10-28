@@ -542,6 +542,12 @@ dig @localhost -x 192.168.100.20
 #### 2.4 Настройка netplan для статических IP
 
 ```bash
+# Установка зависимости для netplan и настройка прав на файл сетевой конфигурации
+sudo apt install -y openvswitch-switch
+sudo chmod 600 /etc/netplan/00-installer-config.yaml
+```
+
+```bash
 sudo tee /etc/netplan/50-cloud-init.yaml > /dev/null <<'EOF'
 network:
   version: 2
