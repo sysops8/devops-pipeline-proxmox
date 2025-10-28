@@ -778,7 +778,7 @@ tunnels:
   jenkins:
     proto: http
     addr: 192.168.100.20:8080
-    domain: YOUR_DOMAIN.ngrok-free.app
+    --host-header="easyshop.local.lab"
     
   sonarqube:
     proto: http
