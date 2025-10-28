@@ -1596,7 +1596,7 @@ services:
       POSTGRES_PASSWORD: sonar
       POSTGRES_DB: sonarqube
   sonarqube:
-    image: sonarqube:2025.5.0-enterprise
+    image: sonarqube:25.10.0.114319-community
     restart: unless-stopped
     depends_on:
       - db
