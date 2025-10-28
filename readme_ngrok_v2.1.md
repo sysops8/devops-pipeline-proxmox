@@ -1329,6 +1329,7 @@ kubectl wait --namespace metallb-system \
 Создайте файл `metallb-config.yaml`:
 
 ```yaml
+sudo tee metallb-config.yaml > /dev/null <<EOF
 apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:
@@ -1347,6 +1348,7 @@ metadata:
 spec:
   ipAddressPools:
   - default-pool
+EOF
 ```
 
 Примените конфигурацию:
