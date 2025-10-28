@@ -2078,7 +2078,7 @@ docker-compose logs -f
 - Maven Integration
 - Pipeline Maven Integration
 - Prometheus metrics
-- Email Extension Plugin
+- Email Extension Plugin   (есть только Email Extension Template)
 - Blue Ocean (опционально, для красивого UI)
 
 После установки: **Restart Jenkins**
