@@ -1823,7 +1823,7 @@ EOF
 **Создайте `prometheus/prometheus.yml`:**
 
 ```yaml
-sudo tee prometheus/prometheus.yml > /dev/null <<EOF
+sudo tee prometheus/prometheus.yml > /dev/null <<'EOF'
 global:
   scrape_interval: 15s
   evaluation_interval: 15s
@@ -1932,9 +1932,10 @@ scrape_configs:
       - source_labels: [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
         action: replace
         regex: ([^:]+)(?::\d+)?;(\d+)
-        replacement: $1:$2
+        replacement: "$1:$2"   # ✅ Ключевая правка: кавычки вокруг подстановки
         target_label: __address__
 EOF
+
 ```
 
 **Создайте `prometheus/alerts.yml`:**
