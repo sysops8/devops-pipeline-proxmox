@@ -1855,6 +1855,9 @@ scrape_configs:
       - targets: ['192.168.100.20:8080']
         labels:
           service: 'jenkins'
+    basic_auth:
+        username: 'admin'
+        password: '11db7e618498a5e0864d7faa2684af7329'
 
   # Node Exporters
   - job_name: 'node-exporter'
@@ -1893,11 +1896,11 @@ scrape_configs:
         api_server: https://192.168.100.10:6443
         tls_config:
           insecure_skip_verify: true
-        bearer_token_file: /etc/prometheus/k3s-token
+        bearer_token_file:  /etc/prometheus/k3s-token
     scheme: https
     tls_config:
       insecure_skip_verify: true
-    bearer_token_file: /etc/prometheus/k3s-token
+    bearer_token_file:  /etc/prometheus/k3s-token
     relabel_configs:
       - source_labels: [__meta_kubernetes_namespace, __meta_kubernetes_service_name, __meta_kubernetes_endpoint_port_name]
         action: keep
@@ -1910,11 +1913,11 @@ scrape_configs:
         api_server: https://192.168.100.10:6443
         tls_config:
           insecure_skip_verify: true
-        bearer_token_file: /etc/prometheus/k3s-token
+        bearer_token_file:  /etc/prometheus/k3s-token
     scheme: https
     tls_config:
       insecure_skip_verify: true
-    bearer_token_file: /etc/prometheus/k3s-token
+    bearer_token_file:  /etc/prometheus/k3s-token
 
   # Kubernetes Pods
   - job_name: 'kubernetes-pods'
@@ -1923,7 +1926,7 @@ scrape_configs:
         api_server: https://192.168.100.10:6443
         tls_config:
           insecure_skip_verify: true
-        bearer_token_file: /etc/prometheus/k3s-token
+        bearer_token_file:  /etc/prometheus/k3s-token
     relabel_configs:
       - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
         action: keep
@@ -1937,6 +1940,7 @@ scrape_configs:
         regex: ([^:]+)(?::\d+)?;(\d+)
         replacement: "$1:$2"   # ✅ Ключевая правка: кавычки вокруг подстановки
         target_label: __address__
+
 EOF
 
 ```
