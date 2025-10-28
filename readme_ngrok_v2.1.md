@@ -719,10 +719,10 @@ iptables -P OUTPUT ACCEPT
 iptables -A FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT
 
 # NAT for internal network
-iptables -t nat -A POSTROUTING -s 192.168.100.0/24 -o ens18 -j MASQUERADE
+iptables -t nat -A POSTROUTING -s 192.168.100.0/24 -o eth0 -j MASQUERADE
 
 # Allow forwarding from internal network
-iptables -A FORWARD -s 192.168.100.0/24 -o ens18 -j ACCEPT
+iptables -A FORWARD -s 192.168.100.0/24 -o eth0 -j ACCEPT
 
 # Allow DNS
 iptables -A FORWARD -p udp --dport 53 -j ACCEPT
