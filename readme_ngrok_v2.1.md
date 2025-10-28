@@ -353,31 +353,6 @@ qm template 9000
 
 DNS сервер - первая VM, которую нужно создать, так как он будет использоваться всеми остальными.
 
-```bash
-# На Proxmox хосте
-qm clone 9000 150 --name dns-server --full
-
-# Настройка 2 сетевых интерфейсов
-qm set 150 --net0 virtio,bridge=vmbr0
-qm set 150 --net1 virtio,bridge=vmbr1
-
-# Ресурсы
-qm set 150 --memory 2048 --cores 2
-
-# Cloud-Init конфигурация
-qm set 150 --ipconfig0 ip=10.0.10.53/24,gw=10.0.10.1
-qm set 150 --ipconfig1 ip=192.168.100.53/24
-qm set 150 --nameserver 8.8.8.8
-qm set 150 --searchdomain local.lab
-qm set 150 --ciuser ubuntu
-qm set 150 --sshkeys ~/.ssh/id_rsa.pub
-
-# Запуск
-qm start 150
-
-# Ожидание запуска
-sleep 30
-```
 
 #### 2.2 Установка и настройка BIND9
 
@@ -578,30 +553,7 @@ sudo netplan apply
 ### Этап 3: Настройка Jumphost
 
 #### 3.1 Создание Jumphost VM
-
-```bash
-# На Proxmox хосте
-qm clone 9000 100 --name jumphost --full
-
-# Настройка 2 сетевых интерфейсов
-qm set 100 --net0 virtio,bridge=vmbr0
-qm set 100 --net1 virtio,bridge=vmbr1
-
-# Ресурсы
-qm set 100 --memory 2048 --cores 2
-
-# Cloud-Init
-qm set 100 --ipconfig0 ip=10.0.10.102/24,gw=10.0.10.1
-qm set 100 --ipconfig1 ip=192.168.100.5/24
-qm set 100 --nameserver 192.168.100.53
-qm set 100 --searchdomain local.lab
-qm set 100 --ciuser ubuntu
-qm set 100 --sshkeys ~/.ssh/id_rsa.pub
-
-# Запуск
-qm start 100
-sleep 30
-```
+Создайте ВМ jumphost на Proxmox.
 
 #### 3.2 Настройка Jumphost
 
@@ -692,30 +644,7 @@ ssh jenkins
 ### Этап 4: Настройка Ngrok Tunnel
 
 #### 4.1 Создание Ngrok Gateway VM
-
-```bash
-# На Proxmox хосте
-qm clone 9000 160 --name ngrok-tunnel --full
-
-# Настройка 2 сетевых интерфейсов
-qm set 160 --net0 virtio,bridge=vmbr0
-qm set 160 --net1 virtio,bridge=vmbr1
-
-# Ресурсы
-qm set 160 --memory 2048 --cores 2
-
-# Cloud-Init
-qm set 160 --ipconfig0 ip=10.0.10.60/24,gw=10.0.10.1
-qm set 160 --ipconfig1 ip=192.168.100.60/24
-qm set 160 --nameserver 192.168.100.53
-qm set 160 --searchdomain local.lab
-qm set 160 --ciuser ubuntu
-qm set 160 --sshkeys ~/.ssh/id_rsa.pub
-
-# Запуск
-qm start 160
-sleep 30
-```
+Создайте Ngrok Gateway VM
 
 #### 4.2 Установка Ngrok
 
@@ -989,368 +918,7 @@ ip route show
 
 #### 5.1 Структура Terraform проекта
 
-Создайте структуру:
-```bash
-mkdir -p ~/devops-pipeline-proxmox/terraform
-cd ~/devops-pipeline-proxmox/terraform
-```
-
-#### 5.2 Terraform providers.tf
-
-```hcl
-terraform {
-  required_version = ">= 1.5.0"
-  
-  required_providers {
-    proxmox = {
-      source  = "telmate/proxmox"
-      version = "2.9.14"
-    }
-  }
-}
-
-provider "proxmox" {
-  pm_api_url      = var.proxmox_api_url
-  pm_user         = var.proxmox_user
-  pm_password     = var.proxmox_password
-  pm_tls_insecure = true
-}
-```
-
-#### 5.3 Terraform variables.tf
-
-```hcl
-variable "proxmox_api_url" {
-  description = "Proxmox API URL"
-  type        = string
-  default     = "https://10.0.10.200:8006/api2/json"
-}
-
-variable "proxmox_user" {
-  description = "Proxmox user"
-  type        = string
-  default     = "root@pam"
-}
-
-variable "proxmox_password" {
-  description = "Proxmox password"
-  type        = string
-  sensitive   = true
-}
-
-variable "ssh_public_key" {
-  description = "SSH public key for VM access"
-  type        = string
-}
-
-variable "target_node" {
-  description = "Proxmox node name"
-  type        = string
-  default     = "pve"
-}
-
-variable "dns_server" {
-  description = "Internal DNS server IP"
-  type        = string
-  default     = "192.168.100.53"
-}
-
-variable "gateway_ip" {
-  description = "Internal gateway IP (Ngrok)"
-  type        = string
-  default     = "192.168.100.60"
-}
-```
-
-#### 5.4 Terraform main.tf
-
-```hcl
-# K3s Master Node
-resource "proxmox_vm_qemu" "k3s_master" {
-  name        = "k3s-master"
-  target_node = var.target_node
-  clone       = "ubuntu-2204-template"
-  
-  cores   = 4
-  memory  = 8192
-  
-  disk {
-    size    = "50G"
-    type    = "scsi"
-    storage = "local-lvm"
-  }
-  
-  network {
-    model  = "virtio"
-    bridge = "vmbr1"
-  }
-  
-  ipconfig0  = "ip=192.168.100.10/24,gw=${var.gateway_ip}"
-  nameserver = var.dns_server
-  searchdomain = "local.lab"
-  ciuser     = "ubuntu"
-  sshkeys    = var.ssh_public_key
-  
-  # Ожидание готовности
-  agent = 1
-}
-
-# K3s Worker Nodes
-resource "proxmox_vm_qemu" "k3s_workers" {
-  count       = 2
-  name        = "k3s-worker${count.index + 1}"
-  target_node = var.target_node
-  clone       = "ubuntu-2204-template"
-  
-  cores   = 4
-  memory  = 8192
-  
-  disk {
-    size    = "50G"
-    type    = "scsi"
-    storage = "local-lvm"
-  }
-  
-  network {
-    model  = "virtio"
-    bridge = "vmbr1"
-  }
-  
-  ipconfig0  = "ip=192.168.100.${11 + count.index}/24,gw=${var.gateway_ip}"
-  nameserver = var.dns_server
-  searchdomain = "local.lab"
-  ciuser     = "ubuntu"
-  sshkeys    = var.ssh_public_key
-  
-  agent = 1
-}
-
-# Jenkins Server
-resource "proxmox_vm_qemu" "jenkins" {
-  name        = "jenkins"
-  target_node = var.target_node
-  clone       = "ubuntu-2204-template"
-  
-  cores   = 4
-  memory  = 8192
-  
-  disk {
-    size    = "60G"
-    type    = "scsi"
-    storage = "local-lvm"
-  }
-  
-  network {
-    model  = "virtio"
-    bridge = "vmbr1"
-  }
-  
-  ipconfig0  = "ip=192.168.100.20/24,gw=${var.gateway_ip}"
-  nameserver = var.dns_server
-  searchdomain = "local.lab"
-  ciuser     = "ubuntu"
-  sshkeys    = var.ssh_public_key
-  
-  agent = 1
-}
-
-# SonarQube Server
-resource "proxmox_vm_qemu" "sonarqube" {
-  name        = "sonarqube"
-  target_node = var.target_node
-  clone       = "ubuntu-2204-template"
-  
-  cores   = 2
-  memory  = 4096
-  
-  disk {
-    size    = "30G"
-    type    = "scsi"
-    storage = "local-lvm"
-  }
-  
-  network {
-    model  = "virtio"
-    bridge = "vmbr1"
-  }
-  
-  ipconfig0  = "ip=192.168.100.30/24,gw=${var.gateway_ip}"
-  nameserver = var.dns_server
-  searchdomain = "local.lab"
-  ciuser     = "ubuntu"
-  sshkeys    = var.ssh_public_key
-  
-  agent = 1
-}
-
-# Nexus Server
-resource "proxmox_vm_qemu" "nexus" {
-  name        = "nexus"
-  target_node = var.target_node
-  clone       = "ubuntu-2204-template"
-  
-  cores   = 2
-  memory  = 4096
-  
-  disk {
-    size    = "40G"
-    type    = "scsi"
-    storage = "local-lvm"
-  }
-  
-  network {
-    model  = "virtio"
-    bridge = "vmbr1"
-  }
-  
-  ipconfig0  = "ip=192.168.100.31/24,gw=${var.gateway_ip}"
-  nameserver = var.dns_server
-  searchdomain = "local.lab"
-  ciuser     = "ubuntu"
-  sshkeys    = var.ssh_public_key
-  
-  agent = 1
-}
-
-# Harbor Registry
-resource "proxmox_vm_qemu" "harbor" {
-  name        = "harbor"
-  target_node = var.target_node
-  clone       = "ubuntu-2204-template"
-  
-  cores   = 2
-  memory  = 4096
-  
-  disk {
-    size    = "50G"
-    type    = "scsi"
-    storage = "local-lvm"
-  }
-  
-  network {
-    model  = "virtio"
-    bridge = "vmbr1"
-  }
-  
-  ipconfig0  = "ip=192.168.100.32/24,gw=${var.gateway_ip}"
-  nameserver = var.dns_server
-  searchdomain = "local.lab"
-  ciuser     = "ubuntu"
-  sshkeys    = var.ssh_public_key
-  
-  agent = 1
-}
-
-# Monitoring Server
-resource "proxmox_vm_qemu" "monitoring" {
-  name        = "monitoring"
-  target_node = var.target_node
-  clone       = "ubuntu-2204-template"
-  
-  cores   = 4
-  memory  = 6144
-  
-  disk {
-    size    = "40G"
-    type    = "scsi"
-    storage = "local-lvm"
-  }
-  
-  network {
-    model  = "virtio"
-    bridge = "vmbr1"
-  }
-  
-  ipconfig0  = "ip=192.168.100.40/24,gw=${var.gateway_ip}"
-  nameserver = var.dns_server
-  searchdomain = "local.lab"
-  ciuser     = "ubuntu"
-  sshkeys    = var.ssh_public_key
-  
-  agent = 1
-}
-```
-
-#### 5.5 Terraform outputs.tf
-
-```hcl
-output "k3s_master_ip" {
-  value = proxmox_vm_qemu.k3s_master.default_ipv4_address
-  description = "K3s master node IP"
-}
-
-output "k3s_workers_ips" {
-  value = proxmox_vm_qemu.k3s_workers[*].default_ipv4_address
-  description = "K3s worker nodes IPs"
-}
-
-output "jenkins_ip" {
-  value = proxmox_vm_qemu.jenkins.default_ipv4_address
-  description = "Jenkins server IP"
-}
-
-output "sonarqube_ip" {
-  value = proxmox_vm_qemu.sonarqube.default_ipv4_address
-  description = "SonarQube server IP"
-}
-
-output "nexus_ip" {
-  value = proxmox_vm_qemu.nexus.default_ipv4_address
-  description = "Nexus repository IP"
-}
-
-output "harbor_ip" {
-  value = proxmox_vm_qemu.harbor.default_ipv4_address
-  description = "Harbor registry IP"
-}
-
-output "monitoring_ip" {
-  value = proxmox_vm_qemu.monitoring.default_ipv4_address
-  description = "Monitoring server IP"
-}
-
-output "gateway_ip" {
-  value = var.gateway_ip
-  description = "Internal gateway IP (Ngrok/Cloudflare)"
-}
-
-output "dns_server" {
-  value = var.dns_server
-  description = "Internal DNS server IP"
-}
-
-output "connection_info" {
-  value = <<-EOT
-    
-    === Connection Information ===
-    
-    1. Connect to Jumphost:
-       ssh ubuntu@10.0.10.102
-    
-    2. Or connect directly to internal VM:
-       ssh -J ubuntu@10.0.10.102 ubuntu@192.168.100.10
-    
-    3. DNS Server: ${var.dns_server}
-    4. Gateway: ${var.gateway_ip}
-    
-    All internal services use .local.lab domain
-    EOT
-}
-```
-
-#### 5.6 Terraform terraform.tfvars
-
-```hcl
-proxmox_api_url  = "https://10.0.10.200:8006/api2/json"
-proxmox_user     = "root@pam"
-proxmox_password = "YOUR_PROXMOX_PASSWORD"
-ssh_public_key   = <<-EOT
-ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAA... your-public-key-here
-EOT
-target_node      = "pve"
-dns_server       = "192.168.100.53"
-gateway_ip       = "192.168.100.60"
-```
+Настройки Terraform отдельно лежат в папке terraform
 
 #### 5.7 Развертывание VM
 
@@ -1386,160 +954,6 @@ ping -c 3 8.8.8.8
 curl -I https://google.com
 ```
 
-### Последующие этапы
-
-Далее следуйте оригинальной инструкции начиная с:
-
-- **Этап 3**: Установка K3s кластера (теперь это будет Этап 6)
-- Установка MetalLB
-- Traefik Ingress
-- Установка инструментов (Jenkins, SonarQube и т.д.)
-- Настройка Jenkins Pipeline
-- Мониторинг
-- И так далее...
-
-**Важные отличия:**
-- **DNS**: Используйте `jenkins.local.lab` вместо IP адресов
-- **Gateway**: Все VM используют `192.168.100.60` как шлюз
-- **Доступ**: Только через Jumphost (`ssh -J`)
-- **Внешний доступ**: Только через Ngrok/Cloudflare туннель
-
-## 🔐 Безопасность изолированной сети
-
-### Преимущества архитектуры
-
-✅ **Полная изоляция** - рабочие VM не имеют прямого доступа в интернет  
-✅ **Контролируемый NAT** - весь исходящий трафик через один gateway  
-✅ **Single Entry Point** - доступ только через Jumphost  
-✅ **Внутренний DNS** - разрешение имен без утечки запросов  
-✅ **Безопасные туннели** - внешний доступ только через HTTPS  
-✅ **Audit Trail** - все подключения логируются на Jumphost  
-
-### Дополнительные меры безопасности
-
-```bash
-# На Jumphost - ограничение SSH
-sudo tee -a /etc/ssh/sshd_config <<'EOF'
-# Security hardening
-PermitRootLogin no
-PasswordAuthentication no
-MaxAuthTries 3
-MaxSessions 5
-ClientAliveInterval 300
-ClientAliveCountMax 2
-
-# Logging
-LogLevel VERBOSE
-EOF
-
-sudo systemctl restart sshd
-
-# Установка fail2ban
-sudo apt install -y fail2ban
-
-sudo tee /etc/fail2ban/jail.local <<'EOF'
-[DEFAULT]
-bantime = 3600
-findtime = 600
-maxretry = 3
-
-[sshd]
-enabled = true
-port = ssh
-logpath = /var/log/auth.log
-EOF
-
-sudo systemctl enable fail2ban
-sudo systemctl start fail2ban
-```
-
-## 📊 Проверка инфраструктуры
-
-### Чеклист готовности базовой инфраструктуры
-
-- [ ] DNS Server запущен и отвечает
-- [ ] Jumphost настроен и доступен
-- [ ] Ngrok Gateway настроен и работает NAT
-- [ ] Все VM созданы через Terraform
-- [ ] DNS резолвит все внутренние имена
-- [ ] Интернет работает через NAT
-- [ ] SSH через Jumphost работает
-- [ ] Ngrok туннели активны
-
-### Тест DNS
-
-```bash
-# На любой внутренней VM
-dig jenkins.local.lab
-dig k3s-master.local.lab
-dig apps.local.lab
-
-# Reverse DNS
-dig -x 192.168.100.20
-```
-
-### Тест сети
-
-```bash
-# На любой внутренней VM
-ping -c 3 jenkins.local.lab
-ping -c 3 8.8.8.8
-curl -I https://google.com
-traceroute 8.8.8.8  # Должен идти через 192.168.100.60
-```
-
-## ❓ FAQ (Дополнения)
-
-**Q: Почему изолированная сеть лучше?**  
-**A:** Изолированная сеть обеспечивает:
-- Полный контроль над трафиком
-- Защиту от внешних атак
-- Соответствие корпоративным стандартам безопасности
-- Простоту аудита и мониторинга
-- Возможность легкой блокировки исходящих подключений
-
-**Q: Что делать если NAT не работает?**  
-**A:** Проверьте на Ngrok Gateway:
-```bash
-# IP forwarding
-cat /proc/sys/net/ipv4/ip_forward  # Должно быть 1
-
-# Iptables правила
-sudo iptables -t nat -L -n -v
-
-# Routing
-ip route show
-
-# Тест с внутренней VM
-ssh -J jumphost ubuntu@192.168.100.20
-ping 8.8.8.8
-```
-
-**Q: Как добавить новую VM в DNS?**  
-**A:** На DNS сервере:
-```bash
-sudo vim /etc/bind/db.local.lab
-# Добавьте: newvm  IN  A  192.168.100.X
-
-sudo vim /etc/bind/db.192.168.100
-# Добавьте: X  IN  PTR  newvm.local.lab.
-
-# Увеличьте Serial в обоих файлах
-# Перезапустите
-sudo systemctl restart named
-sudo rndc reload
-```
-
-**Q: Можно ли обойтись без Jumphost?**  
-**A:** Технически да, но не рекомендуется для production:
-- Jumphost - стандарт безопасности
-- Централизованная точка аудита
-- Простота управления доступами
-- Дополнительный уровень защиты
-
----
-
-*Это руководство является частью The Ultimate CI/CD Corporate DevOps Pipeline Project. Полная версия доступна в репозитории проекта.*
 
 ## Этап 6: Установка K3s кластера
 
@@ -4379,6 +3793,53 @@ sudo systemctl start jenkins
 - Monitoring alerts
 - Incident response plan
 
+**Q: Почему изолированная сеть лучше?**  
+**A:** Изолированная сеть обеспечивает:
+- Полный контроль над трафиком
+- Защиту от внешних атак
+- Соответствие корпоративным стандартам безопасности
+- Простоту аудита и мониторинга
+- Возможность легкой блокировки исходящих подключений
+
+**Q: Что делать если NAT не работает?**  
+**A:** Проверьте на Ngrok Gateway:
+```bash
+# IP forwarding
+cat /proc/sys/net/ipv4/ip_forward  # Должно быть 1
+
+# Iptables правила
+sudo iptables -t nat -L -n -v
+
+# Routing
+ip route show
+
+# Тест с внутренней VM
+ssh -J jumphost ubuntu@192.168.100.20
+ping 8.8.8.8
+```
+
+**Q: Как добавить новую VM в DNS?**  
+**A:** На DNS сервере:
+```bash
+sudo vim /etc/bind/db.local.lab
+# Добавьте: newvm  IN  A  192.168.100.X
+
+sudo vim /etc/bind/db.192.168.100
+# Добавьте: X  IN  PTR  newvm.local.lab.
+
+# Увеличьте Serial в обоих файлах
+# Перезапустите
+sudo systemctl restart named
+sudo rndc reload
+```
+
+**Q: Можно ли обойтись без Jumphost?**  
+**A:** Технически да, но не рекомендуется для production:
+- Jumphost - стандарт безопасности
+- Централизованная точка аудита
+- Простота управления доступами
+- Дополнительный уровень защиты
+
 ---
 
 ## 🤝 Contributing
@@ -4465,6 +3926,105 @@ sudo systemctl start jenkins
 - **Kubernetes версия:** 1.28+
 
 ---
+
+**Важные замечания:**
+- **DNS**: Используйте `jenkins.local.lab` вместо IP адресов
+- **Gateway**: Все VM используют `192.168.100.60` как шлюз
+- **Доступ**: Только через Jumphost (`ssh -J`)
+- **Внешний доступ**: Только через Ngrok/Cloudflare туннель
+
+## 🔐 Безопасность изолированной сети
+
+### Преимущества архитектуры с jumphost
+
+✅ **Полная изоляция** - рабочие VM не имеют прямого доступа в интернет  
+✅ **Контролируемый NAT** - весь исходящий трафик через один gateway  
+✅ **Single Entry Point** - доступ только через Jumphost  
+✅ **Внутренний DNS** - разрешение имен без утечки запросов  
+✅ **Безопасные туннели** - внешний доступ только через HTTPS  
+✅ **Audit Trail** - все подключения логируются на Jumphost  
+
+### Дополнительные меры безопасности для jumphost
+
+```bash
+# На Jumphost - ограничение SSH
+sudo tee -a /etc/ssh/sshd_config <<'EOF'
+# Security hardening
+PermitRootLogin no
+PasswordAuthentication no
+MaxAuthTries 3
+MaxSessions 5
+ClientAliveInterval 300
+ClientAliveCountMax 2
+
+# Logging
+LogLevel VERBOSE
+EOF
+
+sudo systemctl restart sshd
+
+# Установка fail2ban
+sudo apt install -y fail2ban
+
+sudo tee /etc/fail2ban/jail.local <<'EOF'
+[DEFAULT]
+bantime = 3600
+findtime = 600
+maxretry = 3
+
+[sshd]
+enabled = true
+port = ssh
+logpath = /var/log/auth.log
+EOF
+
+sudo systemctl enable fail2ban
+sudo systemctl start fail2ban
+```
+
+## 📊 Проверка инфраструктуры
+
+### Чеклист готовности базовой инфраструктуры
+
+- [ ] DNS Server запущен и отвечает
+- [ ] Jumphost настроен и доступен
+- [ ] Ngrok Gateway настроен и работает NAT
+- [ ] Все VM созданы через Terraform
+- [ ] DNS резолвит все внутренние имена
+- [ ] Интернет работает через NAT
+- [ ] SSH через Jumphost работает
+- [ ] Ngrok туннели активны
+
+### Тест DNS
+
+```bash
+# На любой внутренней VM
+dig jenkins.local.lab
+dig k3s-master.local.lab
+dig apps.local.lab
+
+# Reverse DNS
+dig -x 192.168.100.20
+```
+
+### Тест сети
+
+```bash
+# На любой внутренней VM
+ping -c 3 jenkins.local.lab
+ping -c 3 8.8.8.8
+curl -I https://google.com
+traceroute 8.8.8.8  # Должен идти через 192.168.100.60
+```
+
+## ❓ FAQ (Дополнения)
+
+
+---
+
+*Это руководство является частью The Ultimate CI/CD Corporate DevOps Pipeline Project. Полная версия доступна в репозитории проекта.*
+
+
 
 **⭐ Если этот проект помог вам, поставьте звезду на GitHub!**
 
