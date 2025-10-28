@@ -1576,7 +1576,8 @@ sudo apt update && sudo apt upgrade -y
 curl -fsSL https://get.docker.com -o get-docker.sh
 sudo sh get-docker.sh
 sudo usermod -aG docker ubuntu
-sudo apt-get install -y uidmap && sudo dockerd-rootless-setuptool.sh install
+sudo apt-get install -y uidmap && dockerd-rootless-setuptool.sh install
+
 
 # Настройка системы для SonarQube
 sudo sysctl -w vm.max_map_count=524288
@@ -1635,7 +1636,8 @@ sudo apt update && sudo apt upgrade -y
 # Установка Docker
 curl -fsSL https://get.docker.com -o get-docker.sh
 sudo sh get-docker.sh
-sudo apt-get install -y uidmap && sudo dockerd-rootless-setuptool.sh install
+sudo apt-get install -y uidmap && dockerd-rootless-setuptool.sh install
+
 
 # Запуск Nexus
 sudo docker run -d \
@@ -1741,7 +1743,8 @@ sudo apt update && sudo apt upgrade -y
 # Установка Docker и Docker Compose
 curl -fsSL https://get.docker.com -o get-docker.sh
 sudo sh get-docker.sh
-sudo apt-get install -y uidmap && sudo dockerd-rootless-setuptool.sh install
+sudo apt-get install -y uidmap && dockerd-rootless-setuptool.sh install
+
 
 # Создание структуры директорий
 mkdir -p ~/monitoring/{prometheus,grafana}
