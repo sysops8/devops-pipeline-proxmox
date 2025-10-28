@@ -1576,6 +1576,7 @@ sudo apt update && sudo apt upgrade -y
 curl -fsSL https://get.docker.com -o get-docker.sh
 sudo sh get-docker.sh
 sudo usermod -aG docker ubuntu
+sudo apt-get install -y uidmap && sudo dockerd-rootless-setuptool.sh install
 
 # Настройка системы для SonarQube
 sudo sysctl -w vm.max_map_count=524288
@@ -1584,7 +1585,7 @@ echo "vm.max_map_count=524288" | sudo tee -a /etc/sysctl.conf
 echo "fs.file-max=131072" | sudo tee -a /etc/sysctl.conf
 
 # Запуск SonarQube
-docker run -d \
+sudo docker run -d \
   --name sonarqube \
   --restart=unless-stopped \
   -p 9000:9000 \
@@ -1616,9 +1617,10 @@ sudo apt update && sudo apt upgrade -y
 # Установка Docker
 curl -fsSL https://get.docker.com -o get-docker.sh
 sudo sh get-docker.sh
+sudo apt-get install -y uidmap && sudo dockerd-rootless-setuptool.sh install
 
 # Запуск Nexus
-docker run -d \
+sudo docker run -d \
   --name nexus \
   --restart=unless-stopped \
   -p 8081:8081 \
