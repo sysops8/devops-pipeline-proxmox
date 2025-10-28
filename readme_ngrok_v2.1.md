@@ -1216,22 +1216,86 @@ k3s-worker1   Ready    <none>                 2m    v1.28.x
 k3s-worker2   Ready    <none>                 2m    v1.28.x
 ```
 
-### 6.4 Настройка kubectl на локальной машине
+### 6.4 Настройка Jumphost для управления
 
-На вашей Windows машине (WSL/Git Bash):
+SSH в jumphost:
 
 ```bash
-# Создайте директорию для kubeconfig
+ssh admin@jumphost.local.lab
+```
+
+Установка инструментов:
+
+```bash
+# kubectl
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+chmod +x kubectl
+sudo mv kubectl /usr/local/bin/
+kubectl version --client
+
+# Helm
+curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+helm version
+
+# ArgoCD CLI
+ARGOCD_VERSION=$(curl -s https://api.github.com/repos/argoproj/argo-cd/releases/latest | grep tag_name | cut -d '"' -f 4)
+curl -sSL -o argocd https://github.com/argoproj/argo-cd/releases/download/${ARGOCD_VERSION}/argocd-linux-amd64
+chmod +x argocd
+sudo mv argocd /usr/local/bin/
+argocd version --client
+
+# k9s (TUI для K8s)
+K9S_VERSION=$(curl -s https://api.github.com/repos/derailed/k9s/releases/latest | grep tag_name | cut -d '"' -f 4)
+wget https://github.com/derailed/k9s/releases/download/${K9S_VERSION}/k9s_Linux_amd64.tar.gz
+tar -xzf k9s_Linux_amd64.tar.gz
+sudo mv k9s /usr/local/bin/
+rm k9s_Linux_amd64.tar.gz LICENSE README.md
+
+# kubectx и kubens
+sudo git clone https://github.com/ahmetb/kubectx /opt/kubectx
+sudo ln -s /opt/kubectx/kubectx /usr/local/bin/kubectx
+sudo ln -s /opt/kubectx/kubens /usr/local/bin/kubens
+```
+
+Копирование kubeconfig:
+
+```bash
 mkdir -p ~/.kube
+scp admin@k3s-master.local.lab:/etc/rancher/k3s/k3s.yaml ~/.kube/config
 
-# Скопируйте kubeconfig с master node
-scp ubuntu@192.168.100.10:/etc/rancher/k3s/k3s.yaml ~/.kube/config
+# Замена адреса сервера
+sed -i 's/127.0.0.1/k3s-master.local.lab/g' ~/.kube/config
 
-# Измените server URL
-sed -i 's/127.0.0.1/192.168.100.10/' ~/.kube/config
+# Установка правильных прав
+chmod 600 ~/.kube/config
 
-# Проверка
+# Проверка доступа
 kubectl get nodes
+kubectl cluster-info
+
+# Создание алиасов
+cat >> ~/.bashrc <<EOF
+
+# Kubernetes aliases
+alias k='kubectl'
+alias kgp='kubectl get pods'
+alias kgs='kubectl get svc'
+alias kgn='kubectl get nodes'
+alias kga='kubectl get all'
+alias kdp='kubectl describe pod'
+alias kl='kubectl logs'
+alias kex='kubectl exec -it'
+EOF
+
+source ~/.bashrc
+```
+
+Тестирование:
+
+```bash
+k get nodes
+k get pods -A
+k9s  # Интерактивный интерфейс
 ```
 
 ---
