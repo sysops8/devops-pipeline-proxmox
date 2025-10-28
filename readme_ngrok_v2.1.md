@@ -1266,8 +1266,10 @@ sudo ln -s /opt/kubectx/kubens /usr/local/bin/kubens
 
 ```bash
 mkdir -p ~/.kube
-sudo scp admin@k3s-master.local.lab:/etc/rancher/k3s/k3s.yaml admin@127.0.0.1:~/.kube/config
-# scp admin@k3s-master.local.lab:/etc/rancher/k3s/k3s.yaml ~/.kube/config
+
+sudo scp admin@k3s-master.local.lab:/etc/rancher/k3s/k3s.yaml ~/.kube/config
+# Если ошибка permission denied, от на k3s-master вводим команду sudo chmod 644 /etc/rancher/k3s/k3s.yaml
+# После копирования, возвращаем права sudo chmod 600 /etc/rancher/k3s/k3s.yaml
 
 # Замена адреса сервера
 sed -i 's/127.0.0.1/k3s-master.local.lab/g' ~/.kube/config
