@@ -1589,6 +1589,7 @@ sudo tee docker-compose.yml > /dev/null <<EOF
 services:
   db:
     image: postgres:15
+    restart: unless-stopped
     container_name: sonarqube_db
     environment:
       POSTGRES_USER: sonar
@@ -1596,6 +1597,7 @@ services:
       POSTGRES_DB: sonarqube
   sonarqube:
     image: sonarqube:2025.5.0-enterprise
+    restart: unless-stopped
     depends_on:
       - db
     environment:
@@ -1604,6 +1606,7 @@ services:
       SONAR_JDBC_PASSWORD: sonar
     ports:
       - "9000:9000"
+
 EOF
 ```
 # Запуск SonarQube 
