@@ -1564,7 +1564,7 @@ sudo apt install -y maven
 mvn --version
 ```
 
-**Доступ:** `https://jenkins.your-domain.com`
+**Доступ:** `https://jenkins.your-domain.com:8080`
 
 ### 10.2 SonarQube Server (192.168.100.30)
 
@@ -2058,7 +2058,7 @@ docker-compose logs -f
 
 ### 11.1 Первоначальная настройка Jenkins
 
-Откройте `https://jenkins.your-domain.com`
+Откройте `https://jenkins.your-domain.com:8080`
 
 1. Введите initial admin password (из команды ранее)
 2. Install suggested plugins
