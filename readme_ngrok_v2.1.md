@@ -1584,16 +1584,46 @@ sudo sysctl -w fs.file-max=131072
 echo "vm.max_map_count=524288" | sudo tee -a /etc/sysctl.conf
 echo "fs.file-max=131072" | sudo tee -a /etc/sysctl.conf
 
+```yaml
+sudo tee docker-compose.yml > /dev/null <<EOF
+version: "3"
+services:
+  db:
+    image: postgres:15
+    container_name: sonarqube_db
+    environment:
+      POSTGRES_USER: sonar
+      POSTGRES_PASSWORD: sonar
+      POSTGRES_DB: sonarqube
+    volumes:
+      - postgresql:/var/lib/postgresql/data
+
+  sonarqube:
+    image: sonarqube:2025.5.0-enterprise
+    container_name: sonarqube
+    depends_on:
+      - db
+    environment:
+      SONAR_JDBC_URL: jdbc:postgresql://db:5432/sonarqube
+      SONAR_JDBC_USERNAME: sonar
+      SONAR_JDBC_PASSWORD: sonar
+      SONAR_ES_BOOTSTRAP_CHECKS_DISABLE: "true"
+    ports:
+      - "9000:9000"
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_extensions:/opt/sonarqube/extensions
+      - sonarqube_logs:/opt/sonarqube/logs
+
+volumes:
+  postgresql:
+  sonarqube_data:
+  sonarqube_extensions:
+  sonarqube_logs:
+EOF
+```
 # Запуск SonarQube
-sudo docker run -d \
-  --name sonarqube \
-  --restart=unless-stopped \
-  -p 9000:9000 \
-  -e SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true \
-  -v sonarqube_data:/opt/sonarqube/data \
-  -v sonarqube_extensions:/opt/sonarqube/extensions \
-  -v sonarqube_logs:/opt/sonarqube/logs \
-  sonarqube:lts-community
+sudo docker compose up -d
 ```
 
 **Проверка:**
