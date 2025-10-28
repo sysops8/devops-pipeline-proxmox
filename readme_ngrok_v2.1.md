@@ -491,7 +491,7 @@ dig @localhost -x 192.168.100.20
 #### 2.4 Настройка netplan для статических IP
 
 ```bash
-sudo tee /etc/netplan/50-cloud-init.yaml > /dev/null <<'EOF'
+sudo tee /etc/netplan/00-installer-config.yaml > /dev/null <<'EOF'
 network:
   version: 2
   ethernets:
@@ -517,7 +517,7 @@ EOF
 
 # Установка зависимости для netplan и настройка прав на файл сетевой конфигурации
 sudo apt install -y openvswitch-switch
-sudo chmod 600 /etc/netplan/50-cloud-init.yaml
+sudo chmod 600 /etc/netplan/00-installer-config.yaml
 sudo netplan apply
 ```
 
@@ -535,7 +535,7 @@ ssh ubuntu@10.0.10.102
 
 Настройте netplan:
 ```bash
-sudo tee /etc/netplan/50-cloud-init.yaml > /dev/null <<'EOF'
+sudo tee /etc/netplan/00-installer-config.yaml > /dev/null <<'EOF'
 network:
   version: 2
   ethernets:
