@@ -1747,7 +1747,7 @@ sudo apt-get install -y uidmap && dockerd-rootless-setuptool.sh install
 
 
 # Создание структуры директорий
-mkdir -p ~/monitoring/{prometheus,grafana}
+mkdir -p ~/monitoring/{prometheus,grafana,blackbox}
 cd ~/monitoring
 ```
 
