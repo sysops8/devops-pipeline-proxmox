@@ -1621,7 +1621,7 @@ volumes:
   sonarqube_logs:
 EOF
 ```
-# Запуск SonarQube
+# Запуск SonarQube (нужно ждать 3-5 минут)
 ```bash
 sudo docker compose up -d
 ```
