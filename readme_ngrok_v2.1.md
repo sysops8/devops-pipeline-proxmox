@@ -2138,7 +2138,7 @@ Scopes: repo, admin:repo_hook
 
 **Как создать SonarQube Token:**
 ```
-SonarQube → Administration → Security → Users → Administrator → Tokens → Generate
+SonarQube → "My Account → Security → Generate Tokens
 ```
 
 **4. Kubernetes Config:**
