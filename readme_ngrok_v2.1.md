@@ -493,7 +493,7 @@ dig @localhost -x 192.168.100.20
 ```bash
 # Установка зависимости для netplan и настройка прав на файл сетевой конфигурации
 sudo apt install -y openvswitch-switch
-sudo chmod 600 /etc/netplan/00-installer-config.yaml
+sudo chmod 600 /etc/netplan/50-installer-config.yaml
 ```
 
 ```bash
