@@ -318,34 +318,8 @@ iptables -t nat -L POSTROUTING -n -v | grep 192.168.100
 
 #### 1.3 Создание Ubuntu Cloud-Init Template
 
-На Proxmox хосте:
-```bash
-cd /var/lib/vz/template/iso/
+На Proxmox хосте шаблон Ubuntu c ID 9000, из него будем создавать все ВМ.
 
-# Скачиваем Ubuntu 22.04 Cloud Image
-wget https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img
-
-# Создаем VM template (ID 9000)
-qm create 9000 --name ubuntu-2204-template --memory 2048 --cores 2 --net0 virtio,bridge=vmbr1
-
-# Импортируем диск
-qm importdisk 9000 jammy-server-cloudimg-amd64.img local-lvm
-
-# Присоединяем диск
-qm set 9000 --scsihw virtio-scsi-pci --scsi0 local-lvm:vm-9000-disk-0
-
-# Добавляем Cloud-Init
-qm set 9000 --ide2 local-lvm:cloudinit
-
-# Настраиваем boot
-qm set 9000 --boot c --bootdisk scsi0
-
-# Добавляем serial console
-qm set 9000 --serial0 socket --vga serial0
-
-# Конвертируем в template
-qm template 9000
-```
 
 ### Этап 2: Установка DNS сервера
 
