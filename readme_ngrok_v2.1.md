@@ -1603,7 +1603,7 @@ sudo docker ps
 sudo docker logs -f sonarqube
 ```
 
-**Доступ:** `https://sonar.your-domain.com`  
+**Доступ:** `https://sonar.your-domain.com:9000`  
 **Логин:** admin/admin (измените после первого входа)
 
 ### 10.3 Nexus Repository (192.168.100.31)
