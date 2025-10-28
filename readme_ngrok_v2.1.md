@@ -1497,7 +1497,7 @@ sudo journalctl -u cloudflared -f
 
 ## Этап 10: Установка инструментов на VM
 
-### 10.1 Jenkins Server (192.168.100.20)
+### 10.1 Jenkins Server (192.168.100.20 порт 8080)
 
 ```bash
 ssh ubuntu@192.168.100.20
@@ -1532,6 +1532,8 @@ sudo systemctl status jenkins
 # Получение initial admin password
 sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 ```
+**Доступ:** `http://192.168.100.20:8080`  
+**Пароль:** из файла initialAdminPassword (измените после первого входа)
 
 **Установка kubectl:**
 
