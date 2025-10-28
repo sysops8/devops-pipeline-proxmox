@@ -952,7 +952,10 @@ k3s-master.local.lab
 k3s-worker-1.local.lab
 k3s-worker-2.local.lab
 jenkins.local.lab
-minio.local.lab
+sonarqube.local.lab
+nexus.local.lab
+harbor.local.lab
+monitoring.local.lab
 EOF
 
 # Применение скрипта на всех VM
