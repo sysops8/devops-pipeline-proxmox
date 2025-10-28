@@ -1941,7 +1941,7 @@ EOF
 **Создайте `prometheus/alerts.yml`:**
 
 ```yaml
-sudo tee prometheus/alerts.yml > /dev/null <<EOF
+sudo tee prometheus/alerts.yml > /dev/null <<'EOF'
 groups:
   - name: application_alerts
     interval: 30s
@@ -1962,25 +1962,25 @@ groups:
           severity: warning
         annotations:
           summary: "High memory usage on {{ $labels.instance }}"
-          description: "Memory usage is {{ $value | humanize }}%"
+          description: "Memory usage above 85% (current: {{ printf \"%.2f\" $value }}%)"
 
       - alert: HighCPUUsage
-        expr: 100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
+        expr: 100 - (avg by(instance) (irate(node_cpu_seconds_total{mode=\"idle\"}[5m])) * 100) > 80
         for: 5m
         labels:
           severity: warning
         annotations:
           summary: "High CPU usage on {{ $labels.instance }}"
-          description: "CPU usage is {{ $value | humanize }}%"
+          description: "CPU usage above 80% (current: {{ printf \"%.2f\" $value }}%)"
 
       - alert: DiskSpaceLow
-        expr: (node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"}) * 100 < 15
+        expr: (node_filesystem_avail_bytes{mountpoint=\"/\"} / node_filesystem_size_bytes{mountpoint=\"/\"}) * 100 < 15
         for: 5m
         labels:
           severity: warning
         annotations:
           summary: "Low disk space on {{ $labels.instance }}"
-          description: "Disk space is {{ $value | humanize }}%"
+          description: "Disk space below 15% (current: {{ printf \"%.2f\" $value }}%)"
 
       - alert: PodCrashLooping
         expr: rate(kube_pod_container_status_restarts_total[15m]) > 0
@@ -1989,8 +1989,9 @@ groups:
           severity: critical
         annotations:
           summary: "Pod {{ $labels.pod }} is crash looping"
-          description: "Pod is restarting frequently in namespace {{ $labels.namespace }}"
+          description: "Pod {{ $labels.pod }} in namespace {{ $labels.namespace }} is restarting frequently"
 EOF
+
 ```
 
 **Создайте `blackbox/blackbox.yml`:**
