@@ -2018,13 +2018,13 @@ EOF
 **Получение K3s token для Prometheus:**
 
 ```bash
-# На k3s-master
+# На jumphost
 ssh admin@192.168.100.10
-kubectl -n kube-system create token default
-
-# kubectl -n kube-system get secret $(kubectl -n kube-system get sa default -o jsonpath='{.secrets[0].name}') -o jsonpath='{.data.token}' | base64 -d
-
+kubectl create serviceaccount prometheus -n kube-system
+kubectl create clusterrolebinding prometheus --clusterrole=cluster-admin --serviceaccount=kube-system:prometheus
+kubectl -n kube-system create token prometheus
 # Скопируйте токен
+# kubectl -n kube-system get secret $(kubectl -n kube-system get sa default -o jsonpath='{.secrets[0].name}') -o jsonpath='{.data.token}' | base64 -d
 ```
 
 На monitoring сервере:
