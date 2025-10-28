@@ -778,27 +778,28 @@ tunnels:
   jenkins:
     proto: http
     addr: 192.168.100.20:8080
-    --host-header="easyshop.local.lab"
-    
+    host_header: --host-header="game.local.lab"
+
   sonarqube:
     proto: http
     addr: 192.168.100.30:9000
-    
+
   nexus:
     proto: http
     addr: 192.168.100.31:8081
-    
+
   harbor:
     proto: http
     addr: 192.168.100.32:80
-    
+
   grafana:
     proto: http
     addr: 192.168.100.40:3000
-    
+
   boardgame:
     proto: http
     addr: 192.168.100.100:80
+
 EOF
 ```
 
