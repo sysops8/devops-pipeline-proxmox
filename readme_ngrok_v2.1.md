@@ -815,7 +815,7 @@ After=network.target
 Type=simple
 User=admin
 WorkingDirectory=/home/admin
-ExecStart=/usr/local/bin/ngrok start --all --config=/home/ubuntu/.config/ngrok/ngrok.yml
+ExecStart=/usr/local/bin/ngrok start --all --config=/home/admin/.config/ngrok/ngrok.yml
 Restart=always
 RestartSec=10
 
