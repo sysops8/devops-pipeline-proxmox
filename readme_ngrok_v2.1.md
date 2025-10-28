@@ -640,6 +640,54 @@ Host jenkins
 ssh k3s-master
 ssh jenkins
 ```
+## 🔐 Безопасность изолированной сети
+
+### Преимущества архитектуры с jumphost
+
+✅ **Полная изоляция** - рабочие VM не имеют прямого доступа в интернет  
+✅ **Контролируемый NAT** - весь исходящий трафик через один gateway  
+✅ **Single Entry Point** - доступ только через Jumphost  
+✅ **Внутренний DNS** - разрешение имен без утечки запросов  
+✅ **Безопасные туннели** - внешний доступ только через HTTPS  
+✅ **Audit Trail** - все подключения логируются на Jumphost  
+
+### Дополнительные меры безопасности для jumphost
+
+```bash
+# На Jumphost - ограничение SSH
+sudo tee -a /etc/ssh/sshd_config <<'EOF'
+# Security hardening
+PermitRootLogin no
+PasswordAuthentication no
+MaxAuthTries 3
+MaxSessions 5
+ClientAliveInterval 300
+ClientAliveCountMax 2
+
+# Logging
+LogLevel VERBOSE
+EOF
+
+sudo systemctl restart sshd
+
+# Установка fail2ban
+sudo apt install -y fail2ban
+
+sudo tee /etc/fail2ban/jail.local <<'EOF'
+[DEFAULT]
+bantime = 3600
+findtime = 600
+maxretry = 3
+
+[sshd]
+enabled = true
+port = ssh
+logpath = /var/log/auth.log
+EOF
+
+sudo systemctl enable fail2ban
+sudo systemctl start fail2ban
+```
 
 ### Этап 4: Настройка Ngrok Tunnel
 
@@ -3933,54 +3981,6 @@ sudo rndc reload
 - **Доступ**: Только через Jumphost (`ssh -J`)
 - **Внешний доступ**: Только через Ngrok/Cloudflare туннель
 
-## 🔐 Безопасность изолированной сети
-
-### Преимущества архитектуры с jumphost
-
-✅ **Полная изоляция** - рабочие VM не имеют прямого доступа в интернет  
-✅ **Контролируемый NAT** - весь исходящий трафик через один gateway  
-✅ **Single Entry Point** - доступ только через Jumphost  
-✅ **Внутренний DNS** - разрешение имен без утечки запросов  
-✅ **Безопасные туннели** - внешний доступ только через HTTPS  
-✅ **Audit Trail** - все подключения логируются на Jumphost  
-
-### Дополнительные меры безопасности для jumphost
-
-```bash
-# На Jumphost - ограничение SSH
-sudo tee -a /etc/ssh/sshd_config <<'EOF'
-# Security hardening
-PermitRootLogin no
-PasswordAuthentication no
-MaxAuthTries 3
-MaxSessions 5
-ClientAliveInterval 300
-ClientAliveCountMax 2
-
-# Logging
-LogLevel VERBOSE
-EOF
-
-sudo systemctl restart sshd
-
-# Установка fail2ban
-sudo apt install -y fail2ban
-
-sudo tee /etc/fail2ban/jail.local <<'EOF'
-[DEFAULT]
-bantime = 3600
-findtime = 600
-maxretry = 3
-
-[sshd]
-enabled = true
-port = ssh
-logpath = /var/log/auth.log
-EOF
-
-sudo systemctl enable fail2ban
-sudo systemctl start fail2ban
-```
 
 ## 📊 Проверка инфраструктуры
 
