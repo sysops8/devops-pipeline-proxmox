@@ -1594,31 +1594,16 @@ services:
       POSTGRES_USER: sonar
       POSTGRES_PASSWORD: sonar
       POSTGRES_DB: sonarqube
-    volumes:
-      - postgresql:/var/lib/postgresql/data
-
   sonarqube:
     image: sonarqube:2025.5.0-enterprise
-    container_name: sonarqube
     depends_on:
       - db
     environment:
       SONAR_JDBC_URL: jdbc:postgresql://db:5432/sonarqube
       SONAR_JDBC_USERNAME: sonar
       SONAR_JDBC_PASSWORD: sonar
-      SONAR_ES_BOOTSTRAP_CHECKS_DISABLE: "true"
     ports:
       - "9000:9000"
-    volumes:
-      - sonarqube_data:/opt/sonarqube/data
-      - sonarqube_extensions:/opt/sonarqube/extensions
-      - sonarqube_logs:/opt/sonarqube/logs
-
-volumes:
-  postgresql:
-  sonarqube_data:
-  sonarqube_extensions:
-  sonarqube_logs:
 EOF
 ```
 # Запуск SonarQube (нужно ждать 3-5 минут)
