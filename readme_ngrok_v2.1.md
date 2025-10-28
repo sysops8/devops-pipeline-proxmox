@@ -812,7 +812,7 @@ After=network.target
 
 [Service]
 Type=simple
-User=ubuntu
+User=admin
 WorkingDirectory=/home/ubuntu
 ExecStart=/usr/local/bin/ngrok start --all --config=/home/ubuntu/.config/ngrok/ngrok.yml
 Restart=always
