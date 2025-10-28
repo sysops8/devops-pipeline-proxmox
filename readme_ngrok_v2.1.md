@@ -1631,7 +1631,7 @@ sudo docker run -d \
 sleep 120
 
 # Получение initial admin password
-docker exec nexus cat /nexus-data/admin.password
+sudo docker exec nexus cat /nexus-data/admin.password
 ```
 
 **Доступ:** `https://nexus.your-domain.com`  
