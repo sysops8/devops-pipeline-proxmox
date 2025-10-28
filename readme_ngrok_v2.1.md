@@ -2729,6 +2729,20 @@ curl http://localhost:9100/metrics
 curl http://192.168.100.20:8080/prometheus
 ```
 
+Если выходит что нет доступа, то заходим в учетку админа на jenkins и там генерируем токен.
+Далее идем с этим токеном на мониторинг сервер prometheus и в его yaml файл в секции jenkins добавляем строчки basic_auth:
+```yaml
+scrape_configs:
+  - job_name: 'jenkins'
+    metrics_path: '/prometheus'
+    scheme: http
+    static_configs:
+      - targets: ['192.168.100.20:8080']
+    basic_auth:
+      username: 'admin'
+      password: '<твой_jenkins_api_token>'
+```
+
 ### 13.3 Настройка Grafana дашбордов
 
 Откройте Grafana: `https://grafana.your-domain.com` (admin/admin)
