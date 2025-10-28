@@ -1606,7 +1606,8 @@ services:
       - "9000:9000"
 EOF
 ```
-# Запуск SonarQube (нужно ждать 3-5 минут)
+# Запуск SonarQube 
+Нужно пождать 3-5 минут
 ```bash
 sudo docker compose up -d
 ```
