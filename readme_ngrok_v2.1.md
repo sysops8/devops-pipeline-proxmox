@@ -2092,12 +2092,12 @@ docker-compose logs -f
 **Manage Jenkins → Tools**
 
 **JDK:**
-- Name: `jdk-17`
+- Name: `java17`
 - ✓ Install automatically
 - Version: OpenJDK 17
 
 **Maven:**
-- Name: `maven-3`
+- Name: `maven3.6`
 - ✓ Install automatically
 - Version: 3.9.5
 
