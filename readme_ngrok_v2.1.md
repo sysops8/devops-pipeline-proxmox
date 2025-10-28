@@ -236,7 +236,7 @@ graph TB
 
 ```bash
 # 1. Клонируйте репозиторий
-git clone https://github.com/YOUR_USERNAME/devops-pipeline-proxmox.git
+git clone https://github.com/sysops8/devops-pipeline-proxmox.git
 cd devops-pipeline-proxmox
 
 # 2. Настройте Terraform
