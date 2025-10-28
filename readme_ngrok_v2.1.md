@@ -2049,8 +2049,8 @@ docker-compose logs -f
 ```
 
 **Доступ:**
-- Prometheus: `https://grafana.your-domain.com` (будет через Grafana)
-- Grafana: `https://grafana.your-domain.com` (admin/admin)
+- Prometheus: `https://grafana.your-domain.com:9090` (будет через Grafana)
+- Grafana: `https://grafana.your-domain.com:3000` (admin/admin)
 
 ---
 
