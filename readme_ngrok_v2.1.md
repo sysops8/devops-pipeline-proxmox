@@ -2742,6 +2742,56 @@ scrape_configs:
       username: 'admin'
       password: '<твой_jenkins_api_token>'
 ```
+Если и это не помгает, то нужно дать права Prometheus.
+```yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: prometheus
+  namespace: kube-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: prometheus
+rules:
+  - apiGroups: [""]
+    resources:
+      - nodes
+      - services
+      - endpoints
+      - pods
+      - ingresses
+    verbs: ["get", "list", "watch"]
+  - apiGroups:
+      - extensions
+      - apps
+    resources:
+      - replicasets
+    verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: prometheus
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: prometheus
+subjects:
+  - kind: ServiceAccount
+    name: prometheus
+    namespace: kube-system    
+```
+kubectl apply -f prometheus-rbac.yaml
+Если есть роль для Prometheus удаляем ее 
+kubectl delete clusterrolebinding prometheus
+и добавляем
+kubectl apply -f prometheus-rbac.yaml
+Генерим токен -
+kubectl -n kube-system create token prometheus
+
+
 
 ### 13.3 Настройка Grafana дашбордов
 
