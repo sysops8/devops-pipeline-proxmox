@@ -2085,7 +2085,7 @@ docker-compose logs -f
 
 ### 11.3 Настройка Tools
 
-**Manage Jenkins → Global Tool Configuration**
+**Manage Jenkins → Tools**
 
 **JDK:**
 - Name: `jdk-17`
