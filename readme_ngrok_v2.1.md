@@ -1261,7 +1261,8 @@ sudo ln -s /opt/kubectx/kubens /usr/local/bin/kubens
 
 ```bash
 mkdir -p ~/.kube
-scp admin@k3s-master.local.lab:/etc/rancher/k3s/k3s.yaml ~/.kube/config
+sudo scp admin@k3s-master.local.lab:/etc/rancher/k3s/k3s.yaml admin@127.0.0.1:~/.kube/config
+# scp admin@k3s-master.local.lab:/etc/rancher/k3s/k3s.yaml ~/.kube/config
 
 # Замена адреса сервера
 sed -i 's/127.0.0.1/k3s-master.local.lab/g' ~/.kube/config
