@@ -1617,7 +1617,9 @@ sudo docker compose up -d
 **Проверка:**
 ```bash
 sudo docker ps
-sudo docker logs -f sonarqube
+sudo docker logs -f admin-sonarqube-1
+sudo docker logs -f sonarqube_db
+
 ```
 
 **Доступ:** `https://sonar.your-domain.com:9000`  
