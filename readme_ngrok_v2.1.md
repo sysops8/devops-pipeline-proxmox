@@ -1700,7 +1700,7 @@ sudo ./install.sh
 **Проверка:**
 
 ```bash
-docker-compose ps
+sudo docker-compose ps
 ```
 
 **Доступ:** `https://harbor.your-domain.com`  
