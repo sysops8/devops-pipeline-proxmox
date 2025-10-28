@@ -1536,13 +1536,14 @@ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 **Установка kubectl:**
 
 ```bash
-curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-
-# Копирование kubeconfig для Jenkins
 sudo mkdir -p /var/lib/jenkins/.kube
-sudo scp ubuntu@192.168.100.10:/home/ubuntu/.kube/config /var/lib/jenkins/.kube/config
-sudo chown jenkins:jenkins /var/lib/jenkins/.kube/config
+sudo scp admin@k3s-master.local.lab:/etc/rancher/k3s/k3s.yaml /var/lib/jenkins/.kube/config
+sudo sed -i 's/127.0.0.1/k3s-master.local.lab/g' /var/lib/jenkins/.kube/config
+sudo chown -R jenkins:jenkins /var/lib/jenkins/.kube
+sudo chmod 600 /var/lib/jenkins/.kube/config
+
+# Тест
+sudo -u jenkins kubectl get nodes
 ```
 
 **Установка Trivy:**
@@ -3893,8 +3894,8 @@ echo "Starting backup at ${DATE}"
 
 # Backup K3s etcd snapshots
 echo "Backing up K3s etcd..."
-ssh ubuntu@192.168.100.10 "sudo k3s etcd-snapshot save --name backup-${DATE}"
-scp ubuntu@192.168.100.10:/var/lib/rancher/k3s/server/db/snapshots/* ${BACKUP_DIR}/k3s-snapshots/
+ssh admin@192.168.100.10 "sudo k3s etcd-snapshot save --name backup-${DATE}"
+scp admin@192.168.100.10:/var/lib/rancher/k3s/server/db/snapshots/* ${BACKUP_DIR}/k3s-snapshots/
 
 # Backup Kubernetes manifests
 echo "Backing up Kubernetes resources..."
