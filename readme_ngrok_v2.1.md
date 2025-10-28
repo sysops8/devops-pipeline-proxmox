@@ -368,7 +368,7 @@ qm set 150 --memory 2048 --cores 2
 qm set 150 --ipconfig0 ip=10.0.10.53/24,gw=10.0.10.1
 qm set 150 --ipconfig1 ip=192.168.100.53/24
 qm set 150 --nameserver 8.8.8.8
-qm set 150 --searchdomain devops.local
+qm set 150 --searchdomain local.lab
 qm set 150 --ciuser ubuntu
 qm set 150 --sshkeys ~/.ssh/id_rsa.pub
 
@@ -436,10 +436,10 @@ EOF
 Создайте зону для внутренней сети:
 ```bash
 sudo tee /etc/bind/named.conf.local > /dev/null <<'EOF'
-# Прямая зона для devops.local
-zone "devops.local" {
+# Прямая зона для local.lab
+zone "local.lab" {
     type master;
-    file "/etc/bind/db.devops.local";
+    file "/etc/bind/db.local.lab";
     allow-update { none; };
 };
 
@@ -454,16 +454,16 @@ EOF
 
 Создайте файл прямой зоны:
 ```bash
-sudo tee /etc/bind/db.devops.local > /dev/null <<'EOF'
+sudo tee /etc/bind/db.local.lab > /dev/null <<'EOF'
 $TTL    604800
-@       IN      SOA     dns.devops.local. admin.devops.local. (
+@       IN      SOA     dns.local.lab. admin.local.lab. (
                               2         ; Serial
                          604800         ; Refresh
                           86400         ; Retry
                         2419200         ; Expire
                          604800 )       ; Negative Cache TTL
 ;
-@       IN      NS      dns.devops.local.
+@       IN      NS      dns.local.lab.
 dns     IN      A       192.168.100.53
 
 ; Gateway
@@ -496,30 +496,30 @@ EOF
 ```bash
 sudo tee /etc/bind/db.192.168.100 > /dev/null <<'EOF'
 $TTL    604800
-@       IN      SOA     dns.devops.local. admin.devops.local. (
+@       IN      SOA     dns.local.lab. admin.local.lab. (
                               2         ; Serial
                          604800         ; Refresh
                           86400         ; Retry
                         2419200         ; Expire
                          604800 )       ; Negative Cache TTL
 ;
-@       IN      NS      dns.devops.local.
+@       IN      NS      dns.local.lab.
 
-53      IN      PTR     dns.devops.local.
-5       IN      PTR     jumphost.devops.local.
-60      IN      PTR     ngrok.devops.local.
+53      IN      PTR     dns.local.lab.
+5       IN      PTR     jumphost.local.lab.
+60      IN      PTR     ngrok.local.lab.
 
-10      IN      PTR     k3s-master.devops.local.
-11      IN      PTR     k3s-worker1.devops.local.
-12      IN      PTR     k3s-worker2.devops.local.
+10      IN      PTR     k3s-master.local.lab.
+11      IN      PTR     k3s-worker1.local.lab.
+12      IN      PTR     k3s-worker2.local.lab.
 
-20      IN      PTR     jenkins.devops.local.
-30      IN      PTR     sonarqube.devops.local.
-31      IN      PTR     nexus.devops.local.
-32      IN      PTR     harbor.devops.local.
-40      IN      PTR     monitoring.devops.local.
+20      IN      PTR     jenkins.local.lab.
+30      IN      PTR     sonarqube.local.lab.
+31      IN      PTR     nexus.local.lab.
+32      IN      PTR     harbor.local.lab.
+40      IN      PTR     monitoring.local.lab.
 
-100     IN      PTR     apps.devops.local.
+100     IN      PTR     apps.local.lab.
 EOF
 ```
 
@@ -527,7 +527,7 @@ EOF
 ```bash
 # Проверка конфигурации
 sudo named-checkconf
-sudo named-checkzone devops.local /etc/bind/db.devops.local
+sudo named-checkzone local.lab /etc/bind/db.local.lab
 sudo named-checkzone 100.168.192.in-addr.arpa /etc/bind/db.192.168.100
 
 # Перезапуск
@@ -535,7 +535,7 @@ sudo systemctl restart named
 sudo systemctl status named
 
 # Проверка
-dig @localhost jenkins.devops.local
+dig @localhost jenkins.local.lab
 dig @localhost -x 192.168.100.20
 ```
 
@@ -588,7 +588,7 @@ qm set 100 --memory 2048 --cores 2
 qm set 100 --ipconfig0 ip=10.0.10.102/24,gw=10.0.10.1
 qm set 100 --ipconfig1 ip=192.168.100.5/24
 qm set 100 --nameserver 192.168.100.53
-qm set 100 --searchdomain devops.local
+qm set 100 --searchdomain local.lab
 qm set 100 --ciuser ubuntu
 qm set 100 --sshkeys ~/.ssh/id_rsa.pub
 
@@ -622,7 +622,7 @@ network:
           - 192.168.100.53
           - 8.8.8.8
         search:
-          - devops.local
+          - local.lab
     ens19:
       dhcp4: no
       addresses:
@@ -631,7 +631,7 @@ network:
         addresses:
           - 192.168.100.53
         search:
-          - devops.local
+          - local.lab
 EOF
 
 sudo netplan apply
@@ -643,7 +643,7 @@ sudo apt update
 sudo apt install -y htop curl wget git vim tmux net-tools dnsutils
 
 # Проверка DNS
-dig jenkins.devops.local
+dig jenkins.local.lab
 # Должен вернуть 192.168.100.20
 ```
 
@@ -702,7 +702,7 @@ qm set 160 --memory 2048 --cores 2
 qm set 160 --ipconfig0 ip=10.0.10.60/24,gw=10.0.10.1
 qm set 160 --ipconfig1 ip=192.168.100.60/24
 qm set 160 --nameserver 192.168.100.53
-qm set 160 --searchdomain devops.local
+qm set 160 --searchdomain local.lab
 qm set 160 --ciuser ubuntu
 qm set 160 --sshkeys ~/.ssh/id_rsa.pub
 
@@ -952,7 +952,7 @@ network:
           - 192.168.100.53
           - 8.8.8.8
         search:
-          - devops.local
+          - local.lab
     ens19:
       dhcp4: no
       addresses:
@@ -961,7 +961,7 @@ network:
         addresses:
           - 192.168.100.53
         search:
-          - devops.local
+          - local.lab
 EOF
 
 sudo netplan apply
@@ -973,7 +973,7 @@ sudo netplan apply
 ping -c 3 8.8.8.8
 
 # Проверка DNS
-dig jenkins.devops.local
+dig jenkins.local.lab
 
 # Проверка маршрутизации
 ip route show
@@ -1081,7 +1081,7 @@ resource "proxmox_vm_qemu" "k3s_master" {
   
   ipconfig0  = "ip=192.168.100.10/24,gw=${var.gateway_ip}"
   nameserver = var.dns_server
-  searchdomain = "devops.local"
+  searchdomain = "local.lab"
   ciuser     = "ubuntu"
   sshkeys    = var.ssh_public_key
   
@@ -1112,7 +1112,7 @@ resource "proxmox_vm_qemu" "k3s_workers" {
   
   ipconfig0  = "ip=192.168.100.${11 + count.index}/24,gw=${var.gateway_ip}"
   nameserver = var.dns_server
-  searchdomain = "devops.local"
+  searchdomain = "local.lab"
   ciuser     = "ubuntu"
   sshkeys    = var.ssh_public_key
   
@@ -1141,7 +1141,7 @@ resource "proxmox_vm_qemu" "jenkins" {
   
   ipconfig0  = "ip=192.168.100.20/24,gw=${var.gateway_ip}"
   nameserver = var.dns_server
-  searchdomain = "devops.local"
+  searchdomain = "local.lab"
   ciuser     = "ubuntu"
   sshkeys    = var.ssh_public_key
   
@@ -1170,7 +1170,7 @@ resource "proxmox_vm_qemu" "sonarqube" {
   
   ipconfig0  = "ip=192.168.100.30/24,gw=${var.gateway_ip}"
   nameserver = var.dns_server
-  searchdomain = "devops.local"
+  searchdomain = "local.lab"
   ciuser     = "ubuntu"
   sshkeys    = var.ssh_public_key
   
@@ -1199,7 +1199,7 @@ resource "proxmox_vm_qemu" "nexus" {
   
   ipconfig0  = "ip=192.168.100.31/24,gw=${var.gateway_ip}"
   nameserver = var.dns_server
-  searchdomain = "devops.local"
+  searchdomain = "local.lab"
   ciuser     = "ubuntu"
   sshkeys    = var.ssh_public_key
   
@@ -1228,7 +1228,7 @@ resource "proxmox_vm_qemu" "harbor" {
   
   ipconfig0  = "ip=192.168.100.32/24,gw=${var.gateway_ip}"
   nameserver = var.dns_server
-  searchdomain = "devops.local"
+  searchdomain = "local.lab"
   ciuser     = "ubuntu"
   sshkeys    = var.ssh_public_key
   
@@ -1257,7 +1257,7 @@ resource "proxmox_vm_qemu" "monitoring" {
   
   ipconfig0  = "ip=192.168.100.40/24,gw=${var.gateway_ip}"
   nameserver = var.dns_server
-  searchdomain = "devops.local"
+  searchdomain = "local.lab"
   ciuser     = "ubuntu"
   sshkeys    = var.ssh_public_key
   
@@ -1327,7 +1327,7 @@ output "connection_info" {
     3. DNS Server: ${var.dns_server}
     4. Gateway: ${var.gateway_ip}
     
-    All internal services use .devops.local domain
+    All internal services use .local.lab domain
     EOT
 }
 ```
@@ -1372,8 +1372,8 @@ ssh -J ubuntu@10.0.10.102 ubuntu@192.168.100.10
 
 # Проверка DNS
 ssh -J ubuntu@10.0.10.102 ubuntu@192.168.100.10
-dig jenkins.devops.local
-ping -c 3 jenkins.devops.local
+dig jenkins.local.lab
+ping -c 3 jenkins.local.lab
 
 # Проверка интернета (через NAT)
 ping -c 3 8.8.8.8
@@ -1393,7 +1393,7 @@ curl -I https://google.com
 - И так далее...
 
 **Важные отличия:**
-- **DNS**: Используйте `jenkins.devops.local` вместо IP адресов
+- **DNS**: Используйте `jenkins.local.lab` вместо IP адресов
 - **Gateway**: Все VM используют `192.168.100.60` как шлюз
 - **Доступ**: Только через Jumphost (`ssh -J`)
 - **Внешний доступ**: Только через Ngrok/Cloudflare туннель
@@ -1464,9 +1464,9 @@ sudo systemctl start fail2ban
 
 ```bash
 # На любой внутренней VM
-dig jenkins.devops.local
-dig k3s-master.devops.local
-dig apps.devops.local
+dig jenkins.local.lab
+dig k3s-master.local.lab
+dig apps.local.lab
 
 # Reverse DNS
 dig -x 192.168.100.20
@@ -1476,7 +1476,7 @@ dig -x 192.168.100.20
 
 ```bash
 # На любой внутренней VM
-ping -c 3 jenkins.devops.local
+ping -c 3 jenkins.local.lab
 ping -c 3 8.8.8.8
 curl -I https://google.com
 traceroute 8.8.8.8  # Должен идти через 192.168.100.60
@@ -1512,11 +1512,11 @@ ping 8.8.8.8
 **Q: Как добавить новую VM в DNS?**  
 **A:** На DNS сервере:
 ```bash
-sudo vim /etc/bind/db.devops.local
+sudo vim /etc/bind/db.local.lab
 # Добавьте: newvm  IN  A  192.168.100.X
 
 sudo vim /etc/bind/db.192.168.100
-# Добавьте: X  IN  PTR  newvm.devops.local.
+# Добавьте: X  IN  PTR  newvm.local.lab.
 
 # Увеличьте Serial в обоих файлах
 # Перезапустите
