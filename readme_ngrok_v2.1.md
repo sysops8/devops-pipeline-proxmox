@@ -1730,6 +1730,7 @@ sudo ./install.sh
 **Проверка:**
 
 ```bash
+sudo chmod 666 /var/run/docker.sock
 sudo docker-compose ps
 ```
 
@@ -1766,7 +1767,7 @@ cd ~/monitoring
 
 ```yaml
 sudo tee docker-compose.yml > /dev/null <<EOF
-version: '3.8'
+
 
 services:
   prometheus:
