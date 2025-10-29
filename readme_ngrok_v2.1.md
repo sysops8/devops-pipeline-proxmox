@@ -1508,6 +1508,7 @@ curl -fsSL https://get.docker.com -o get-docker.sh
 sudo sh get-docker.sh
 sudo usermod -aG docker ubuntu
 sudo usermod -aG docker jenkins
+sudo chmod 666 /var/run/docker.sock 
 
 # Установка Java 17
 sudo apt install -y openjdk-17-jdk
