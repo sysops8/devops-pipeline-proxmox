@@ -2330,7 +2330,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: boardgame
-  namespace: default
+  namespace: production
   labels:
     app: boardgame
 spec:
@@ -2348,48 +2348,47 @@ spec:
         prometheus.io/path: "/actuator/prometheus"
     spec:
       containers:
-      - name: boardgame
-        image: harbor.your-domain.com/library/boardgame:latest
-        imagePullPolicy: Always
-        ports:
-        - containerPort: 8080
-          name: http
-          protocol: TCP
-        env:
-        - name: SPRING_PROFILES_ACTIVE
-          value: "prod"
-        resources:
-          requests:
-            memory: "512Mi"
-            cpu: "500m"
-          limits:
-            memory: "1Gi"
-            cpu: "1000m"
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 8080
-          initialDelaySeconds: 60
-          periodSeconds: 10
-          timeoutSeconds: 5
-          failureThreshold: 3
-        readinessProbe:
-          httpGet:
-            path: /
-            port: 8080
-          initialDelaySeconds: 30
-          periodSeconds: 5
-          timeoutSeconds: 3
-          failureThreshold: 3
+        - name: boardgame
+          image: harbor.local.lab/library/boardgame:latest   #  Harbor
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "prod"
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "500m"
+            limits:
+              memory: "1Gi"
+              cpu: "1000m"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 3
       imagePullSecrets:
-      - name: harbor-registry-secret
-
+        - name: harbor-registry-secret
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: boardgame-service
-  namespace: default
+  namespace: production
   labels:
     app: boardgame
 spec:
@@ -2397,39 +2396,42 @@ spec:
   selector:
     app: boardgame
   ports:
-  - port: 80
-    targetPort: 8080
-    protocol: TCP
-    name: http
+    - port: 80
+      targetPort: 8080
+      protocol: TCP
+      name: http
   sessionAffinity: ClientIP
-
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: boardgame-ingress
-  namespace: default
+  namespace: production
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
     traefik.ingress.kubernetes.io/router.tls: "true"
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
   ingressClassName: traefik
   rules:
-  - host: boardgame.apps.your-domain.com
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: boardgame-service
-            port:
-              number: 80
+    - host: boardgame.local.lab        # запись в локальном DNS, запись A с IP от metallb
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: boardgame-service
+                port:
+                  number: 80
   tls:
-  - hosts:
-    - boardgame.apps.your-domain.com
-    secretName: boardgame-tls
+    - hosts:
+        - boardgame.local.lab          #  хост который в DNS
+      secretName: boardgame-tls
+
+```
+Создайте namespace с именем production:
+```bash
+sudo kubectl create namespace production
 ```
 
 ### 12.3 Обновление pom.xml
