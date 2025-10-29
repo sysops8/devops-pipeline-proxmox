@@ -2383,8 +2383,8 @@ pipeline {
     agent any
     
     tools {
-        jdk 'jdk-17'
-        maven 'maven-3'
+        jdk 'java17'
+        maven 'maven3.6'
     }
     
     environment {
