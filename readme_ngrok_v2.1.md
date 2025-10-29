@@ -1546,6 +1546,7 @@ sudo chmod 600 /var/lib/jenkins/.kube/config
 # Тест
 sudo -u jenkins kubectl get nodes
 ```
+Также нужно поменять адрес 127.0.0.1 при загрузке файла в jenkins credentials.
 
 **Установка Trivy:**
 
@@ -2216,6 +2217,7 @@ SonarQube → "My Account → Security → Generate Tokens
 - File: Upload `~/.kube/config`
 - ID: `k8s-kubeconfig`
 - Description: Kubernetes Config
+- Внутри файла поменять адрес 127.0.0.1 на k3s-master.local.lab и только потом загружать в jenkins
 
 **5. Gmail App Password:**
 - Kind: Username with password
