@@ -2228,7 +2228,13 @@ SonarQube → "My Account → Security → Generate Tokens
 ```
 Google Account → Security → 2-Step Verification → App passwords → Jenkins
 ```
-
+**6. Nexus:**
+- Kind: Username with password
+- Username: `admin`
+- Password: `<your-nexus-password>`
+- ID: `nexus-cred`
+- Description: Nexus Credentials
+- 
 ### 11.5 Настройка SonarQube Server
 
 **Manage Jenkins → Configure System → SonarQube servers**
