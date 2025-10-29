@@ -1555,6 +1555,14 @@ sudo apt update
 sudo apt install -y trivy
 ```
 
+**Установка Sonar cli scaner:**
+
+```bash
+wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-7.3.0.5189.zip -O /tmp/sonar-scanner-cli.zip
+sudo unzip /tmp/sonar-scanner-cli.zip -d /var/lib/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/sonar-scanner
+chown -R jenkins:jenkins /var/lib/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/sonar-scanner
+curl -X https://jenkins.local.lab:8080/restart
+```
 **Установка Maven:**
 
 ```bash
@@ -1562,7 +1570,8 @@ sudo apt install -y maven
 mvn --version
 ```
 
-**Доступ:** `https://jenkins.your-domain.com:8080`
+**Доступ к Jenkins:** `https://jenkins.your-domain.com:8080`
+
 
 ### 10.2 SonarQube Server (192.168.100.30)
 
