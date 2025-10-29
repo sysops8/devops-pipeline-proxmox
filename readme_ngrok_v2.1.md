@@ -45,6 +45,8 @@
 - [Безопасность изолированной сети](#-безопасность-изолированной-сети)
 - [Проверка инфраструктуры](#-проверка-инфраструктуры)
 
+---
+```mermaid
 graph LR
     A[Git Checkout] --> B[Compile]
     B --> C[Unit Tests]
@@ -99,7 +101,7 @@ graph LR
     class G,H build
     class J,K publish
     class L,M deploy
-
+```
 
 ---
 
