@@ -1758,11 +1758,14 @@ nano harbor.yml
 ```yaml
 hostname: harbor.your-domain.com
 
+# https:
+# port: 80
 # Закомментируйте HTTPS для начала (настроим через Cloudflare)
 # https:
 #   port: 443
 #   certificate: /your/certificate/path
 #   private_key: /your/private/key/path
+port: 443
 certificate: /etc/harbor/ssl/harbor.local.lab.crt
 private_key: /etc/harbor/ssl/harbor.local.lab.key
 
