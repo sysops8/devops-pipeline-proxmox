@@ -1696,6 +1696,55 @@ cd harbor
 cp harbor.yml.tmpl harbor.yml
 ```
 
+Настройка SSL для Harbor:
+```bash
+# Генерация приватного ключа
+sudo openssl genrsa -out harbor.local.lab.key 2048
+
+# Генерация самоподписанного сертификата
+sudo openssl req -new -x509 -key harbor.local.lab.key -out harbor.local.lab.crt -days 3650 -subj "/CN=harbor.local.lab"
+
+# Вариант 2: С дополнительными доменными именами (SAN)
+# Создание конфигурационного файла
+sudo tee openssl.cnf > /dev/null <<EOF
+[req]
+distinguished_name = req_distinguished_name
+x509_extensions = v3_req
+prompt = no
+
+[req_distinguished_name]
+C = KZ
+ST = State
+L = City
+O = Organization
+OU = Organizational Unit
+CN = harbor.local.lab
+
+[v3_req]
+keyUsage = keyEncipherment, dataEncipherment
+extendedKeyUsage = serverAuth
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = harbor.local.lab
+DNS.2 = localhost
+IP.1 = 127.0.0.1
+EOF
+
+# Генерация ключа и сертификата
+sudo openssl req -x509 -nodes -days 3650 -newkey rsa:2048 \
+    -keyout harbor.local.lab.key \
+    -out harbor.local.lab.crt \
+    -config openssl.cnf \
+    -extensions v3_req
+
+# 3. Проверка созданных файлов
+# Проверить права доступа
+sudo ls -la /etc/harbor/ssl/
+
+# Проверить содержимое сертификата
+sudo openssl x509 -in harbor.local.lab.crt -text -noout
+```
 Отредактируйте `harbor.yml`:
 
 ```bash
