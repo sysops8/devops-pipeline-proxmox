@@ -47,7 +47,7 @@
 
 ---
 ```mermaid
-graph LR
+graph TD
     A[Git Checkout] --> B[Compile]
     B --> C[Unit Tests]
     C --> D[SonarQube Analysis]
@@ -62,45 +62,45 @@ graph LR
     L --> M[Verify Deployment]
     
     %% Группировка по категориям
-    subgraph "Code Quality"
+    subgraph "🔧 Development Phase"
+        A
+        B
+        C
+    end
+    
+    subgraph "✅ Code Quality"
         D
         E
     end
     
-    subgraph "Security Scans"
+    subgraph "🔒 Security Scanning"
         F
         I
     end
     
-    subgraph "Build"
+    subgraph "🏗️ Build Phase"
         G
         H
     end
     
-    subgraph "Publish"
+    subgraph "📦 Publish Phase"
         J
         K
     end
     
-    subgraph "Deployment"
+    subgraph "🚀 Deployment Phase"
         L
         M
     end
     
     %% Стили для блоков
     classDef default fill:#e1f5fe,stroke:#01579b,stroke-width:2px,rx:5,ry:5
-    classDef quality fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
-    classDef security fill:#ffebee,stroke:#c62828,stroke-width:2px
-    classDef build fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px
-    classDef publish fill:#fff3e0,stroke:#e65100,stroke-width:2px
-    classDef deploy fill:#fce4ec,stroke:#880e4f,stroke-width:2px
-    
-    class A,B,C default
-    class D,E quality
-    class F,I security
-    class G,H build
-    class J,K publish
-    class L,M deploy
+    classDef dev fill:#bbdefb,stroke:#1565c0,stroke-width:2px
+    classDef quality fill:#e1bee7,stroke:#7b1fa2,stroke-width:2px
+    classDef security fill:#ffcdd2,stroke:#d32f2f,stroke-width:2px
+    classDef build fill:#c8e6c9,stroke:#388e3c,stroke-width:2px
+    classDef publish fill:#ffe0b2,stroke:#f57c00,stroke-width:2px
+    classDef deploy fill:#
 ```
 
 ---
