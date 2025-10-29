@@ -2091,6 +2091,7 @@ docker-compose logs -f
 - Prometheus metrics
 - Email Extension Plugin   (есть только Email Extension Template)
 - Blue Ocean (опционально, для красивого UI)
+- CloudBees Disk Usage Simple (для Prometheus)
 
 После установки: **Restart Jenkins**
 
