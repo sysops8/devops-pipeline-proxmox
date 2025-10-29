@@ -1761,6 +1761,8 @@ hostname: harbor.your-domain.com
 #   port: 443
 #   certificate: /your/certificate/path
 #   private_key: /your/private/key/path
+certificate: /etc/harbor/ssl/harbor.local.lab.crt
+private_key: /etc/harbor/ssl/harbor.local.lab.key
 
 harbor_admin_password: YourSecurePassword123!
 
