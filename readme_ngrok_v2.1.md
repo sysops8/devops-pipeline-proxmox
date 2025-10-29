@@ -1742,7 +1742,7 @@ sudo openssl req -x509 -nodes -days 3650 -newkey rsa:2048 \
 
 # 3. Проверка созданных файлов
 # Проверить права доступа
-sudo ls -la cd ~/harbor/ssl/
+sudo ls -la ~/harbor/ssl/
 
 # Проверить содержимое сертификата
 sudo openssl x509 -in harbor.local.lab.crt -text -noout
