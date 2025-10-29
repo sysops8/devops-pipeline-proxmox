@@ -2436,14 +2436,14 @@ spec:
 ```xml
 <distributionManagement>
     <repository>
-        <id>maven-releases</id>
+        <id>nexus-releases</id>
         <name>Maven Releases Repository</name>
-        <url>http://192.168.100.31:8081/repository/maven-releases/</url>
+        <url>http://nexus.local.lab:8081/repository/maven-releases/</url>
     </repository>
     <snapshotRepository>
-        <id>maven-snapshots</id>
+        <id>nexus-snapshots</id>
         <name>Maven Snapshots Repository</name>
-        <url>http://192.168.100.31:8081/repository/maven-snapshots/</url>
+        <url>http://nexus.local.lab:8081/repository/maven-snapshots/</url>
     </snapshotRepository>
 </distributionManagement>
 ```
