@@ -2230,11 +2230,12 @@ Google Account → Security → 2-Step Verification → App passwords → Jenkin
 ```
 **6. Nexus:**
 - Kind: Username with password
-- Username: `admin`
+- Username: `jenkins`
 - Password: `<your-nexus-password>`
 - ID: `nexus-cred`
 - Description: Nexus Credentials
-- 
+- Пользователя jenkins нужно создать на сервере nexus и дать ему права админа.
+  
 ### 11.5 Настройка SonarQube Server
 
 **Manage Jenkins → Configure System → SonarQube servers**
