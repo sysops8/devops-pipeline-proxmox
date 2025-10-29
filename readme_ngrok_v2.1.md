@@ -2431,7 +2431,7 @@ spec:
 
 ### 12.3 Обновление pom.xml
 
-Добавьте в `pom.xml` секцию `distributionManagement`:
+Добавьте в `pom.xml` секцию `distributionManagement`, файл pom.xml  должен лежать в корне проекта на github:
 
 ```xml
 <distributionManagement>
