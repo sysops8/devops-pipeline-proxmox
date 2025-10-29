@@ -46,85 +46,60 @@
 - [Проверка инфраструктуры](#-проверка-инфраструктуры)
 
 ---
-graph TD
-    A[Pipeline Start] --> B[Git Checkout]
-    B --> C[Compile]
-    C --> D[Unit Tests]
-    D --> E[SonarQube Analysis]
-    E --> F[Quality Gate]
-    F --> G[Trivy FS Scan]
-    G --> H[Build Application]
-    H --> I[Publish to Nexus]
-    I --> J[Build Docker Image]
-    J --> K[Trivy Image Scan]
-    K --> L[Push to Harbor]
-    L --> M[Update Deployment Manifest]
-    M --> N[Deploy to Kubernetes]
-    N --> O[Verify Deployment]
+graph LR
+    A[Git Checkout] --> B[Compile]
+    B --> C[Unit Tests]
+    C --> D[SonarQube Analysis]
+    D --> E[Quality Gate]
+    E --> F[Trivy FS Scan]
+    F --> G[Build Application]
+    G --> H[Build Docker Image]
+    H --> I[Trivy Image Scan]
+    I --> J[Publish to Nexus]
+    J --> K[Push to Harbor]
+    K --> L[Deploy to Kubernetes]
+    L --> M[Verify Deployment]
     
-    %% Environment Variables
-    subgraph Environment
-        ENV1[JDK: java17]
-        ENV2[Maven: maven3.6]
-        ENV3[SCANNER_HOME: sonar-scanner]
-        ENV4[HARBOR_REGISTRY: harbor.your-domain.com]
-        ENV5[IMAGE_NAME: boardgame]
-        ENV6[IMAGE_TAG: BUILD_NUMBER]
+    %% Группировка по категориям
+    subgraph "Code Quality"
+        D
+        E
     end
     
-    %% Tools Section
-    subgraph Tools
-        T1[JDK]
-        T2[Maven]
-        T3[Sonar Scanner]
+    subgraph "Security Scans"
+        F
+        I
     end
     
-    %% Credentials
-    subgraph Credentials
-        CR1[github-token]
-        CR2[sonar-token]
-        CR3[harbor-creds]
-        CR4[k8s-kubeconfig]
+    subgraph "Build"
+        G
+        H
     end
     
-    %% Post Actions
-    subgraph Post Actions
-        P1[Archive Artifacts]
-        P2[Clean Workspace]
-        P3[Email Notification]
+    subgraph "Publish"
+        J
+        K
     end
     
-    %% Stage Details
-    B -->|main branch| B1[github.com/YOUR_USERNAME/boardgame.git]
-    D -->|JUnit Reports| D1[**/target/surefire-reports/*.xml]
-    E -->|Sonar Scanner| E1[sonar.projectName=BoardGame<br/>sonar.projectKey=BoardGame]
-    F -->|5min timeout| F1[waitForQualityGate]
-    G -->|File System Scan| G1[trivy fs --severity HIGH,CRITICAL]
-    H -->|Skip Tests| H1[mvn clean package -DskipTests]
-    I -->|Maven Settings| I1[configFileProvider: maven-settings]
-    J -->|Docker Build| J1[docker build -t ${FULL_IMAGE_NAME}]
-    K -->|Image Scan| K1[trivy image --severity HIGH,CRITICAL]
-    L -->|Docker Registry| L1[docker push ${FULL_IMAGE_NAME}<br/>docker push ${LATEST_IMAGE_NAME}]
-    M -->|K8s Manifest| M1[sed -i deployment.yaml]
-    N -->|Kubernetes| N1[kubectl apply -f deployment.yaml<br/>kubectl rollout status]
-    O -->|Verification| O1[Pods Status<br/>Service Status<br/>Ingress Status<br/>Events]
+    subgraph "Deployment"
+        L
+        M
+    end
     
-    %% Success/Failure Paths
-    O -->|Success| P3_SUCCESS[✅ Success Email]
-    O -->|Failure| P3_FAILURE[❌ Failure Email]
+    %% Стили для блоков
+    classDef default fill:#e1f5fe,stroke:#01579b,stroke-width:2px,rx:5,ry:5
+    classDef quality fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef security fill:#ffebee,stroke:#c62828,stroke-width:2px
+    classDef build fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px
+    classDef publish fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    classDef deploy fill:#fce4ec,stroke:#880e4f,stroke-width:2px
     
-    %% Styling
-    classDef stage fill:#e1f5fe,stroke:#01579b,stroke-width:2px
-    classDef env fill:#f3e5f5,stroke:#4a148c,stroke-width:1px
-    classDef tool fill:#e8f5e8,stroke:#1b5e20,stroke-width:1px
-    classDef cred fill:#fff3e0,stroke:#e65100,stroke-width:1px
-    classDef post fill:#fce4ec,stroke:#880e4f,stroke-width:1px
-    
-    class A,B,C,D,E,F,G,H,I,J,K,L,M,N,O stage
-    class ENV1,ENV2,ENV3,ENV4,ENV5,ENV6 env
-    class T1,T2,T3 tool
-    class CR1,CR2,CR3,CR4 cred
-    class P1,P2,P3 post
+    class A,B,C default
+    class D,E quality
+    class F,I security
+    class G,H build
+    class J,K publish
+    class L,M deploy
 ---
 
 ## 🎯 О проекте
