@@ -1699,6 +1699,8 @@ cp harbor.yml.tmpl harbor.yml
 Настройка SSL для Harbor:
 ```bash
 # Генерация приватного ключа
+mkdir ~/harbor/ssl
+cd ~/harbor/
 sudo openssl genrsa -out harbor.local.lab.key 2048
 
 # Генерация самоподписанного сертификата
@@ -1740,7 +1742,7 @@ sudo openssl req -x509 -nodes -days 3650 -newkey rsa:2048 \
 
 # 3. Проверка созданных файлов
 # Проверить права доступа
-sudo ls -la /etc/harbor/ssl/
+sudo ls -la cd ~/harbor/ssl/
 
 # Проверить содержимое сертификата
 sudo openssl x509 -in harbor.local.lab.crt -text -noout
