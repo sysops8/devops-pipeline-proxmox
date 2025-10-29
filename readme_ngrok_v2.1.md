@@ -2262,17 +2262,18 @@ Google Account → Security → 2-Step Verification → App passwords → Jenkin
                               http://maven.apache.org/xsd/settings-1.0.0.xsd">
   <servers>
     <server>
-      <id>maven-releases</id>
-      <username>admin</username>
-      <password>YOUR_NEXUS_PASSWORD</password>
+      <id>nexus-releases</id>
+      <username>${env.NEXUS_USERNAME}</username>
+      <password>${env.NEXUS_PASSWORD}</password>
     </server>
     <server>
-      <id>maven-snapshots</id>
-      <username>admin</username>
-      <password>YOUR_NEXUS_PASSWORD</password>
+      <id>nexus-snapshots</id>
+      <username>${env.NEXUS_USERNAME}</username>
+      <password>${env.NEXUS_PASSWORD}</password>
     </server>
   </servers>
 </settings>
+
 ```
 
 Submit
