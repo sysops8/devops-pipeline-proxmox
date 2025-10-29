@@ -2241,7 +2241,7 @@ Google Account → Security → 2-Step Verification → App passwords → Jenkin
 **Manage Jenkins → Configure System → SonarQube servers**
 
 - ✓ Enable injection of SonarQube server configuration
-- Name: `sonar`
+- Name: `SonarQube`
 - Server URL: `http://192.168.100.30:9000`
 - Server authentication token: Select `sonar-token`
 
