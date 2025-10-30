@@ -27,11 +27,11 @@
   - [Этап 8: Traefik Ingress](#этап-5-установка-traefik-ingress)
   - [Этап 9: Настройка внешнего доступа через Cloudflare Tunnel](#этап-6-настройка-внешнего-доступа-через-cloudflare-tunnel)
   - [Этап 10: Установка инструментов - jenkins, sonarqube, nexus, harbor, monitoring server](#этап-7-установка-инструментов-на-vm)
-  - 10.1 Jenkins Server
-  - 10.2 SonarQube Server
-  - 10.3 Nexus Repository
-  - 10.4 Harbor Registry
-  - 10.5 Monitoring Server
+  - [10.1 Jenkins Server]
+  - [10.2 SonarQube Server]
+  - [10.3 Nexus Repository]
+  - [10.4 Harbor Registry]
+  - [10.5 Monitoring Server]
   - [Этап 11: Настройка Jenkins](#этап-8-настройка-jenkins-pipeline)
   - [Этап 12: Jenkins Pipeline](#этап-9-создание-jenkins-pipeline)
   - [Этап 13: Мониторинг Jenkins](#этап-10-установка-мониторинга-на-jenkins)
