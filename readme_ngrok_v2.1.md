@@ -1790,6 +1790,15 @@ sudo ./install.sh
 sudo chmod 666 /var/run/docker.sock
 sudo docker-compose ps
 ```
+**Доп. команды:***
+
+Автозапуск Harbor при перезагрузке:
+```bash
+sed -i 's/restart: always/restart: unless-stopped/' docker-compose.yml
+sudo docker-compose down -v
+sudo docker-compose up -d
+docker ps
+```
 
 **Доступ:** `https://harbor.your-domain.com`  
 **Логин:** admin/YourSecurePassword123!
