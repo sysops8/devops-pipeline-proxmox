@@ -28,7 +28,7 @@
   - [Этап 9: Настройка внешнего доступа через Cloudflare Tunnel](#этап-6-настройка-внешнего-доступа-через-cloudflare-tunnel)
   - [Этап 10: Установка инструментов - jenkins, sonarqube, nexus, harbor, monitoring server](#этап-7-установка-инструментов-на-vm)
   - [10.1 Jenkins Server (192.168.100.20 порт 8080)](#10.1-Jenkins-Server)
-  - [10.2 SonarQube Server](10.2-SonarQube-Server-(192.168.100.30))
+  - [10.2 SonarQube Server](#10.2-SonarQube-Server)
   - [10.3 Nexus Repository](#10.3-Nexus-Repository)
   - [10.4 Harbor Registry](#10.4-Harbor-Registry)
   - [10.5 Monitoring Server](#10.5-Monitoring-Server)
@@ -1580,7 +1580,7 @@ mvn --version
 **Доступ к Jenkins:** `https://jenkins.your-domain.com:8080`
 
 
-### 10.2 SonarQube Server (192.168.100.30)
+### 10.2 SonarQube Server (192.168.100.30)  {#10.2-SonarQube-Server}
 
 ```bash
 ssh ubuntu@192.168.100.30
