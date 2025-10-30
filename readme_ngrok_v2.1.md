@@ -25,7 +25,7 @@
   - [Этап 6: Установка K3s кластера](#этап-3-установка-k3s-кластера)
   - [Этап 7: MetalLB Load Balancer](#этап-4-установка-metallb-load-balancer)
   - [Этап 8: Traefik Ingress](#этап-5-установка-traefik-ingress)
-  - [Этап 9: Cloudflare Tunnel](#этап-6-настройка-внешнего-доступа-через-cloudflare-tunnel)
+  - [Этап 9: Настройка внешнего доступа через Cloudflare Tunnel](#этап-6-настройка-внешнего-доступа-через-cloudflare-tunnel)
   - [Этап 10: Установка инструментов - jenkins, sonarqube, nexus, harbor, monitoring server](#этап-7-установка-инструментов-на-vm)
   - [Этап 11: Настройка Jenkins](#этап-8-настройка-jenkins-pipeline)
   - [Этап 12: Jenkins Pipeline](#этап-9-создание-jenkins-pipeline)
