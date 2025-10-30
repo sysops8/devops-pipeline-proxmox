@@ -1580,7 +1580,7 @@ mvn --version
 **Доступ к Jenkins:** `https://jenkins.your-domain.com:8080`
 
 
-### 10.2 SonarQube Server (192.168.100.30)  {#10.2-SonarQube-Server}
+### 10.2 SonarQube Server
 
 ```bash
 ssh ubuntu@192.168.100.30
