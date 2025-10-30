@@ -1641,7 +1641,7 @@ sudo docker logs -f sonarqube_db
 **Доступ:** `https://sonar.your-domain.com:9000`  
 **Логин:** admin/admin (измените после первого входа)
 
-### 10.3 Nexus Repository (192.168.100.31)
+### 10.3 Nexus Repository
 
 ```bash
 ssh ubuntu@192.168.100.31
@@ -1679,7 +1679,7 @@ sudo docker exec nexus cat /nexus-data/admin.password; echo
 3. Создайте: `maven-releases` (maven2 hosted)
 4. Создайте: `maven-snapshots` (maven2 hosted)
 
-### 10.4 Harbor Registry (192.168.100.32)
+### 10.4 Harbor Registry
 
 ```bash
 ssh ubuntu@192.168.100.32
