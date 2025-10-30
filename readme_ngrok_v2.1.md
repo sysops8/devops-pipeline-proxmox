@@ -1797,8 +1797,27 @@ sudo docker-compose ps
 sed -i 's/restart: always/restart: unless-stopped/' docker-compose.yml
 sudo docker-compose down -v
 sudo docker-compose up -d
+
+```
+Проверяем запущены ли контейнеры:
+```bash
 docker ps
 ```
+Примерный вывод:
+```
+admin@harbor:~/harbor$ docker ps
+CONTAINER ID   IMAGE                                COMMAND                  CREATED          STATUS                    PORTS                                                                                NAMES
+55b19f819883   goharbor/nginx-photon:v2.9.0         "nginx -g 'daemon of…"   17 minutes ago   Up 17 minutes (healthy)   0.0.0.0:80->8080/tcp, [::]:80->8080/tcp, 0.0.0.0:443->8443/tcp, [::]:443->8443/tcp   nginx
+4b6488617048   goharbor/harbor-jobservice:v2.9.0    "/harbor/entrypoint.…"   17 minutes ago   Up 17 minutes (healthy)                                                                                        harbor-jobservice
+2b59b7441e8f   goharbor/harbor-core:v2.9.0          "/harbor/entrypoint.…"   17 minutes ago   Up 17 minutes (healthy)                                                                                        harbor-core
+098dfa7ebe96   goharbor/redis-photon:v2.9.0         "redis-server /etc/r…"   17 minutes ago   Up 17 minutes (healthy)                                                                                        redis
+73e86709a382   goharbor/harbor-db:v2.9.0            "/docker-entrypoint.…"   17 minutes ago   Up 17 minutes (healthy)                                                                                        harbor-db
+e3b395132591   goharbor/registry-photon:v2.9.0      "/home/harbor/entryp…"   17 minutes ago   Up 17 minutes (healthy)                                                                                        registry
+fb403461790f   goharbor/harbor-registryctl:v2.9.0   "/home/harbor/start.…"   17 minutes ago   Up 17 minutes (healthy)                                                                                        registryctl
+4780911e4933   goharbor/harbor-portal:v2.9.0        "nginx -g 'daemon of…"   17 minutes ago   Up 17 minutes (healthy)                                                                                        harbor-portal
+002b3655f20f   goharbor/harbor-log:v2.9.0           "/bin/sh -c /usr/loc…"   17 minutes ago   Up 17 minutes (healthy)   127.0.0.1:1514->10514/tcp                                                            harbor-log
+```
+
 
 **Доступ:** `https://harbor.your-domain.com`  
 **Логин:** admin/YourSecurePassword123!
