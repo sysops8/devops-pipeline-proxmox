@@ -3521,7 +3521,7 @@ kubectl wait --for=condition=available --timeout=300s deployment --all -n argocd
 # Проверка подов
 kubectl get pods -n argocd
 ```
-argocd-service-lb.yaml
+Создаем argocd-service-lb.yaml:
 ```bash
 sudo tee argocd-service-lb.yaml > /dev/null <<EOF
 apiVersion: v1
@@ -3551,6 +3551,255 @@ kubectl apply -f argocd-service-lb.yaml
 kubectl get svc argocd-server-lb -n argocd
 # Запишите EXTERNAL-IP (например, 192.168.100.101)
 ```
+**Добавление DNS записи**
+На DNS сервере (192.168.100.53):
+```bash
+echo "argocd          IN      A       192.168.100.101" >> /etc/bind/db.local.lab
+Обновите Serial и перезагрузите:
+sudo rndc reload
+```
+# Получение пароля admin на Jumphost:
+```bash
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+echo
+```
+# Вход в ArgoCD UI
+Откройте браузер:
+Внутренний доступ: https://argocd.local.lab или http://192.168.100.101
+Внешний доступ: https://argocd.your-domain.com
+Логин: admin
+Пароль: (из команды выше)
+
+## Смена пароля admin в браузере через UI: User Info → Update Password
+Или через CLI:
+```bash
+# Установка ArgoCD CLI на jumphost
+curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+chmod +x /usr/local/bin/argocd
+# Логин
+argocd login argocd.local.lab --username admin --password <initial-password>
+# Смена пароля
+argocd account update-password
+```
+# Создание токена (срок действия 1 год)
+argocd account generate-token --account admin
+или
+# Сохраните этот токен!
+Перейди в Jenkins: Manage Jenkins → Credentials → System → Global credentials.
+Создайте запись с ID argocd-token.
+Тип: Secret text (если используешь токен)
+Значение: твой токен ArgoCD
+ID: argocd-token (точно как в pipeline)
+Если запись отсутствует — создай её.
+После этого Jenkins сможет подставлять токен в pipeline.
+
+
+
+Подготовка Git репозитория
+
+### Структура репозитория
+
+Создайте репозиторий boardgame-gitops для манифестов:
+```
+boardgame-gitops/
+├── base/
+│   ├── kustomization.yaml
+│   ├── deployment.yaml
+│   ├── service.yaml
+│   └── ingress.yaml
+└── overlays/
+    ├── dev/
+    │   └── kustomization.yaml
+    └── production/
+        └── kustomization.yaml
+```
+
+Внутри него нужно создать файлы и каталоги:
+base/kustomization.yaml
+```yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - deployment.yaml
+  - service.yaml
+  - ingress.yaml
+
+commonLabels:
+  app: boardgame
+  managed-by: argocd
+```
+base/deployment.yaml
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: boardgame-deployment
+  namespace: production
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: boardgame
+  template:
+    metadata:
+      labels:
+        app: boardgame
+    spec:
+      containers:
+        - name: boardgame
+          image: harbor.local.lab/library/myapp:latest  # Будет обновляться Jenkins
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "500m"
+            limits:
+              memory: "1Gi"
+              cpu: "1000m"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 60
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 5
+      imagePullSecrets:
+        - name: harbor-registry-secret
+```
+
+base/service.yaml
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: boardgame-service
+  namespace: production
+spec:
+  type: LoadBalancer
+  selector:
+    app: boardgame
+  ports:
+    - port: 80
+      targetPort: 8080
+      protocol: TCP
+```
+base/ingress.yaml
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: boardgame-ingress
+  namespace: production
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: boardgame.local.lab
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: boardgame-service
+                port:
+                  number: 80
+```
+overlays/production/kustomization.yaml
+```yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+bases:
+  - ../../base
+
+namespace: production
+
+replicas:
+  - name: boardgame-deployment
+    count: 2
+```
+## Создание ArgoCD Application
+Подключение Git репозитория
+В ArgoCD UI:
+
+Settings → Repositories → Connect Repo
+Выберите метод: HTTPS
+Repository URL: https://github.com/YOUR_USERNAME/boardgame-gitops.git
+Username: (ваш GitHub username)
+Password: (Personal Access Token)
+Connect
+
+## Создание Application через UI
+Applications → New App
+Заполните поля:
+
+yamlApplication Name: boardgame
+Project: default
+Sync Policy: Manual (пока)
+
+Source:
+  Repository URL: https://github.com/sysops8/boardgame-gitops.git
+  Revision: HEAD
+  Path: overlays/production
+
+Destination:
+  Cluster URL: https://kubernetes.default.svc
+  Namespace: production
+
+Нажать CREATE
+
+Создание Application через YAML
+Создайте файл argocd-application.yaml:
+
+```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: boardgame
+  namespace: argocd
+spec:
+  project: default
+  
+  source:
+    repoURL: https://github.com/YOUR_USERNAME/boardgame-gitops.git
+    targetRevision: HEAD
+    path: overlays/production
+  
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: production
+  
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: false
+    syncOptions:
+      - CreateNamespace=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+```
+Применение:
+```bash
+kubectl apply -f argocd-application.yaml
+```
+
+
+
 
 ---
 
