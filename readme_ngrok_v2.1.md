@@ -3581,6 +3581,14 @@ argocd login argocd.local.lab --username admin --password <initial-password>
 # Смена пароля
 argocd account update-password
 ```
+Включите возможность генерации токенов для admin
+```bash
+# Получите текущий ConfigMap
+kubectl get configmap argocd-cm -n argocd -o yaml
+
+# Обновите ConfigMap
+kubectl patch configmap argocd-cm -n argocd --type merge -p '{"data":{"accounts.admin":"apiKey"}}'
+```
 # Создание токена (срок действия 1 год)
 argocd account generate-token --account admin
 или
