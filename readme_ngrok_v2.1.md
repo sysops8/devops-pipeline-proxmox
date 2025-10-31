@@ -3496,6 +3496,61 @@ kubectl port-forward svc/boardgame-service 8080:80 -n default
 # Например, некорректный синтаксис
 # И запустите build
 ```
+---
+
+## Этап 16.1: Настройка Gitops ArgoCD
+
+-- Установка ArgoCD
+-- Настройка доступа
+-- Подготовка Git репозитория
+-- Создание ArgoCD Application
+-- Обновление Jenkins Pipeline
+-- Проверка работы
+
+Установка ArgoCD, делаем на Jumphost'е:
+```bash
+# Создание namespace
+kubectl create namespace argocd
+
+# Установка ArgoCD
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+# Ожидание готовности
+kubectl wait --for=condition=available --timeout=300s deployment --all -n argocd
+
+# Проверка подов
+kubectl get pods -n argocd
+```
+argocd-service-lb.yaml
+```bash
+sudo tee argocd-service-lb.yaml > /dev/null <<EOF
+apiVersion: v1
+kind: Service
+metadata:
+  name: argocd-server-lb
+  namespace: argocd
+  labels:
+    app.kubernetes.io/name: argocd-server
+spec:
+  type: LoadBalancer
+  selector:
+    app.kubernetes.io/name: argocd-server
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080
+      protocol: TCP
+    - name: https
+      port: 443
+      targetPort: 8080
+      protocol: TCP
+EOF
+
+kubectl apply -f argocd-service-lb.yaml
+# Получение LoadBalancer IP
+kubectl get svc argocd-server-lb -n argocd
+# Запишите EXTERNAL-IP (например, 192.168.100.101)
+```
 
 ---
 
