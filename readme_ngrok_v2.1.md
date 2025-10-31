@@ -3590,20 +3590,24 @@ kubectl get configmap argocd-cm -n argocd -o yaml
 kubectl patch configmap argocd-cm -n argocd --type merge -p '{"data":{"accounts.admin":"apiKey"}}'
 ```
 ### Создание токена (срок действия 1 год)
+```bash
 argocd account generate-token --account admin
+```
 или
 ### Сохраните этот токен!
-Перейди в Jenkins: Manage Jenkins → Credentials → System → Global credentials.
+Перейди в Jenkins: 
+```
+Manage Jenkins → Credentials → System → Global credentials.
 Создайте запись с ID argocd-token.
 Тип: Secret text (если используешь токен)
 Значение: твой токен ArgoCD
 ID: argocd-token (точно как в pipeline)
 Если запись отсутствует — создай её.
 После этого Jenkins сможет подставлять токен в pipeline.
+```
 
 
-
-Подготовка Git репозитория
+## Подготовка Git репозитория
 
 ### Структура репозитория
 
