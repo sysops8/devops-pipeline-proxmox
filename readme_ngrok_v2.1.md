@@ -3317,6 +3317,9 @@ kubectl get events -n default --sort-by='.lastTimestamp' | tail -20
 ```
 https://boardgame.apps.your-domain.com
 ```
+В моем случае это адрес http://boardgame.local.lab c адресом LoadBalancer 192.168.100.103
+<img width="1919" height="950" alt="image" src="https://github.com/user-attachments/assets/684edbb8-aa55-4633-9b9d-39c19356a345" />
+
 
 **Через LoadBalancer IP (внутренняя сеть):**
 ```bash
