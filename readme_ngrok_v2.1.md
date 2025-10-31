@@ -1803,6 +1803,29 @@ sed -i 's/restart: always/restart: unless-stopped/' docker-compose.yml
 sudo docker-compose down -v
 sudo docker-compose up -d
 
+# Создаем systemd unit для запуска docker-compose, по умолчанию рабочий каталог /home/admin/harbor , замените если используйте доугой, где лежит твой docker-compose.yml
+sudo tee /etc/systemd/system/harbor.service > /dev/null <<EOF
+[Unit]
+Description=Harbor Container Registry
+Requires=docker.service
+After=docker.service network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/home/admin/harbor
+ExecStart=/usr/bin/docker-compose up -d
+ExecStop=/usr/bin/docker-compose down
+RemainAfterExit=yes
+TimeoutStartSec=0
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+sudo systemctl daemon-reload
+sudo systemctl enable harbor.service
+sudo systemctl start harbor.service
+sudo systemctl status harbor.service
 ```
 Проверяем запущены ли контейнеры:
 ```bash
