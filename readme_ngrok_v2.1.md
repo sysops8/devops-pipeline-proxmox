@@ -953,7 +953,7 @@ chmod +x /tmp/set-dns.sh
 cat > /tmp/internal-hosts.txt <<EOF
 k3s-master.local.lab
 k3s-worker1.local.lab
-k3s-worker1.local.lab
+k3s-worker2.local.lab
 jenkins.local.lab
 sonarqube.local.lab
 nexus.local.lab
