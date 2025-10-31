@@ -3283,6 +3283,8 @@ Running on Jenkins in /var/lib/jenkins/workspace/boardgame-pipeline
 - Jenkins → Open Blue Ocean
 - Красивый UI для просмотра pipeline
 
+<img width="1919" height="671" alt="image" src="https://github.com/user-attachments/assets/f27b62c3-0285-487f-ace6-9b863746a73a" />
+
 ---
 
 ## Этап 16: Проверка результатов
