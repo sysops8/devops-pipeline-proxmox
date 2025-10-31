@@ -3500,12 +3500,12 @@ kubectl port-forward svc/boardgame-service 8080:80 -n default
 
 ## Этап 16.1: Настройка Gitops ArgoCD
 
--- Установка ArgoCD
--- Настройка доступа
--- Подготовка Git репозитория
--- Создание ArgoCD Application
--- Обновление Jenkins Pipeline
--- Проверка работы
+- Установка ArgoCD
+- Настройка доступа
+- Подготовка Git репозитория
+- Создание ArgoCD Application
+- Обновление Jenkins Pipeline
+- Проверка работы
 
 Установка ArgoCD, делаем на Jumphost'е:
 ```bash
