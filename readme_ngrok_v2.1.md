@@ -1176,7 +1176,6 @@ k3s server --tls-san k3s-master.local.lab
 ```bash
 sudo cat /var/lib/rancher/k3s/server/node-token
 ```
-
 **Сохраните токен!** Пример: `K10abc123def456::server:xyz789`
 
 Проверьте статус:
@@ -1184,6 +1183,27 @@ sudo cat /var/lib/rancher/k3s/server/node-token
 ```bash
 sudo systemctl status k3s
 sudo kubectl get nodes
+```
+Возможно еще понадобится отключить проверку SSL для Harbor хоста:
+```bash
+sudo mkdir -p /etc/rancher/k3s
+sudo tee /etc/rancher/k3s/registries.yaml > /dev/null <<EOF
+mirrors:
+  "harbor.local.lab":
+    endpoint:
+      - "https://harbor.local.lab"
+
+configs:
+  "harbor.local.lab":
+    tls:
+      insecure_skip_verify: true
+EOF
+
+sudo systemctl restart k3s
+```
+Проверка доступа k3s-master к образу на harbor сервере:
+```bash
+sudo crictl pull harbor.local.lab/library/myapp:139
 ```
 
 ### 6.2 Подключение Worker Nodes
