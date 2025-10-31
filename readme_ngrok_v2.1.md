@@ -952,8 +952,8 @@ chmod +x /tmp/set-dns.sh
 # На jumphost создайте список хостов (только внутренние VM)
 cat > /tmp/internal-hosts.txt <<EOF
 k3s-master.local.lab
-k3s-worker-1.local.lab
-k3s-worker-2.local.lab
+k3s-worker1.local.lab
+k3s-worker1.local.lab
 jenkins.local.lab
 sonarqube.local.lab
 nexus.local.lab
