@@ -3303,6 +3303,7 @@ spec:
   - Script Path: `Jenkinsfile`
 
 **Save**
+<img width="1919" height="738" alt="image" src="https://github.com/user-attachments/assets/f5f1e156-189d-4d07-b5ad-d8ba2fd0b657" />
 
 ### 15.2 Настройка GitHub Webhook (опционально)
 
