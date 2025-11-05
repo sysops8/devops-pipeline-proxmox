@@ -1790,7 +1790,7 @@ EOF
 ```
 Нужно пождать 3-5 минут пока скачаются docker образы sonarqube и postgresql.
 
-# Запуск SonarQube 
+# Запуск SonarQube если он не запущен
 
 ```bash
 sudo docker compose up -d
@@ -1965,11 +1965,34 @@ sudo ./install.sh
 
 
 **Проверка:**
+```bash
+sudo docker compose ps
+```
+Примерный вывод:
+```bash
+admin@harbor:~/harbor$ sudo docker compose ps
+WARN[0000] /home/admin/harbor/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion 
+NAME                IMAGE                                COMMAND                  SERVICE       CREATED         STATUS                   PORTS
+harbor-core         goharbor/harbor-core:v2.9.0          "/harbor/entrypoint.…"   core          6 minutes ago   Up 6 minutes (healthy)   
+harbor-db           goharbor/harbor-db:v2.9.0            "/docker-entrypoint.…"   postgresql    6 minutes ago   Up 6 minutes (healthy)   
+harbor-jobservice   goharbor/harbor-jobservice:v2.9.0    "/harbor/entrypoint.…"   jobservice    6 minutes ago   Up 5 minutes (healthy)   
+harbor-log          goharbor/harbor-log:v2.9.0           "/bin/sh -c /usr/loc…"   log           6 minutes ago   Up 6 minutes (healthy)   127.0.0.1:1514->10514/tcp
+harbor-portal       goharbor/harbor-portal:v2.9.0        "nginx -g 'daemon of…"   portal        6 minutes ago   Up 6 minutes (healthy)   
+nginx               goharbor/nginx-photon:v2.9.0         "nginx -g 'daemon of…"   proxy         6 minutes ago   Up 6 minutes (healthy)   0.0.0.0:80->8080/tcp, [::]:80->8080/tcp, 0.0.0.0:443->8443/tcp, [::]:443->8443/tcp
+redis               goharbor/redis-photon:v2.9.0         "redis-server /etc/r…"   redis         6 minutes ago   Up 6 minutes (healthy)   
+registry            goharbor/registry-photon:v2.9.0      "/home/harbor/entryp…"   registry      6 minutes ago   Up 6 minutes (healthy)   
+registryctl         goharbor/harbor-registryctl:v2.9.0   "/home/harbor/start.…"   registryctl   6 minutes ago   Up 6 minutes (healthy)   
 
+```
+
+
+===Возможно нужно убрать этот блок=====
 ```bash
 sudo chmod 666 /var/run/docker.sock
 sudo docker-compose ps
 ```
+
+========================================
 **Доп. команды:***
 
 Автозапуск Harbor при перезагрузке:
