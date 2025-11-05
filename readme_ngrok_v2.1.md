@@ -2487,8 +2487,9 @@ sudo systemctl reload nginx
 - Maven Integration
 - Pipeline Maven Integration
 - Prometheus metrics
-- Email Extension Plugin   (есть только Email Extension Template)
+- Email Extension Template
 - Blue Ocean (опционально, для красивого UI)
+- Pipeline Stage View (еще один красивый UI)
 - CloudBees Disk Usage Simple (для Prometheus)
 
 После установки: **Restart Jenkins**
