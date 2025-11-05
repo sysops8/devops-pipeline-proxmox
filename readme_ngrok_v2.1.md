@@ -1803,6 +1803,9 @@ sudo docker logs -f sonarqube_db
 
 ```
 
+<img width="1100" height="755" alt="image" src="https://github.com/user-attachments/assets/ae38f361-e5f3-49be-8548-fa819e3c0cc0" />
+Веб интерфейс sonarqube.
+
 **Доступ:** `https://sonar.your-domain.com:9000`  
 **Логин:** admin/admin (измените после первого входа)
 
