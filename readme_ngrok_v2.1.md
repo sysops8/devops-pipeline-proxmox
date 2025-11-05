@@ -1880,7 +1880,7 @@ sudo openssl genrsa -out harbor.local.lab.key 2048
 # Генерация самоподписанного сертификата
 sudo openssl req -new -x509 -key harbor.local.lab.key -out harbor.local.lab.crt -days 3650 -subj "/CN=harbor.local.lab"
 
-# Вариант 2: С дополнительными доменными именами (SAN)
+# Вариант с дополнительными доменными именами (SAN)
 # Создание конфигурационного файла
 sudo tee openssl.cnf > /dev/null <<EOF
 [req]
