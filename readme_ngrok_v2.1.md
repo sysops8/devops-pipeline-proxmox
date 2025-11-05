@@ -1966,7 +1966,9 @@ sudo ./install.sh
 
 **Проверка:**
 ```bash
+sudo cd ~/harbor
 sudo docker compose ps
+
 ```
 Примерный вывод:
 ```bash
