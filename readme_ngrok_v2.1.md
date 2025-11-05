@@ -1187,6 +1187,8 @@ curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server" sh -s - \
         --tls-san k3s-master.local.lab \
         --tls-san 192.168.100.10 
 ```
+
+~~
 Не поятный блок ((
 ```bash
 export KUBECONFIG=~/.kube/config
@@ -1276,6 +1278,7 @@ EOF
 
 sudo systemctl restart k3s-agent.service
 ```
+~~
 ### 6.2 Подключение Worker Nodes
 
 **На k3s-worker1:**
