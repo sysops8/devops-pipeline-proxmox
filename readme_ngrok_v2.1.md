@@ -2377,8 +2377,87 @@ docker-compose logs -f
 ```
 
 **Доступ:**
-- Prometheus: `https://grafana.your-domain.com:9090` или лучше http://monitoring.local.lab:9090 (будет через Grafana)
-- Grafana: `https://grafana.your-domain.com:3000` (admin/admin) или лучше http://monitoring.local.lab:3000 
+- Prometheus: `http://grafana.your-domain.com:9090` или лучше http://monitoring.local.lab:9090 (будет через Grafana)
+- Grafana: `http://grafana.your-domain.com:3000` (admin/admin) или лучше http://monitoring.local.lab:3000
+**По умолчанию доступ только по http без шифрования, чтобы заработало шифрование по самоподписанному сертификату нужно настроить nginx reversy proxy**
+Сертификат создадим для следующих URL (SAN) - monitoring.local.lab, grafana.local.lab, prometheus.local.lab и localhost
+```bash
+sudo apt install -y nginx
+sudo mkdir -p /etc/ssl/monitoring
+cd /etc/ssl/monitoring
+sudo tee san.cnf > /dev/null <<EOF
+[req]
+distinguished_name = req_distinguished_name
+x509_extensions = v3_req
+prompt = no
+
+[req_distinguished_name]
+C = KZ
+ST = State
+L = City
+O = DevOps
+OU = Monitoring
+CN = monitoring.local.lab
+
+[v3_req]
+keyUsage = keyEncipherment, dataEncipherment
+extendedKeyUsage = serverAuth
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = monitoring.local.lab
+DNS.2 = grafana.local.lab
+DNS.3 = prometheus.local.lab
+DNS.4 = localhost
+IP.1 = 127.0.0.1
+EOF
+
+sudo openssl genrsa -out monitoring.key 4096
+sudo openssl req -new -key monitoring.key -out monitoring.csr -subj "/CN=monitoring.local.lab"
+sudo openssl x509 -req -in monitoring.csr -signkey monitoring.key -out monitoring.crt -days 3650 -extfile san.cnf
+sudo ls /etc/ssl/monitoring/
+# Получаем 2 файла  monitoring.crt и monitoring.key, которые можно использовать для всех трёх доменов.
+```
+Настройка самого nginx reversy proxy:
+```bash
+sudo tee san.cnf > /dev/null <<EOF
+sudo tee /etc/nginx/sites-available/monitoring.conf > /dev/null <<EOF
+server {
+    listen 443 ssl;
+    server_name monitoring.local.lab grafana.local.lab prometheus.local.lab;
+
+    ssl_certificate /etc/ssl/monitoring/monitoring.crt;
+    ssl_certificate_key /etc/ssl/monitoring/monitoring.key;
+
+    location / {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+    location /prometheus/ {
+        rewrite ^/prometheus(/.*)$ $1 break;
+        proxy_pass http://127.0.0.1:9090;
+        proxy_set_header Host $host;
+    }
+}
+
+server {
+    listen 80;
+    server_name monitoring.local.lab grafana.local.lab prometheus.local.lab;
+    return 301 https://$host$request_uri;
+}
+EOF
+```
+Активация конфига и перезапуск nginx:
+```bash
+sudo ln -s /etc/nginx/sites-available/monitoring.conf /etc/nginx/sites-enabled/
+sudo nginx -t
+sudo systemctl reload nginx
+```
+Итого можно теперь заходить по https - `https://grafana.your-domain.com:9090` и `https://grafana.your-domain.com:3000`
+
 
 ---
 
