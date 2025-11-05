@@ -1233,23 +1233,6 @@ EOF
 
 sudo systemctl restart k3s
 ```
-Проверка доступа k3s-master к образу на harbor сервере:
-```bash
-sudo crictl pull harbor.local.lab/library/myapp:139
-```
-
-### 6.2 Подключение Worker Nodes
-
-**На k3s-worker1:**
-
-```bash
-ssh ubuntu@192.168.100.11
-
-sudo apt update && sudo apt upgrade -y
-curl -sfL https://get.k3s.io | K3S_URL=https://192.168.100.10:6443 \
-  K3S_TOKEN="YOUR_TOKEN_FROM_MASTER" \
-  sh -
-```
 Возможно еще понадобится отключить проверку SSL для Harbor хоста:
 ```bash
 sudo mkdir -p /etc/rancher/k3s
@@ -1270,6 +1253,24 @@ sudo systemctl restart k3s-agent.service
 Проверка доступа k3s-master к образу на harbor сервере:
 ```bash
 sudo crictl pull harbor.local.lab/library/myapp:139
+```
+
+Проверка доступа k3s-master к образу на harbor сервере:
+```bash
+sudo crictl pull harbor.local.lab/library/myapp:139
+```
+
+### 6.2 Подключение Worker Nodes
+
+**На k3s-worker1:**
+
+```bash
+ssh ubuntu@192.168.100.11
+
+sudo apt update && sudo apt upgrade -y
+curl -sfL https://get.k3s.io | K3S_URL=https://192.168.100.10:6443 \
+  K3S_TOKEN="YOUR_TOKEN_FROM_MASTER" \
+  sh -
 ```
 **На k3s-worker2:**
 
