@@ -1880,10 +1880,10 @@ cp harbor.yml.tmpl harbor.yml
 # Генерация приватного ключа
 mkdir -p ~/harbor/ssl
 cd ~/harbor/ssl
-sudo openssl genrsa -out harbor.local.lab.key 2048
+openssl genrsa -out harbor.local.lab.key 2048
 
 # Генерация самоподписанного сертификата
-sudo openssl req -new -x509 -key harbor.local.lab.key -out harbor.local.lab.crt -days 3650 -subj "/CN=harbor.local.lab"
+openssl req -new -x509 -key harbor.local.lab.key -out harbor.local.lab.crt -days 3650 -subj "/CN=harbor.local.lab"
 
 # Вариант с дополнительными доменными именами (SAN)
 # Создание конфигурационного файла
@@ -1913,7 +1913,7 @@ IP.1 = 127.0.0.1
 EOF
 
 # Генерация ключа и сертификата
-sudo openssl req -x509 -nodes -days 3650 -newkey rsa:2048 \
+openssl req -x509 -nodes -days 3650 -newkey rsa:2048 \
     -keyout harbor.local.lab.key \
     -out harbor.local.lab.crt \
     -config openssl.cnf \
@@ -1921,10 +1921,10 @@ sudo openssl req -x509 -nodes -days 3650 -newkey rsa:2048 \
 
 # 3. Проверка созданных файлов
 # Проверить права доступа
-sudo ls -la ~/harbor/ssl/
+ls -la ~/harbor/ssl/
 
 # Проверить содержимое сертификата
-sudo openssl x509 -in harbor.local.lab.crt -text -noout
+openssl x509 -in harbor.local.lab.crt -text -noout
 ```
 Отредактируйте `harbor.yml`:
 
