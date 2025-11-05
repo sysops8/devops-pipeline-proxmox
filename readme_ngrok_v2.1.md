@@ -1997,6 +1997,7 @@ sudo docker-compose ps
 
 Автозапуск Harbor при перезагрузке:
 ```bash
+cd ~/harbor
 sed -i 's/restart: always/restart: unless-stopped/' docker-compose.yml
 sudo docker-compose down -v
 sudo docker-compose up -d
