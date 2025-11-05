@@ -2510,6 +2510,7 @@ metadata:
     app: boardgame
 spec:
   type: LoadBalancer
+  loadBalancerIP: 192.168.100.104   # выбрать свободный IP из пула metallb, прописываем статический IP чтобы он не менялся
   selector:
     app: boardgame
   ports:
@@ -3534,6 +3535,7 @@ metadata:
     app.kubernetes.io/name: argocd-server
 spec:
   type: LoadBalancer
+  loadBalancerIP: 192.168.100.101   # выбераем свободный IP из пула Metallb, это приявязка статического IP к argocd, чтобы не менялся при перезагзуке
   selector:
     app.kubernetes.io/name: argocd-server
   ports:
