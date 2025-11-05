@@ -1877,17 +1877,14 @@ cp harbor.yml.tmpl harbor.yml
 
 Настройка SSL для Harbor:
 ```bash
-# Генерация приватного ключа
 mkdir -p ~/harbor/ssl
 cd ~/harbor/ssl
-openssl genrsa -out harbor.local.lab.key 2048
-
-# Генерация самоподписанного сертификата
-openssl req -new -x509 -key harbor.local.lab.key -out harbor.local.lab.crt -days 3650 -subj "/CN=harbor.local.lab"
-
-# Вариант с дополнительными доменными именами (SAN)
-# Создание конфигурационного файла
-sudo tee openssl.cnf > /dev/null <<EOF
+openssl genrsa -out ca.key 4096
+openssl req -x509 -new -nodes -key ca.key -sha256 -days 3650 -out ca.crt -subj "/CN=MyHarborCA"
+openssl genrsa -out harbor.local.lab.key 4096
+openssl req -new -key harbor.local.lab.key -out harbor.local.lab.csr -subj "/CN=harbor.local.lab"
+ openssl req -new -key harbor.local.lab.key -out harbor.local.lab.csr -subj "/CN=harbor.local.lab"
+sudo tee san.cnf > /dev/null <<EOF
 [req]
 distinguished_name = req_distinguished_name
 x509_extensions = v3_req
@@ -1910,21 +1907,11 @@ subjectAltName = @alt_names
 DNS.1 = harbor.local.lab
 DNS.2 = localhost
 IP.1 = 127.0.0.1
+IP.2 = 192.168.100.32
 EOF
 
-# Генерация ключа и сертификата
-openssl req -x509 -nodes -days 3650 -newkey rsa:2048 \
-    -keyout harbor.local.lab.key \
-    -out harbor.local.lab.crt \
-    -config openssl.cnf \
-    -extensions v3_req
-
-# 3. Проверка созданных файлов
-# Проверить права доступа
-ls -la ~/harbor/ssl/
-
-# Проверить содержимое сертификата
-openssl x509 -in harbor.local.lab.crt -text -noout
+openssl x509 -req -in harbor.local.lab.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out harbor.local.lab.crt -days 3650 -sha256 -extfile san.cnf
+openssl x509 -req -in harbor.local.lab.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out harbor.local.lab.crt -days 3650 -sha256 -extfile san.cnf
 ```
 Отредактируйте `harbor.yml`:
 
