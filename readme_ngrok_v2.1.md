@@ -1177,13 +1177,24 @@ sudo apt update && sudo apt upgrade -y
 Установите K3s (без Traefik, установим позже):
 
 ```bash
-curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--disable traefik --node-ip=192.168.100.10" sh -
+curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server" sh -s - \
+	--disable traefik \
+        --write-kubeconfig-mode 644 \
+        --node-name k3s-master \
+        --cluster-domain local.lab \
+        --node-ip 192.168.100.10 \
+        --node-external-ip 192.168.100.10 \
+        --tls-san k3s-master.local.lab \
+        --tls-san 192.168.100.10 
+```
+Не поятный блок ((
+```bash
 export KUBECONFIG=~/.kube/config
 sudo mkdir ~/.kube 2> /dev/null
 sudo k3s kubectl config view --raw > "$KUBECONFIG"
 sudo chmod 600 "$KUBECONFIG"
 echo export KUBECONFIG=~/.kube/config  >> ~/.profile
-k3s server --tls-san k3s-master.local.lab
+
 ```
 
 Получите токен для worker nodes:
