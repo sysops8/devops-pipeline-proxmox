@@ -1204,10 +1204,16 @@ sudo cat /var/lib/rancher/k3s/server/node-token
 ```
 **Сохраните токен!** Пример: `K10abc123def456::server:xyz789`
 
-Проверьте статус:
+Проверька статуса запуска:
 
 ```bash
+# Ожидание запуска (30-60 секунд)
+sleep 60
+
+# Проверка статуса
 sudo systemctl status k3s
+
+# Проверка ноды
 sudo kubectl get nodes
 ```
 Возможно еще понадобится отключить проверку SSL для Harbor хоста:
