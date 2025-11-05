@@ -1259,7 +1259,23 @@ sudo crictl pull harbor.local.lab/library/myapp:139
 ```bash
 sudo crictl pull harbor.local.lab/library/myapp:139
 ```
+Возможно еще понадобится отключить проверку SSL для Harbor хоста:
+```bash
+sudo mkdir -p /etc/rancher/k3s
+sudo tee /etc/rancher/k3s/registries.yaml > /dev/null <<EOF
+mirrors:
+  "harbor.local.lab":
+    endpoint:
+      - "https://harbor.local.lab"
 
+configs:
+  "harbor.local.lab":
+    tls:
+      insecure_skip_verify: true
+EOF
+
+sudo systemctl restart k3s-agent.service
+```
 ### 6.2 Подключение Worker Nodes
 
 **На k3s-worker1:**
@@ -1282,23 +1298,7 @@ curl -sfL https://get.k3s.io | K3S_URL=https://192.168.100.10:6443 \
   K3S_TOKEN="YOUR_TOKEN_FROM_MASTER" \
   sh -
 ```
-Возможно еще понадобится отключить проверку SSL для Harbor хоста:
-```bash
-sudo mkdir -p /etc/rancher/k3s
-sudo tee /etc/rancher/k3s/registries.yaml > /dev/null <<EOF
-mirrors:
-  "harbor.local.lab":
-    endpoint:
-      - "https://harbor.local.lab"
 
-configs:
-  "harbor.local.lab":
-    tls:
-      insecure_skip_verify: true
-EOF
-
-sudo systemctl restart k3s-agent.service
-```
 Проверка доступа k3s-master к образу на harbor сервере:
 ```bash
 sudo crictl pull harbor.local.lab/library/myapp:139
