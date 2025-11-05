@@ -475,7 +475,7 @@ $TTL    604800
 EOF
 ```
 Отключаем systemd-resolver отвечает за файл /etc/resolv.conf и автоматически подставляет свой адрес 127.0.0.53
-```
+```bash
 # Отключаем systemd-resolved чтобы небыло адреса 127.0.0.53 в /etc/resolv.conf:
 sudo systemctl disable --now systemd-resolved
 # Проверяем его статус
