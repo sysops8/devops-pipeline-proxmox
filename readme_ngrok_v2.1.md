@@ -1874,7 +1874,7 @@ cp harbor.yml.tmpl harbor.yml
 ```bash
 # Генерация приватного ключа
 mkdir ~/harbor/ssl
-cd ~/harbor/
+cd ~/harbor/ssl
 sudo openssl genrsa -out harbor.local.lab.key 2048
 
 # Генерация самоподписанного сертификата
