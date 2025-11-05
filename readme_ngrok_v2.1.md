@@ -830,7 +830,8 @@ sudo systemctl start ngrok
 # Проверка статуса
 sudo systemctl status ngrok
 
-# Просмотр логов
+# Просмотр логов, нажмите CTRL+C
+echo Просмотр логов, нажмите CTRL+C
 sudo journalctl -u ngrok -f
 ```
 
