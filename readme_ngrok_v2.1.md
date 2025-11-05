@@ -1879,11 +1879,20 @@ cp harbor.yml.tmpl harbor.yml
 ```bash
 mkdir -p ~/harbor/ssl
 cd ~/harbor/ssl
-openssl genrsa -out ca.key 4096
-openssl req -x509 -new -nodes -key ca.key -sha256 -days 3650 -out ca.crt -subj "/CN=MyHarborCA"
+# Создаем собственной центр сертификации
+# Здесь ca.key — приватный ключ вашей CA.
+openssl genrsa -out ca.key 4096         
+ # ca.crt — корневой сертификат, который будет подписывать серверные сертификаты, в нашем случае Harbor.
+openssl req -x509 -new -nodes -key ca.key -sha256 -days 3650 -out ca.crt -subj "/CN=MyHarborCA"        
+
+# Генерация приватного ключа и запроса для Harbor сервера
+# harbor.local.lab.key — приватный ключ Harbor.
+# harbor.local.lab.csr — запрос на сертификат (CSR), который потом подпишет наша CA.
 openssl genrsa -out harbor.local.lab.key 4096
 openssl req -new -key harbor.local.lab.key -out harbor.local.lab.csr -subj "/CN=harbor.local.lab"
- openssl req -new -key harbor.local.lab.key -out harbor.local.lab.csr -subj "/CN=harbor.local.lab"
+
+# Создание SAN-конфига
+# Этот файл указывает все имена (SAN) - harbor.local.lab. 192.168.100.32, 127.0.0.1, по которым сертификат будет считаться валидным. 
 sudo tee san.cnf > /dev/null <<EOF
 [req]
 distinguished_name = req_distinguished_name
@@ -1910,8 +1919,9 @@ IP.1 = 127.0.0.1
 IP.2 = 192.168.100.32
 EOF
 
+# Подписание серверного сертификата CA
 openssl x509 -req -in harbor.local.lab.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out harbor.local.lab.crt -days 3650 -sha256 -extfile san.cnf
-openssl x509 -req -in harbor.local.lab.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out harbor.local.lab.crt -days 3650 -sha256 -extfile san.cnf
+
 ```
 Отредактируйте `harbor.yml`:
 
