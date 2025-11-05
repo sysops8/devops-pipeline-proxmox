@@ -1924,6 +1924,7 @@ sudo openssl x509 -in harbor.local.lab.crt -text -noout
 Отредактируйте `harbor.yml`:
 
 ```bash
+cd ..
 nano harbor.yml
 ```
 
