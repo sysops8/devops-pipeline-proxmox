@@ -1892,7 +1892,8 @@ openssl genrsa -out harbor.local.lab.key 4096
 openssl req -new -key harbor.local.lab.key -out harbor.local.lab.csr -subj "/CN=harbor.local.lab"
 
 # Создание SAN-конфига
-# Этот файл указывает все имена (SAN) - harbor.local.lab. 192.168.100.32, 127.0.0.1, по которым сертификат будет считаться валидным. 
+# Этот файл указывает все имена (SAN) - harbor.local.lab. 192.168.100.32, 127.0.0.1
+# по которым сертификат будет считаться валидным. 
 sudo tee san.cnf > /dev/null <<EOF
 [req]
 distinguished_name = req_distinguished_name
