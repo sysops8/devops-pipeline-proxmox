@@ -2458,7 +2458,7 @@ sudo ln -s /etc/nginx/sites-available/monitoring.conf /etc/nginx/sites-enabled/
 sudo nginx -t
 sudo systemctl reload nginx
 ```
-Итого можно теперь заходить по https - `https://grafana.your-domain.com:9090` и `https://grafana.your-domain.com:3000`
+Итого можно теперь заходить по https - `https://grafana.your-domain.lab:9090` и `https://grafana.your-domain.lab:3000`
 
 
 ---
