@@ -1941,8 +1941,8 @@ hostname: harbor.your-domain.com
 #   certificate: /your/certificate/path
 #   private_key: /your/private/key/path
 port: 443
-certificate: ~/ssl/harbor/ssl/harbor.local.lab.crt
-private_key: ~/ssl/harbor/ssl/harbor.local.lab.key
+certificate: /home/admin/harbor/ssl/harbor.local.lab.crt	#абсолютные пути
+private_key: /home/admin/harbor/ssl/harbor.local.lab.key
 
 harbor_admin_password: YourSecurePassword123!
 
