@@ -1959,7 +1959,8 @@ data_volume: /data
 ```bash
 sudo ./install.sh
 ```
-
+<img width="1889" height="709" alt="image" src="https://github.com/user-attachments/assets/3f4cc9ac-1bb5-44bc-bda4-d1c0dcd983ab" />
+Успешный запуск Harbor.
 **Проверка:**
 
 ```bash
