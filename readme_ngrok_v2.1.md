@@ -1788,8 +1788,10 @@ services:
 
 EOF
 ```
+Нужно пождать 3-5 минут пока скачаются docker образы sonarqube и postgresql.
+
 # Запуск SonarQube 
-Нужно пождать 3-5 минут
+
 ```bash
 sudo docker compose up -d
 ```
