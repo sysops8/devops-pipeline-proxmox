@@ -1930,6 +1930,7 @@ nano harbor.yml
 Измените:
 
 ```yaml
+# hostname harbor.local.lab
 hostname: harbor.your-domain.com
 
 # https:
