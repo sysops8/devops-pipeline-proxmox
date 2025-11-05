@@ -489,6 +489,7 @@ sudo systemctl status named
 # Проверка
 dig @localhost jenkins.local.lab
 dig @localhost -x 192.168.100.20
+grep -rn "127.0.0.1" /etc/resolv.conf || echo "сервер 127.0.0.1 не найден в /etc/resolv.conf"
 ```
 
 #### 2.4 Настройка netplan для статических IP
