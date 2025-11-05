@@ -474,6 +474,19 @@ $TTL    604800
 100     IN      PTR     apps.local.lab.
 EOF
 ```
+Отключаем systemd-resolver отвечает за файл /etc/resolv.conf и автоматически подставляет свой адрес 127.0.0.53
+```
+# Отключаем systemd-resolved чтобы небыло адреса 127.0.0.53 в /etc/resolv.conf:
+sudo systemctl disable --now systemd-resolved
+# Проверяем его статус
+sudo systemctl status systemd-resolved
+# Удаляем символическую ссылку на systemd-resolver
+sudo rm /etc/resolv.conf
+# Создаем новый resolv.conf с нашим сервером localhost где будет слушать теперь bind
+sudo tee /etc/resolv.conf > /dev/null <<'EOF'
+nameserver 127.0.0.1
+EOF
+```
 
 Проверьте конфигурацию и запустите:
 ```bash
