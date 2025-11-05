@@ -1832,7 +1832,7 @@ sudo docker run -d \
   sonatype/nexus3
 
 # Ожидание запуска (~2 минуты)
-sleep 120
+sleep 30
 
 # Получение initial admin password
 sudo docker exec nexus cat /nexus-data/admin.password; echo
