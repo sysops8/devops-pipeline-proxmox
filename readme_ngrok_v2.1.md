@@ -1278,6 +1278,10 @@ EOF
 
 sudo systemctl restart k3s-agent.service
 ```
+Проверка доступа k3s-master к образу на harbor сервере:
+```bash
+sudo crictl pull harbor.local.lab/library/myapp:139
+```
 # Конец непонятный блок
 
 ### 6.2 Подключение Worker Nodes
@@ -1303,10 +1307,7 @@ curl -sfL https://get.k3s.io | K3S_URL=https://192.168.100.10:6443 \
   sh -
 ```
 
-Проверка доступа k3s-master к образу на harbor сервере:
-```bash
-sudo crictl pull harbor.local.lab/library/myapp:139
-```
+
 ### 6.3 Проверка кластера
 
 На master node:
