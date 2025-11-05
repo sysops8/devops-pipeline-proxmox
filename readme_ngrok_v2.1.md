@@ -1873,7 +1873,7 @@ cp harbor.yml.tmpl harbor.yml
 Настройка SSL для Harbor:
 ```bash
 # Генерация приватного ключа
-mkdir ~/harbor/ssl
+mkdir -p ~/harbor/ssl
 cd ~/harbor/ssl
 sudo openssl genrsa -out harbor.local.lab.key 2048
 
