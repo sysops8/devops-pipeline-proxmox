@@ -1245,6 +1245,7 @@ sudo crictl pull harbor.local.lab/library/myapp:139
 ```bash
 ssh ubuntu@192.168.100.11
 
+sudo apt update && sudo apt upgrade -y
 curl -sfL https://get.k3s.io | K3S_URL=https://192.168.100.10:6443 \
   K3S_TOKEN="YOUR_TOKEN_FROM_MASTER" \
   sh -
@@ -1275,6 +1276,7 @@ sudo crictl pull harbor.local.lab/library/myapp:139
 ```bash
 ssh ubuntu@192.168.100.12
 
+sudo apt update && sudo apt upgrade -y
 curl -sfL https://get.k3s.io | K3S_URL=https://192.168.100.10:6443 \
   K3S_TOKEN="YOUR_TOKEN_FROM_MASTER" \
   sh -
