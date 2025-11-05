@@ -2494,14 +2494,6 @@ sudo systemctl reload nginx
 
 После установки: **Restart Jenkins**
 
-**Установка Sonar cli scaner:**
-
-```bash
-wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-7.3.0.5189.zip -O /tmp/sonar-scanner-cli.zip
-sudo unzip /tmp/sonar-scanner-cli.zip -d /var/lib/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/sonar-scanner
-chown -R jenkins:jenkins /var/lib/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/sonar-scanner
-curl -X https://jenkins.local.lab:8080/restart
-```
 
 ### 11.3 Настройка Tools
 
@@ -2526,6 +2518,14 @@ curl -X https://jenkins.local.lab:8080/restart
 - Name: `sonar-scanner`
 - ✓ Install automatically
 - Version: Latest
+
+**Установка Sonar cli scaner:**
+```bash
+wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-7.3.0.5189.zip -O /tmp/sonar-scanner-cli.zip
+sudo unzip /tmp/sonar-scanner-cli.zip -d /var/lib/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/sonar-scanner
+chown -R jenkins:jenkins /var/lib/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/sonar-scanner
+curl -X https://jenkins.local.lab:8080/restart
+```
 
 ### 11.4 Настройка Credentials
 
