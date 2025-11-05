@@ -1452,11 +1452,14 @@ helm install traefik traefik/traefik \
   --namespace traefik \
   --set service.type=LoadBalancer \
   --set ports.web.port=80 \
-  --set ports.websecure.port=443 \
-  --set additionalArguments="{--api.insecure=true,--api.dashboard=true}" \
-  --set ports.traefik.port=9000
+  --set ports.websecure.port=443 
 ```
-Последние 2 строки включат веб интерфейс Traefic на порт 9000
+Добавление строк включают веб интерфейс traefik на порт 9000
+```
+--set additionalArguments="{--api.insecure=true,--api.dashboard=true}" \
+--set ports.traefik.port=9000
+```
+
 
 ### 8.3 Проверка
 
