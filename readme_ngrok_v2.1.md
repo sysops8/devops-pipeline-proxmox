@@ -1873,6 +1873,7 @@ cp harbor.yml.tmpl harbor.yml
 ```
 
 Настройка SSL для Harbor:
+Генерация ключей без sudo, если будет через sudo, владельцем ключей станет учетная запись root, из за этого harbor не будет видет ключи.
 ```bash
 mkdir -p ~/harbor/ssl
 cd ~/harbor/ssl
