@@ -1843,6 +1843,7 @@ services:
 EOF
 ```
 Нужно пождать 3-5 минут пока скачаются docker образы sonarqube и postgresql.
+
 **Примечание:**    По умолчанию контейнер SonarQube и Postgresql стирают свои данные при перезапуске (sudo docker-compose down).  Поэтому нужно создать другой yaml файл с persistent volume, то есть хранением данных на хостовой машине. Вот пример постоянной машины Sonarqube:
 ```
 sudo tee docker-compose.yml > /dev/null <<EOF
