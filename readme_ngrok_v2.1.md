@@ -1219,71 +1219,6 @@ sudo systemctl status k3s
 # Проверка ноды
 sudo kubectl get nodes
 ```
-Возможно еще понадобится отключить проверку SSL для Harbor хоста:
-```bash
-sudo mkdir -p /etc/rancher/k3s
-sudo tee /etc/rancher/k3s/registries.yaml > /dev/null <<EOF
-mirrors:
-  "harbor.local.lab":
-    endpoint:
-      - "https://harbor.local.lab"
-
-configs:
-  "harbor.local.lab":
-    tls:
-      insecure_skip_verify: true
-EOF
-
-sudo systemctl restart k3s
-```
-Возможно еще понадобится отключить проверку SSL для Harbor хоста:
-```bash
-sudo mkdir -p /etc/rancher/k3s
-sudo tee /etc/rancher/k3s/registries.yaml > /dev/null <<EOF
-mirrors:
-  "harbor.local.lab":
-    endpoint:
-      - "https://harbor.local.lab"
-
-configs:
-  "harbor.local.lab":
-    tls:
-      insecure_skip_verify: true
-EOF
-
-sudo systemctl restart k3s-agent.service
-```
-Проверка доступа k3s-master к образу на harbor сервере:
-```bash
-sudo crictl pull harbor.local.lab/library/myapp:139
-```
-
-Проверка доступа k3s-master к образу на harbor сервере:
-```bash
-sudo crictl pull harbor.local.lab/library/myapp:139
-```
-Возможно еще понадобится отключить проверку SSL для Harbor хоста:
-```bash
-sudo mkdir -p /etc/rancher/k3s
-sudo tee /etc/rancher/k3s/registries.yaml > /dev/null <<EOF
-mirrors:
-  "harbor.local.lab":
-    endpoint:
-      - "https://harbor.local.lab"
-
-configs:
-  "harbor.local.lab":
-    tls:
-      insecure_skip_verify: true
-EOF
-
-sudo systemctl restart k3s-agent.service
-```
-Проверка доступа k3s-master к образу на harbor сервере:
-```bash
-sudo crictl pull harbor.local.lab/library/myapp:139
-```
-# Конец непонятный блок
 
 ### 6.2 Подключение Worker Nodes
 
@@ -2177,6 +2112,45 @@ fb403461790f   goharbor/harbor-registryctl:v2.9.0   "/home/harbor/start.…"   1
 2. Project Name: `library`
 3. Access Level: Public
 4. OK
+
+**k3s-master и worker ноды k3s-worker-1 и k3s-worker-2 проверяют сертификат Harbor, так как он самоподписанный, возникает ошибка:**
+
+```
+E1106 14:42:23.565238   11549 log.go:32] "PullImage from image service failed" err="rpc error: code = Unknown desc = failed to pull and unpack image \"harbor.local.lab/library/boardgame:65\": failed to resolve reference \"harbor.local.lab/library/boardgame:65\": failed to do request: Head \"https://harbor.local.lab/v2/library/boardgame/manifests/65\": tls: failed to verify certificate: x509: certificate signed by unknown authority" image="harbor.local.lab/library/boardgame:65"
+FATA[0000] pulling image: failed to pull and unpack image "harbor.local.lab/library/boardgame:65": failed to resolve reference "harbor.local.lab/library/boardgame:65": failed to do request: Head "https://harbor.local.lab/v2/library/boardgame/manifests/65": tls: failed to verify certificate: x509: certificate signed by unknown authority
+```
+Поэтому нужно отключить отключить проверку SSL для Harbor хоста на всех 3 нодах кластера k3s-master и 2-х worker:
+```bash
+sudo mkdir -p /etc/rancher/k3s
+sudo tee /etc/rancher/k3s/registries.yaml > /dev/null <<EOF
+mirrors:
+  "harbor.local.lab":
+    endpoint:
+      - "https://harbor.local.lab"
+
+configs:
+  "harbor.local.lab":
+    tls:
+      insecure_skip_verify: true
+EOF
+```
+Перезапуск на master ноде:
+```bash
+sudo systemctl restart k3s
+```
+Перезапуск на worker1 и worker2 ноде:
+```bash
+sudo systemctl restart k3s-agent
+```
+
+Проверка доступа k3s-master и worker1-2 нодах к образу на harbor сервере, должна быть закачка:
+```bash
+sudo crictl pull harbor.local.lab/library/myapp:139
+#Примерный вывод
+Image is up to date for sha256:12ed91993dd46b4a37671240000ad784d159759ad52a3f35fac225a99f12f59b
+```
+
+
 
 ### 10.5 Monitoring Server (192.168.100.40)
 
