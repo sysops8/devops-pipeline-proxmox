@@ -2565,6 +2565,7 @@ sudo systemctl reload nginx
 **JDK:**
 - Name: `java17`
 - ✓ Install automatically
+- ✓ Install from adoptium.net
 - Version: OpenJDK 17
 
 **Maven:**
