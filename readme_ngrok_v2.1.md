@@ -2512,7 +2512,13 @@ sudo ln -s /etc/nginx/sites-available/monitoring.conf /etc/nginx/sites-enabled/
 sudo nginx -t
 sudo systemctl reload nginx
 ```
-Итого можно теперь заходить по https - `https://grafana.local.lab` и `https://prometheus.local.lab`
+**Доступ:**
+Итого можно теперь заходить по https 
+- `https://grafana.local.lab`
+- `https://prometheus.local.lab`
+Не шифрованный доступ 
+- Prometheus: `http://prometheus.local.lab:9090` или лучше http://monitoring.local.lab:9090
+- Grafana: `http://grafana.local.lab:3000` (admin/admin) или лучше http://monitoring.local.lab:3000
 
 
 ---
