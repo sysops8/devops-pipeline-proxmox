@@ -2459,9 +2459,12 @@ sudo ls /etc/ssl/monitoring/
 Настройка самого nginx reversy proxy:
 ```bash
 sudo tee /etc/nginx/sites-available/monitoring.conf > /dev/null << 'EOF'
+# ========================
+# Grafana
+# ========================
 server {
     listen 443 ssl;
-    server_name monitoring.local.lab grafana.local.lab prometheus.local.lab;
+    server_name grafana.local.lab monitoring.local.lab;
 
     ssl_certificate /etc/ssl/monitoring/monitoring.crt;
     ssl_certificate_key /etc/ssl/monitoring/monitoring.key;
@@ -2472,19 +2475,35 @@ server {
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     }
+}
 
-    location /prometheus/ {
-        rewrite ^/prometheus(/.*)$ $1 break;
+# ========================
+# Prometheus
+# ========================
+server {
+    listen 443 ssl;
+    server_name prometheus.local.lab;
+
+    ssl_certificate /etc/ssl/monitoring/monitoring.crt;
+    ssl_certificate_key /etc/ssl/monitoring/monitoring.key;
+
+    location / {
         proxy_pass http://127.0.0.1:9090;
         proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     }
 }
 
+# ========================
+# HTTP → HTTPS redirect
+# ========================
 server {
     listen 80;
-    server_name monitoring.local.lab grafana.local.lab prometheus.local.lab;
+    server_name grafana.local.lab prometheus.local.lab monitoring.local.lab;
     return 301 https://$host$request_uri;
 }
+
 EOF
 ```
 Активация конфига и перезапуск nginx:
