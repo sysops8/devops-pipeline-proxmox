@@ -1844,10 +1844,13 @@ ssh ubuntu@192.168.100.31
 sudo apt update && sudo apt upgrade -y
 
 # Установка Docker
-curl -fsSL https://get.docker.com -o get-docker.sh
-sudo sh get-docker.sh
-sudo apt-get install -y uidmap && dockerd-rootless-setuptool.sh install
-
+sudo apt update && sudo apt upgrade -y
+sudo apt install -y curl vim openssl docker.io docker-compose
+sudo systemctl enable docker --now
+docker --version
+docker-compose --version
+sudo usermod -aG docker $USER
+sudo usermod -aG docker ubuntu
 
 # Запуск Nexus
 sudo docker run -d \
