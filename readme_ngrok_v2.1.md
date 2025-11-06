@@ -2534,6 +2534,7 @@ sudo mkdir -p /var/lib/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallatio
 sudo unzip /tmp/sonar-scanner-cli.zip -d /var/lib/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/sonar-scanner
 sudo chown -R jenkins:jenkins /var/lib/jenkins/tools/
 sudo chmod 755 -R /var/lib/jenkins/tools/
+sudo ln -s /var/lib/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/sonar-scanner/sonar-scanner-7.3.0.5189/bin/sonar-scanner /usr/local/bin/sonar-scanner
 ```
 **Новая установка Sonar cli scaner (ручная):**
 ```bash
