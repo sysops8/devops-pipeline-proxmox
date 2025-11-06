@@ -2691,7 +2691,7 @@ Google Account → Security → 2-Step Verification → App passwords → Jenkin
 - Kind: Username with password
 - Username: `jenkins`
 - Password: `<your-nexus-password>`
-- ID: `nexus-cred`
+- ID: `nexus-creds`
 - Description: Nexus Credentials
 - Пользователя jenkins нужно создать на сервере nexus и дать ему права админа.
   
