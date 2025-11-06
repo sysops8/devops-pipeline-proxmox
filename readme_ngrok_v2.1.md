@@ -2636,6 +2636,7 @@ sonar-scanner -h
 ### 11.4 Настройка Credentials
 
 **Manage Jenkins → Manage Credentials → Global → Add Credentials**
+Когда Jenkins запускает Pipeline из файла jenkinsfile, он ищет авторизационные данные по ID. Поэтому нужно сверить ID из Jenkinsfile с ID в веб интерфейсе - они должны совпадать.
 
 **1. GitHub Token:**
 - Kind: Username with password
