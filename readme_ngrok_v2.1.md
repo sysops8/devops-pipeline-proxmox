@@ -1911,11 +1911,8 @@ Project -> Boardgame -> Project Settings -> Webhooks -> Create
 - URL: http://jenkins.local.lab:8080/sonarqube-webhook/
 - Create
 
-**Создаем вебхук в меню проекта:**
+**Также можно повешать вебхуки на отдельный проект**
 Project -> Boardgame -> Project Settings -> Webhooks -> Create
-- Name: jenkins-webhook
-- URL: http://jenkins.local.lab:8080/sonarqube-webhook/
-- Create
 
 
 
