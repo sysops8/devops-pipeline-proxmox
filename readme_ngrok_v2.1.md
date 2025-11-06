@@ -2548,7 +2548,7 @@ sonar-scanner -h
 **Manage Jenkins → Manage Credentials → Global → Add Credentials**
 
 **1. GitHub Token:**
-- Kind: Secret text
+- Kind: Username with password
 - Secret: `<your-github-personal-access-token>`
 - ID: `github-token`
 - Description: GitHub Access Token
