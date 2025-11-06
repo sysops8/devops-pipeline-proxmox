@@ -2584,6 +2584,7 @@ SonarQube → "My Account → Security → Generate Tokens  →  User token  →
 - ID: `k8s-kubeconfig`
 - Description: Kubernetes Config
 - Внутри файла поменять адрес 127.0.0.1 на k3s-master.local.lab и только потом загружать в jenkins
+- Примечание: файл config можно взять с jumphost, jenkins хоста или непосредственно с k3s-master ноды поменяв внутри 127.0.0.1 на DNS имя k3s-master.local.lab 
 
 **5. Gmail App Password:**
 - Kind: Username with password
