@@ -2417,7 +2417,7 @@ sudo docker-compose logs -f
 - Grafana: `http://grafana.your-domain.com:3000` (admin/admin) или лучше http://monitoring.local.lab:3000
 - По умолчанию доступ только по http без шифрования
 
-Чтобы заработало шифрование по самоподписанному сертификату нужно настроить nginx reversy proxy.
+Чтобы заработало HTTPS шифрование по самоподписанному сертификату нужно настроить nginx reversy proxy.
 Сертификат создадим для следующих URL (SAN) - monitoring.local.lab, grafana.local.lab, prometheus.local.lab
 ```bash
 sudo apt install -y nginx
