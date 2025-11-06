@@ -1775,11 +1775,13 @@ ssh ubuntu@192.168.100.30
 sudo apt update && sudo apt upgrade -y
 
 # Установка Docker
-curl -fsSL https://get.docker.com -o get-docker.sh
-sudo sh get-docker.sh
+sudo apt update && sudo apt upgrade -y
+sudo apt install -y curl vim openssl docker.io docker-compose
+sudo systemctl enable docker --now
+docker --version
+docker-compose --version
+sudo usermod -aG docker $USER
 sudo usermod -aG docker ubuntu
-sudo apt-get install -y uidmap && dockerd-rootless-setuptool.sh install
-
 
 # Настройка системы для SonarQube
 sudo sysctl -w vm.max_map_count=524288
