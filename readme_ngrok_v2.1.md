@@ -1860,7 +1860,7 @@ sudo docker logs -f sonarqube_db
 **Настройка Webhook для этапа QualityGate:**
 Нужно обязательно настроить веб хуки для Jenkins, когда код проекта будет проверен, SonarQube отправит вебхук в Jenkins, что проверка завршена. В противном случае,задание Quality Gate будет висеть минут 5 и потом вывалится в ошибку, так как Jenkins не получил веб хук от SonarQube.
 
-**Указываем адрес хоста SonarQube чтобы при отправке webhook формировался верный json:
+**Указываем адрес хоста SonarQube чтобы при отправке webhook формировался верный json:**
 - Administration → Congiguration → General Settings → Server base URL → http://sonar.local.lab:9000
 
 **Создаем вебхук идем в меню Administration:**
