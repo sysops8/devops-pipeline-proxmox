@@ -2458,7 +2458,6 @@ sudo ls /etc/ssl/monitoring/
 ```
 Настройка самого nginx reversy proxy:
 ```bash
-sudo tee san.cnf > /dev/null <<EOF
 sudo tee /etc/nginx/sites-available/monitoring.conf > /dev/null <<EOF
 server {
     listen 443 ssl;
