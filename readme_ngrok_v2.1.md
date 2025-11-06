@@ -1982,7 +1982,7 @@ IP.2 = 192.168.100.32
 EOF
 
 # Подписание серверного сертификата CA
-openssl x509 -req -in harbor.local.lab.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out harbor.local.lab.crt -days 3650 -sha256 -extfile san.cnf
+openssl x509 -req -in harbor.local.lab.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out harbor.local.lab.crt -days 3650 -sha256 -extfile san.cnf -extensions v3_req
 
 ```
 Отредактируйте `harbor.yml`:
