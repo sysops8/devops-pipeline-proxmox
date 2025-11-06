@@ -1985,6 +1985,10 @@ EOF
 openssl x509 -req -in harbor.local.lab.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out harbor.local.lab.crt -days 3650 -sha256 -extfile san.cnf -extensions v3_req
 
 ```
+Проверка что сертификат выписан на хост harbor.local.lab:
+```
+openssl x509 -in harbor.local.lab.crt -noout -text | grep -A1 "Subject Alternative Name"
+```
 Отредактируйте `harbor.yml`:
 
 ```bash
