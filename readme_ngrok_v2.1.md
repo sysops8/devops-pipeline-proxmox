@@ -1873,6 +1873,9 @@ Project -> Boardgame -> Project Settings -> Webhooks -> Create
 - URL: http://jenkins.local.lab:8080/sonarqube-webhook/
 - Create
 
+Плюс требуется указать адрес хоста SonarQube в настройке:
+- Administration → Congiguration → General Settings → Server base URL → http://sonar.local.lab:9000
+
 <img width="1100" height="755" alt="image" src="https://github.com/user-attachments/assets/ae38f361-e5f3-49be-8548-fa819e3c0cc0" />
 Веб интерфейс sonarqube.
 
