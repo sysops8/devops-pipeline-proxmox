@@ -1813,7 +1813,7 @@ EOF
 ```
 Нужно пождать 3-5 минут пока скачаются docker образы sonarqube и postgresql.
 
-# Запуск SonarQube если он не запущен
+### Запуск SonarQube если он не запущен
 
 ```bash
 sudo docker compose up -d
