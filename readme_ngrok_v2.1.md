@@ -1843,6 +1843,46 @@ services:
 EOF
 ```
 Нужно пождать 3-5 минут пока скачаются docker образы sonarqube и postgresql.
+**Примечание:**    По умолчанию контейнер SonarQube и Postgresql стирают свои данные при перезапуске (sudo docker-compose down).  Поэтому нужно создать другой yaml файл с persistent volume, то есть хранением данных на хостовой машине. Вот пример постоянной машины Sonarqube:
+```
+sudo tee docker-compose.yml > /dev/null <<EOF
+services:
+  db:
+    image: postgres:15
+    container_name: sonarqube_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: sonar
+      POSTGRES_PASSWORD: sonar
+      POSTGRES_DB: sonarqube
+    volumes:
+      - sonarqube_db_data:/var/lib/postgresql/data
+
+  sonarqube:
+    image: sonarqube:25.10.0.114319-community
+    container_name: sonarqube
+    restart: unless-stopped
+    depends_on:
+      - db
+    environment:
+      SONAR_JDBC_URL: jdbc:postgresql://db:5432/sonarqube
+      SONAR_JDBC_USERNAME: sonar
+      SONAR_JDBC_PASSWORD: sonar
+    ports:
+      - "9000:9000"
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_extensions:/opt/sonarqube/extensions
+      - sonarqube_logs:/opt/sonarqube/logs
+
+volumes:
+  sonarqube_db_data:
+  sonarqube_data:
+  sonarqube_extensions:
+  sonarqube_logs:
+EOF
+```
+
 
 ### Запуск SonarQube если он не запущен
 
