@@ -1863,7 +1863,7 @@ sudo docker logs -f sonarqube_db
 
 Administration -> Configuration -> Webhooks -> Create
 - Name: jenkins-webhook
-- URL: http://jenkins.local/sonarqube-webhook/
+- URL: http://jenkins.local.lab:8080/sonarqube-webhook/
 - Create
 
 <img width="1100" height="755" alt="image" src="https://github.com/user-attachments/assets/ae38f361-e5f3-49be-8548-fa819e3c0cc0" />
