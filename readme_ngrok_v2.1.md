@@ -1621,6 +1621,9 @@ sudo sh get-docker.sh
 sudo usermod -aG docker ubuntu
 sudo usermod -aG docker jenkins
 sudo usermod -aG docker $USER
+sudo usermod -aG docker jenkins
+echo Проверка user jenkins  должен быть в группе docker
+sudo getent group docker
 ```
 Ошибка: При работе этапа сборки контейнера Docker в пайплайне, может возникнуть ошибка "permision denied" :
 ```
@@ -2710,7 +2713,9 @@ Google Account → Security → 2-Step Verification → App passwords → Jenkin
 ### 11.6 Настройка Maven Settings
 
 **Manage Jenkins → Managed files → Add a new Config → Global Maven settings.xml**
-
+Настройки репозитория в settings.xml должны совпадать с github.com/username/boardgame/pom.xml, важно чтобы ID репозиториев совпадали.
+То есть имя репозитория <id>nexus-releases</id> из settings.xml совпадает с именем в pom.xml который на github.com.
+Заполняем:
 - ID: `maven-settings`
 - Name: `Maven Settings`
 
