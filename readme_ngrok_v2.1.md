@@ -2584,6 +2584,7 @@ sudo systemctl reload nginx
 - Pipeline Maven Integration
 - Prometheus metrics
 - Email Extension Template
+- Generic Webhook Trigger (включение веб хуков)
 - Eclipse Temurin installer (позволяет устанавливать разные версии Java с сайта adoptium.net)
 - Blue Ocean (опционально, для красивого UI)
 - Pipeline Stage View (еще один красивый UI)
