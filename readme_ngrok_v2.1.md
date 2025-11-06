@@ -2102,10 +2102,11 @@ ssh ubuntu@192.168.100.40
 sudo apt update && sudo apt upgrade -y
 
 # Установка Docker и Docker Compose
-curl -fsSL https://get.docker.com -o get-docker.sh
-sudo sh get-docker.sh
-sudo apt install -y docker-compose
-sudo apt-get install -y uidmap && dockerd-rootless-setuptool.sh install
+sudo apt update && sudo apt upgrade -y
+sudo apt install -y curl vim openssl docker.io docker-compose
+sudo systemctl enable docker --now
+docker --version
+docker-compose --version
 
 
 # Создание структуры директорий
