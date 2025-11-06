@@ -2527,6 +2527,21 @@ sudo unzip /tmp/sonar-scanner-cli.zip -d /var/lib/jenkins/tools/hudson.plugins.s
 chown -R jenkins:jenkins /var/lib/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/sonar-scanner
 curl -X https://jenkins.local.lab:8080/restart
 ```
+**Новая установка Sonar cli scaner:**
+```bash
+wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-7.3.0.5189.zip -O /tmp/sonar-scanner-cli.zip
+sudo mkdir -p /opt/sonar-scanner
+sudo unzip /tmp/sonar-scanner-cli.zip -d /opt/sonar-scanner 
+# Узнаем версию сканера:
+ls /opt/sonar-scanner
+sonar-scanner-7.3.0.5189
+# Добавляем в PATH путь к сканеру:
+sudo echo "export PATH=/opt/sonar-scanner/sonar-scanner-7.3.0.5189/bin:$PATH" >> /home/admin/.profile
+# Применяем изминения
+source /home/admin/.profile
+# Проверка установки, вывод help по сканеру
+sonar-scanner -h
+```
 
 ### 11.4 Настройка Credentials
 
