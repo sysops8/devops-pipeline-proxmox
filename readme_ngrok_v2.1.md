@@ -3604,10 +3604,11 @@ spec:
 4. OK
 
 **General:**
-- ✓ GitHub project
-  - Project url: `https://github.com/YOUR_USERNAME/boardgame/`
 - ✓ Discard old builds
   - Max # of builds to keep: `10`
+- ✓ GitHub project
+  - Project url: `https://github.com/YOUR_USERNAME/boardgame/`
+
 
 **Build Triggers:**
 - ✓ GitHub hook trigger for GITScm polling
