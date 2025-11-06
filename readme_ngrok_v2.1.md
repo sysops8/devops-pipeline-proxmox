@@ -2576,7 +2576,6 @@ sudo systemctl reload nginx
 Установите следующие плагины:
 
 - Docker Pipeline
-
 - Kubernetes CLI
 - SonarQube Scanner
 - Config File Provider
@@ -3641,7 +3640,7 @@ spec:
 ### 15.1 Создание Pipeline Job в Jenkins
 
 1. Jenkins → New Item
-2. Item name: `boardgame-pipeline`
+2. Item name: `boardgame`
 3. Type: **Pipeline**
 4. OK
 
