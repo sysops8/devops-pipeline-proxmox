@@ -2413,8 +2413,8 @@ sudo docker-compose logs -f
 ```
 
 **Доступ:**
-- Prometheus: `http://grafana.your-domain.com:9090` или лучше http://monitoring.local.lab:9090 (будет через Grafana)
-- Grafana: `http://grafana.your-domain.com:3000` (admin/admin) или лучше http://monitoring.local.lab:3000
+- Prometheus: `http://prometheus.local.lab:9090` или лучше http://monitoring.local.lab:9090 (будет через Grafana)
+- Grafana: `http://grafana.local.lab:3000` (admin/admin) или лучше http://monitoring.local.lab:3000
 - По умолчанию доступ только по http без шифрования
 
 Чтобы заработало HTTPS шифрование по самоподписанному сертификату нужно настроить nginx reversy proxy.
