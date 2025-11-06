@@ -479,6 +479,7 @@ EOF
 # Отключаем systemd-resolved чтобы небыло адреса 127.0.0.53 в /etc/resolv.conf:
 sudo systemctl disable --now systemd-resolved
 # Проверяем его статус
+echo Просмотр логов, нажмите CTRL+C
 sudo systemctl status systemd-resolved
 # Удаляем символическую ссылку на systemd-resolver
 sudo rm /etc/resolv.conf
