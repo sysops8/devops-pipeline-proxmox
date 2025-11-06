@@ -2549,7 +2549,7 @@ sudo systemctl reload nginx
 - Pipeline Maven Integration
 - Prometheus metrics
 - Email Extension Template
-- Eclipse Temurin installer (позволяет устанавливать разные версии Java)
+- Eclipse Temurin installer (позволяет устанавливать разные версии Java с сайта adoptium.net)
 - Blue Ocean (опционально, для красивого UI)
 - Pipeline Stage View (еще один красивый UI)
 - CloudBees Disk Usage Simple (для Prometheus)
