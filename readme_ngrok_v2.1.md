@@ -2714,6 +2714,10 @@ Google Account → Security → 2-Step Verification → App passwords → Jenkin
 - ID: `maven-settings`
 - Name: `Maven Settings`
 
+Server Credentials
+- ServerID: `nexus`
+- Credentials: `nexus-cred`
+
 Содержимое:
 
 ```xml
