@@ -1739,6 +1739,12 @@ sudo apt install -y trivy
 sudo apt install -y maven
 mvn --version
 ```
+**Установка нужных разрешений на каталог со сборщиком maven и сканером sonar cli, в этот каталог автоматически качаются нужные инструменты Jenkins'ом**
+```bash
+sudo mkdir -p /var/lib/jenkins/tools/
+sudo chown -R jenkins:jenkins /var/lib/jenkins/tools/
+sudo chmod 755 -R /var/lib/jenkins/tools/
+```
 
 **Доступ к Jenkins:** `https://jenkins.your-domain.com:8080`
 
