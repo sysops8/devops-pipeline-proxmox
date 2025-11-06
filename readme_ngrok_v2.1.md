@@ -1189,17 +1189,6 @@ curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server" sh -s - \
         --tls-san 192.168.100.10 
 ```
 
-
-# Не поятный блок ((
-```bash
-export KUBECONFIG=~/.kube/config
-sudo mkdir ~/.kube 2> /dev/null
-sudo k3s kubectl config view --raw > "$KUBECONFIG"
-sudo chmod 600 "$KUBECONFIG"
-echo export KUBECONFIG=~/.kube/config  >> ~/.profile
-
-```
-
 Получите токен для worker nodes:
 
 ```bash
@@ -2579,6 +2568,17 @@ sudo systemctl reload nginx
 - Prometheus: `http://prometheus.local.lab:9090` или (`http://monitoring.local.lab:9090`)
 - Grafana: `http://grafana.local.lab:3000` (admin/admin) или (`http://monitoring.local.lab:3000`)
 
+
+=========Возможно нужно удалить============================
+Сохранение k3s конфига в ~/.kube/config
+```bash
+export KUBECONFIG=~/.kube/config
+sudo mkdir ~/.kube 2> /dev/null
+sudo k3s kubectl config view --raw > "$KUBECONFIG"
+sudo chmod 600 "$KUBECONFIG"
+echo export KUBECONFIG=~/.kube/config  >> ~/.profile
+```
+=========Возможно нужно удалить============================
 
 ---
 
