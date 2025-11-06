@@ -1622,17 +1622,31 @@ sudo usermod -aG docker ubuntu
 sudo usermod -aG docker jenkins
 sudo usermod -aG docker $USER
 ```
-При работе этапа сборки контейнера Docker в пайплайне, может возникнуть ошибка "permision denied" :
+Ошибка: При работе этапа сборки контейнера Docker в пайплайне, может возникнуть ошибка "permision denied" :
 ```
 + docker build -t harbor.local.lab/library/boardgame:2 .
 
 ERROR: permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Head "http://%2Fvar%2Frun%2Fdocker.sock/_ping": dial unix /var/run/docker.sock: connect: permission denied
 ```
-Чтобы ее небыло, поправьте права для Docker:
+Как исправить: Чтобы ее небыло, поправьте права для Docker:
 ```bash
 sudo chmod 666 /var/run/docker.sock
 sudo systemctl restart docker
 sudo docker-compose ps
+```
+
+Ошибка: Docker не может соединится с Harbor потому-что у него самоподписанный сертификат, в пайплайне видим "Unable docker login" или ошибку в логах:
+```
+Nov 06 09:05:52 jenkins dockerd[17233]: time="2025-11-06T09:05:52.411932345Z" level=info msg="Error logging in to endpoint, trying next endpoint" endpoint="{false https://harbor.local.lab false false false 0xc003a6e780}" error="Get \"https://harbor.local.lab/v2/\": tls: failed to verify certificate: x509: certificate relies on legacy Common Name field, use SANs instead"
+Nov 06 09:05:52 jenkins dockerd[17233]: time="2025-11-06T09:05:52.411987949Z" level=error msg="Handler for POST /v1.51/auth returned error: Get \"https://harbor.local.lab/v2/\": tls: failed to verify certificate: x509: certificate relies on legacy Common Name field, use SANs instead"
+
+```
+Как исправить:
+Добавляем цент сертификации Harbor в доверенные на машине Jenkins:
+```bash
+sudo scp admin@harbor.local.lab:/home/admin/harbor/ssl/harbor.local.lab.crt /usr/local/share/ca-certificates/harbor-ca.crt
+sudo update-ca-certificates
+sudo systemctl restart docker
 ```
 
 
