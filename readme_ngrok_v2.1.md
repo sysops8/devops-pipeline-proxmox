@@ -1618,10 +1618,8 @@ sudo apt update && sudo apt upgrade -y
 # Установка Docker
 curl -fsSL https://get.docker.com -o get-docker.sh
 sudo sh get-docker.sh
-sudo usermod -aG docker ubuntu
 sudo usermod -aG docker jenkins
 sudo usermod -aG docker $USER
-sudo usermod -aG docker jenkins
 echo Проверка user jenkins  должен быть в группе docker
 sudo getent group docker
 ```
