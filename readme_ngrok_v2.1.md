@@ -1741,7 +1741,21 @@ mvn --version
 ```
 **Установка нужных разрешений на каталог со сборщиком maven и сканером sonar cli, в этот каталог автоматически качаются нужные инструменты Jenkins'ом**
 
-В основном все файлы и каталоги внутри /var/lib/jenkins должны иметь похожие разрешения, иначе могут возникнуть проблемы с закачкой или запуском плагинов. При старте пайплайна можно увидеть ошибк ```java.io.IOException: Failed to install https://repo.maven.apache.org/maven2```
+В основном все файлы и каталоги внутри /var/lib/jenkins должны иметь похожие разрешения, иначе могут возникнуть проблемы с закачкой или запуском плагинов. При старте пайплайна можно увидеть ошибки установки sonarscaner или maven: 
+```
+sonar-scanner
+— Use a tool from a predefined Tool Installation
+3s
+java.io.IOException: Failed to install https://repo1.maven.org/maven2/org/sonarsource/scanner/cli/sonar-scanner-cli/7.3.0.5189/sonar-scanner-cli-7.3.0.5189.zip to /var/lib/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/sonar-scanner
+```
+или
+```
+maven3.6
+— Use a tool from a predefined Tool Installation
+<1s
+java.io.IOException: Failed to install https://repo.maven.apache.org/maven2/org/apache/maven/apache-maven/3.9.5/apache-maven-3.9.5-bin.zip to /var/lib/jenkins/tools/hudson.tasks.Maven_MavenInstallation/maven3.6
+```
+Ставим нужные права на каталог tools чтобы избежать ошибок которые сверху:
 ```bash
 sudo mkdir -p /var/lib/jenkins/tools/
 sudo chown -R jenkins:jenkins /var/lib/jenkins/tools/
