@@ -2517,8 +2517,8 @@ sudo systemctl reload nginx
 - `https://grafana.local.lab`
 - `https://prometheus.local.lab`
 Не шифрованный доступ 
-- Prometheus: `http://prometheus.local.lab:9090` или лучше http://monitoring.local.lab:9090
-- Grafana: `http://grafana.local.lab:3000` (admin/admin) или лучше http://monitoring.local.lab:3000
+- Prometheus: `http://prometheus.local.lab:9090` или (`http://monitoring.local.lab:9090`)
+- Grafana: `http://grafana.local.lab:3000` (admin/admin) или (`http://monitoring.local.lab:3000`)
 
 
 ---
