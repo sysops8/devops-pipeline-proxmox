@@ -1896,6 +1896,12 @@ cp harbor.yml.tmpl harbor.yml
 ```
 
 Настройка SSL для Harbor:
+По сути Harbor может работать по HTTP, внутри локальной сети это безопасно, так как закрытый контур. Но для большей безопасности, можно настроить HTTPS доступ. Правильная настройка SSL важна, так как могут возникнуть ошибки доступа, например:
+```
+Hmmm… can't reach this page It looks like the webpage at https://harbor.local.lab/harbor/projects might be having issues, or it may have moved permanently to a new web address. ERR_SSL_KEY_USAGE_INCOMPATIBLE
+```
+**Важные замечания:** Сертификат должен отвечать за разные доменные имена grafana.local.lab, promeeteus.local.lab и montiring.local.lab. Чтобы создать такой сертификат, нужно использовать SAN. Права на файлы сертификата обязательно должны принадлежать локальному неприлегированному пользователю admin из под которого запускается docker (compose). 
+
 Генерация ключей без sudo, если будет через sudo, владельцем ключей станет учетная запись root, из за этого harbor не будет видет ключи.
 ```bash
 mkdir -p ~/harbor/ssl
