@@ -2605,12 +2605,13 @@ Google Account → Security → 2-Step Verification → App passwords → Jenkin
 - Description: Nexus Credentials
 - Пользователя jenkins нужно создать на сервере nexus и дать ему права админа.
   
-### 11.5 Настройка SonarQube Server
+### 11.5 Настройка SonarQube Server в Jenkins
 
-**Manage Jenkins → Configure System → SonarQube servers**
+**Manage Jenkins →  System → SonarQube servers**
 
 - ✓ Enable injection of SonarQube server configuration
 - ✓ Environment variables
+- ✓ Add SonarQube 
 - Name: `SonarQube`
 - Server URL: `http://192.168.100.30:9000`
 - Server authentication token: Select `sonar-token`
