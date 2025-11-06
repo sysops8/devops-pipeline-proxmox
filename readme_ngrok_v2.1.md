@@ -2552,7 +2552,7 @@ sudo systemctl reload nginx
 - Pipeline Stage View (еще один красивый UI)
 - CloudBees Disk Usage Simple (для Prometheus)
 
-После установки: Нажать **Restart Jenkins** или пройти по ссылке http://jenkins.local.lab:8080/restart
+После установки:  ✓  **Restart Jenkins** или пройти по ссылке http://jenkins.local.lab:8080/restart
 
 
 ### 11.3 Настройка Tools
