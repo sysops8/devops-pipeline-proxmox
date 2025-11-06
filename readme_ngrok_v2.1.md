@@ -2405,11 +2405,11 @@ echo "YOUR_K3S_TOKEN" > ~/monitoring/prometheus/k3s-token
 
 ```bash
 cd ~/monitoring
-docker-compose up -d
+sudo docker-compose up -d
 
 # Проверка
-docker-compose ps
-docker-compose logs -f
+sudo docker-compose ps
+sudo docker-compose logs -f
 ```
 
 **Доступ:**
