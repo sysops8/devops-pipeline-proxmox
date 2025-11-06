@@ -1901,7 +1901,7 @@ cd harbor
 cp harbor.yml.tmpl harbor.yml
 ```
 
-Настройка SSL для Harbor:
+**Настройка SSL для Harbor:**
 По сути Harbor может работать по HTTP, внутри локальной сети это безопасно, так как закрытый контур. Но для большей безопасности, можно настроить HTTPS доступ. Правильная настройка SSL важна, так как могут возникнуть ошибки доступа, например:
 ```
 Hmmm… can't reach this page It looks like the webpage at https://harbor.local.lab/harbor/projects might be having issues, or it may have moved permanently to a new web address. ERR_SSL_KEY_USAGE_INCOMPATIBLE
