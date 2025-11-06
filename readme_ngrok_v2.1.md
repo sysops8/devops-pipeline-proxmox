@@ -2541,6 +2541,7 @@ sudo systemctl reload nginx
 Установите следующие плагины:
 
 - Docker Pipeline
+
 - Kubernetes CLI
 - SonarQube Scanner
 - Config File Provider
@@ -2548,9 +2549,11 @@ sudo systemctl reload nginx
 - Pipeline Maven Integration
 - Prometheus metrics
 - Email Extension Template
+- Eclipse Temurin installer (позволяет устанавливать разные версии Java)
 - Blue Ocean (опционально, для красивого UI)
 - Pipeline Stage View (еще один красивый UI)
 - CloudBees Disk Usage Simple (для Prometheus)
+
 
 После установки:  ✓  **Restart Jenkins** или пройти по ссылке http://jenkins.local.lab:8080/restart
 
