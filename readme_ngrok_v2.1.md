@@ -2516,7 +2516,7 @@ sudo systemctl reload nginx
 
 **SonarQube Scanner:**
 - Name: `sonar-scanner`
-- ✓ Install automatically
+- ✓ Install automatically (можно не отмечать так мы установим в ручную внизу)
 - Version: Latest
 
 **Установка Sonar cli scaner:**
@@ -2524,10 +2524,10 @@ sudo systemctl reload nginx
 wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-7.3.0.5189.zip -O /tmp/sonar-scanner-cli.zip
 sudo mkdir -p /var/lib/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/sonar-scanner
 sudo unzip /tmp/sonar-scanner-cli.zip -d /var/lib/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/sonar-scanner
-chown -R jenkins:jenkins /var/lib/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/sonar-scanner
-curl -X https://jenkins.local.lab:8080/restart
+sudo chown -R jenkins:jenkins /var/lib/jenkins/tools/
+sudo chmod 644 -R /var/lib/jenkins/tools/
 ```
-**Новая установка Sonar cli scaner:**
+**Новая установка Sonar cli scaner (ручная):**
 ```bash
 wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-7.3.0.5189.zip -O /tmp/sonar-scanner-cli.zip
 sudo mkdir -p /opt/sonar-scanner
