@@ -1621,6 +1621,20 @@ sudo sh get-docker.sh
 sudo usermod -aG docker ubuntu
 sudo usermod -aG docker jenkins
 sudo usermod -aG docker $USER
+```
+При работе этапа сборки контейнера Docker в пайплайне, может возникнуть ошибка "permision denied" :
+```
++ docker build -t harbor.local.lab/library/boardgame:2 .
+
+ERROR: permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Head "http://%2Fvar%2Frun%2Fdocker.sock/_ping": dial unix /var/run/docker.sock: connect: permission denied
+```
+Чтобы ее небыло, поправьте права для Docker:
+```bash
+sudo chmod 666 /var/run/docker.sock
+sudo systemctl restart docker
+sudo docker-compose ps
+```
+
 
 # Установка Java 17
 sudo apt install -y openjdk-17-jdk
@@ -2023,12 +2037,6 @@ registryctl         goharbor/harbor-registryctl:v2.9.0   "/home/harbor/start.…
 
 ```
 
-
-===Возможно нужно убрать этот блок=====
-```bash
-sudo chmod 666 /var/run/docker.sock
-sudo docker-compose ps
-```
 
 ========================================
 **Доп. команды:***
