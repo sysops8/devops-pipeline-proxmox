@@ -1970,7 +1970,7 @@ OU = Organizational Unit
 CN = harbor.local.lab
 
 [v3_req]
-keyUsage = keyEncipherment, dataEncipherment
+keyUsage = digitalSignature, keyEncipherment
 extendedKeyUsage = serverAuth
 subjectAltName = @alt_names
 
