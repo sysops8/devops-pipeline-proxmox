@@ -1818,10 +1818,11 @@ EOF
 ### Запуск SonarQube если он не запущен
 
 ```bash
-sudo docker compose up -d
+sudo docker-compose up -d
 ```
 **Проверка:**
 ```bash
+sudo docker-compose logs
 sudo docker ps
 sudo docker logs -f admin-sonarqube-1
 sudo docker logs -f sonarqube_db
