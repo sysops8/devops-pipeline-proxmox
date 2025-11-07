@@ -1385,6 +1385,7 @@ Nov 06 09:05:52 jenkins dockerd[17233]: time="2025-11-06T09:05:52.411987949Z" le
 
 ```
 Как исправить:
+
 Добавляем цент сертификации Harbor в доверенные на машине Jenkins:
 ```bash
 sudo scp admin@harbor.local.lab:/home/admin/harbor/ssl/harbor.local.lab.crt /usr/local/share/ca-certificates/harbor-ca.crt
@@ -1994,7 +1995,20 @@ sudo crictl pull harbor.local.lab/library/myapp:139
 echo "Image is up to date for sha256:12ed91993dd46b4a37671240000ad784d159759ad52a3f35fac225a99f12f59b"
 ```
 
+## Ошибка при работе с jenkins: Docker на машине Jenkins не может соединится с Harbor потому-что у него самоподписанный сертификат, и что имя хоста не прописано в SAN, как резуультат в пайплайне видим "Unable docker login" или ошибку в логах:
+```
+Nov 06 09:05:52 jenkins dockerd[17233]: time="2025-11-06T09:05:52.411932345Z" level=info msg="Error logging in to endpoint, trying next endpoint" endpoint="{false https://harbor.local.lab false false false 0xc003a6e780}" error="Get \"https://harbor.local.lab/v2/\": tls: failed to verify certificate: x509: certificate relies on legacy Common Name field, use SANs instead"
+Nov 06 09:05:52 jenkins dockerd[17233]: time="2025-11-06T09:05:52.411987949Z" level=error msg="Handler for POST /v1.51/auth returned error: Get \"https://harbor.local.lab/v2/\": tls: failed to verify certificate: x509: certificate relies on legacy Common Name field, use SANs instead"
 
+```
+Как исправить:
+
+Переходим на машину Jenkins и добавляем центр сертификации Harbor в доверенные:
+```bash
+sudo scp admin@harbor.local.lab:/home/admin/harbor/ssl/harbor.local.lab.crt /usr/local/share/ca-certificates/harbor-ca.crt
+sudo update-ca-certificates
+sudo systemctl restart docker
+```
 
 ### 10.5 Monitoring Server (192.168.100.40)
 
