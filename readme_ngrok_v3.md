@@ -1926,7 +1926,7 @@ sudo systemctl status harbor.service
 ```
 Проверяем запущены ли контейнеры:
 ```bash
-docker ps
+sudo docker ps
 ```
 Примерный вывод:
 ```
