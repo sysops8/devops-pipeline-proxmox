@@ -1679,6 +1679,10 @@ Project -> Boardgame -> Project Settings -> Webhooks -> Create
 
 ```bash
 ssh ubuntu@192.168.100.31
+```
+
+```bash
+
 
 # Обновление системы
 sudo apt update && sudo apt upgrade -y
