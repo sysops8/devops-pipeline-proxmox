@@ -1657,8 +1657,7 @@ sudo docker logs -f sonarqube_db
 
 **Указываем адрес хоста SonarQube чтобы при отправке webhook формировался верный json:**
 - Administration → Congiguration → General Settings → Server base URL → http://sonar.local.lab:9000
-
-**Создаем вебхук идем в меню Administration:**
+- Создаем вебхук идем в меню Administration:
 Administration -> Configuration -> Webhooks -> Create
 Project -> Boardgame -> Project Settings -> Webhooks -> Create
 - Name: jenkins-webhook
