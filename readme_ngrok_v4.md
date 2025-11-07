@@ -3128,7 +3128,8 @@ Running on Jenkins in /var/lib/jenkins/workspace/boardgame-pipeline
 - Jenkins → Open Blue Ocean
 - Красивый UI для просмотра pipeline
 
-<img width="1919" height="671" alt="image" src="https://github.com/user-attachments/assets/f27b62c3-0285-487f-ace6-9b863746a73a" />
+<img width="1916" height="991" alt="image" src="https://github.com/user-attachments/assets/ee9e1dde-3944-46b1-96d7-71066b84bd91" />
+
 
 ---
 
@@ -3280,6 +3281,10 @@ kubectl port-forward svc/boardgame-service 8080:80 -n default
 # Например, некорректный синтаксис
 # И запустите build
 ```
+
+Пример письма:
+<img width="1919" height="874" alt="image" src="https://github.com/user-attachments/assets/e728c7cd-83a8-4904-9511-9bab0c747837" />
+
 ---
 
 ## Этап 16.1: Настройка Gitops ArgoCD
