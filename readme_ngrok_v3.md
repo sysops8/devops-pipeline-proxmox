@@ -1714,6 +1714,8 @@ sudo docker exec nexus cat /nexus-data/admin.password; echo
 **Доступ:** `https://nexus.your-domain.com:8081`  
 **Логин:** admin + пароль из команды выше
 
+Примечание: По умолчанию данные репозитории уже создаются при установке Nexus
+
 **Создание репозиториев:**
 1. Sign in
 2. Server administration (шестеренка) → Repositories → Create repository
