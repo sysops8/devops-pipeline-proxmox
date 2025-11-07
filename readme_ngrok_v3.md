@@ -2000,6 +2000,10 @@ echo "Image is up to date for sha256:12ed91993dd46b4a37671240000ad784d159759ad52
 
 ```bash
 ssh ubuntu@192.168.100.40
+```
+
+```bash
+
 
 # Обновление системы
 sudo apt update && sudo apt upgrade -y
