@@ -2669,6 +2669,7 @@ Submit
 **Test:** Send test e-mail
 
 ---
+Примечание: После этого можно переходить к этапу **Этап 15: Запуск Pipeline**
 
 ## Этап 12: Создание Jenkins Pipeline
 
