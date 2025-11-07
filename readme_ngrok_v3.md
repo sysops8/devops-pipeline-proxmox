@@ -2589,7 +2589,7 @@ Google Account → Security → 2-Step Verification → App passwords → Jenkin
 ```
 **6. Nexus:**
 - Kind: Username with password
-- Username: `jenkins`
+- Username: `admin`
 - Password: `<your-nexus-password>`
 - ID: `nexus-creds`
 - Description: Nexus Credentials
