@@ -2538,6 +2538,7 @@ sonar-scanner -h
 
 **1. GitHub Token:**
 - Kind: Username with password
+- 
 - Secret: `<your-github-personal-access-token>`
 - ID: `github-token`
 - Description: GitHub Access Token
