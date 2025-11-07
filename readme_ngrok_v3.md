@@ -1754,7 +1754,19 @@ cp harbor.yml.tmpl harbor.yml
 ```
 Hmmm… can't reach this page It looks like the webpage at https://harbor.local.lab/harbor/projects might be having issues, or it may have moved permanently to a new web address. ERR_SSL_KEY_USAGE_INCOMPATIBLE
 ```
-**Важные замечания:** Сертификат должен отвечать за разные доменные имена grafana.local.lab (CNAME в DNS на хост monitoring.local.lab), prometeus.local.lab (CNAME в DNS на хост monitoring.local.lab) и montiring.local.lab. Чтобы создать такой сертификат, нужно использовать SAN (один сертификат на для множества доменов). Права на файлы сертификата обязательно должны принадлежать локальному неприлегированному пользователю admin из под которого запускается docker (compose). 
+**Важные замечания:** Настройки генерации сертификата san.cnf должны содержать блок для корректной работы nginx, chrome, edge:
+```
+[v3_req]
+keyUsage = digitalSignature, keyEncipherment
+extendedKeyUsage = serverAuth
+subjectAltName = @alt_names
+```
+Почему это важно:
+- digitalSignature — разрешает использовать сертификат для установления TLS-соединения (подписание сессии).
+- keyEncipherment — разрешает шифрование ключей в процессе обмена.
+- dataEncipherment в браузерах не нужен и иногда вызывает конфликт (особенно в Chrome).
+- 
+**Если данного блока не будет - Chrome/Edge увидят, что сертификат «не предназначен для TLS-аутентификации», и покажут ошибку ERR_SSL_KEY_USAGE_INCOMPATIBLE**
 
 Генерация ключей без sudo, если будет через sudo, владельцем ключей станет учетная запись root, из за этого harbor не будет видет ключи.
 ```bash
@@ -2309,6 +2321,9 @@ sudo docker-compose logs -f
 ## Настройка nginx reversy proxy для включения доступ к контейнерам по HTTPS
 Чтобы заработало HTTPS шифрование по самоподписанному сертификату нужно настроить nginx reversy proxy.
 Сертификат создадим для следующих URL (SAN) - monitoring.local.lab, grafana.local.lab, prometheus.local.lab
+
+**Важные замечания:** Сертификат должен отвечать за разные доменные имена grafana.local.lab (CNAME в DNS на хост monitoring.local.lab), prometeus.local.lab (CNAME в DNS на хост monitoring.local.lab) и montiring.local.lab. Чтобы создать такой сертификат, нужно использовать SAN (один сертификат на для множества доменов). Права на файлы сертификата обязательно должны принадлежать локальному неприлегированному пользователю admin из под которого запускается docker (compose). 
+
 ```bash
 sudo apt install -y nginx
 sudo mkdir -p /etc/ssl/monitoring
