@@ -2603,7 +2603,7 @@ Google Account → Security → 2-Step Verification → App passwords → Jenkin
 - ✓ Environment variables
 - ✓ Add SonarQube 
 - Name: `SonarQube`
-- Server URL: `http://192.168.100.30:9000`
+- Server URL: `http://192.168.100.30:9000` или `http://sonar.local.lab:9000`
 - Server authentication token: Select `sonar-token`
 
 ### 11.6 Настройка Maven Settings
