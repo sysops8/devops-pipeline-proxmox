@@ -544,6 +544,10 @@ sudo netplan apply
 #### 3.1 Создание Jumphost VM
 Создайте ВМ jumphost на Proxmox.
 
+Обновите пакеты 
+```bash
+sudo apt update -y
+```
 #### 3.2 Настройка Jumphost
 
 Подключитесь:
