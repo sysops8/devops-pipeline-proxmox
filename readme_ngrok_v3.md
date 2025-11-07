@@ -1356,10 +1356,6 @@ sudo apt update && sudo apt upgrade -y
 # Установка Docker
 curl -fsSL https://get.docker.com -o get-docker.sh
 sudo sh get-docker.sh
-sudo usermod -aG docker jenkins
-sudo usermod -aG docker $USER
-echo Проверка user jenkins  должен быть в группе docker
-sudo getent group docker
 ```
 ## Некоторые ошибки при работе Docker
 Ошибка: При работе этапа сборки контейнера Docker в пайплайне, может возникнуть ошибка "permision denied" :
@@ -1413,6 +1409,14 @@ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 ```
 **Доступ:** `http://192.168.100.20:8080`  
 **Пароль:** из файла initialAdminPassword (измените после первого входа)
+
+**Установка нужных прав для Jenkins**
+```bash
+sudo usermod -aG docker jenkins
+sudo usermod -aG docker $USER
+echo Проверка user jenkins  должен быть в группе docker
+sudo getent group docker
+```
 
 **Установка kubectl:**
 
