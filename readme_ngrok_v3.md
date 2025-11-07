@@ -2617,7 +2617,7 @@ Google Account → Security → 2-Step Verification → App passwords → Jenkin
 
 Server Credentials
 - ServerID: `nexus`
-- Credentials: `nexus-cred`
+- Credentials: `nexus-creds`
 
 Содержимое:
 
