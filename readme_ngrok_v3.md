@@ -1375,7 +1375,7 @@ sudo systemctl restart docker
 sudo docker-compose ps
 ```
 
-Ошибка: Docker не может соединится с Harbor потому-что у него самоподписанный сертификат, в пайплайне видим "Unable docker login" или ошибку в логах:
+Ошибка: Docker не может соединится с Harbor потому-что у него самоподписанный сертификат, и что имя хоста не прописано в SAN, как резуультат в пайплайне видим "Unable docker login" или ошибку в логах:
 ```
 Nov 06 09:05:52 jenkins dockerd[17233]: time="2025-11-06T09:05:52.411932345Z" level=info msg="Error logging in to endpoint, trying next endpoint" endpoint="{false https://harbor.local.lab false false false 0xc003a6e780}" error="Get \"https://harbor.local.lab/v2/\": tls: failed to verify certificate: x509: certificate relies on legacy Common Name field, use SANs instead"
 Nov 06 09:05:52 jenkins dockerd[17233]: time="2025-11-06T09:05:52.411987949Z" level=error msg="Handler for POST /v1.51/auth returned error: Get \"https://harbor.local.lab/v2/\": tls: failed to verify certificate: x509: certificate relies on legacy Common Name field, use SANs instead"
