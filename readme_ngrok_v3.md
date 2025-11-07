@@ -2293,6 +2293,8 @@ EOF
 ```bash
 # На jumphost
 ssh admin@192.168.100.10
+```
+```bash
 kubectl create serviceaccount prometheus -n kube-system
 kubectl create clusterrolebinding prometheus --clusterrole=cluster-admin --serviceaccount=kube-system:prometheus
 kubectl -n kube-system create token prometheus
