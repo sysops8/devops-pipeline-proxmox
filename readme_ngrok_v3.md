@@ -1714,7 +1714,7 @@ sudo docker exec nexus cat /nexus-data/admin.password; echo
 **Доступ:** `https://nexus.your-domain.com:8081`  
 **Логин:** admin + пароль из команды выше
 
-Примечание: По умолчанию данные репозитории уже создаются при установке Nexus
+Примечание: При установке Nexus по умолчанию создаются 2 репозитория **maven-releases** и **maven-snapshots**. Если их нет, нужно будет создать. 
 
 **Создание репозиториев:**
 1. Sign in
