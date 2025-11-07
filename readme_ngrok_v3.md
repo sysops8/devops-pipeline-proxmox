@@ -1726,6 +1726,8 @@ sudo docker exec nexus cat /nexus-data/admin.password; echo
 
 ```bash
 ssh ubuntu@192.168.100.32
+```
+```bash
 
 # Обновление системы
 sudo apt update && sudo apt upgrade -y
