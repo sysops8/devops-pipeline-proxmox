@@ -952,6 +952,7 @@ echo "DNS: 192.168.100.53"
 echo ""
 echo "Тестирование DNS..."
 nslookup k3s-master.local.lab
+grep -rn "192.168.100.53" /etc/resolv.conf || echo "Сервер 192.168.100.53 не найден в /etc/resolv.conf"
 
 echo ""
 echo "Тестирование интернета..."
