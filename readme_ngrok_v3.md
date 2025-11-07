@@ -1867,7 +1867,7 @@ sudo ./install.sh
 
 **Проверка:**
 ```bash
-sudo cd ~/harbor
+cd ~/harbor
 sudo docker-compose ps
 
 ```
