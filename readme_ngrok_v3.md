@@ -1123,6 +1123,9 @@ sudo kubectl get nodes
 
 ```bash
 ssh ubuntu@192.168.100.11
+```
+```bash
+
 
 sudo apt update && sudo apt upgrade -y
 curl -sfL https://get.k3s.io | K3S_URL=https://192.168.100.10:6443 \
@@ -1133,7 +1136,8 @@ curl -sfL https://get.k3s.io | K3S_URL=https://192.168.100.10:6443 \
 
 ```bash
 ssh ubuntu@192.168.100.12
-
+```
+```bash
 sudo apt update && sudo apt upgrade -y
 curl -sfL https://get.k3s.io | K3S_URL=https://192.168.100.10:6443 \
   K3S_TOKEN="YOUR_TOKEN_FROM_MASTER" \
@@ -1349,6 +1353,9 @@ kubectl get svc -n traefik
 
 ```bash
 ssh ubuntu@192.168.100.20
+```
+```bash
+ssh ubuntu@192.168.100.20
 
 # Обновление системы
 sudo apt update && sudo apt upgrade -y
@@ -1543,7 +1550,8 @@ sudo chmod 755 -R /var/lib/jenkins/tools/
 
 ```bash
 ssh ubuntu@192.168.100.30
-
+```
+```bash
 # Обновление системы
 sudo apt update && sudo apt upgrade -y
 
