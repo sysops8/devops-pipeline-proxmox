@@ -1947,6 +1947,8 @@ fb403461790f   goharbor/harbor-registryctl:v2.9.0   "/home/harbor/start.…"   1
 **Доступ:** `https://harbor.your-domain.com`  
 **Логин:** admin/YourSecurePassword123!
 
+Примечание: При первой установке Harbor создается библиотека library, если ее нет создайте в ручную через настрйку проекта снизу.
+
 **Настройка проекта:**
 1. Projects → NEW PROJECT
 2. Project Name: `library`
