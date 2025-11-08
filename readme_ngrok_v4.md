@@ -1351,7 +1351,7 @@ kubectl get svc -n traefik
 
 ## Часть 3: CI/CD инструменты
 
-### Этап 10.1 Jenkins Server
+### 10.1 Jenkins Server
 
 ```bash
 ssh ubuntu@192.168.100.20
