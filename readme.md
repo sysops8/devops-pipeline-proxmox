@@ -3601,6 +3601,60 @@ kubectl get svc argocd-server-lb -n argocd
 ```
 Примечание: Здесь указываем внешний IP адрес на котором будет работать Argocd, запрашиваем IP у MetalLB из его диапозона 192.168.100.100-150. Важно чтобы адрес был не занятый, у нас 100 принадлжеит Traefik и 101 у приложения Boargame, значить мы можем взять IP все что выше 102. Если указать уже занятый IP, то можно при выводе сервиса get svc -n argocd увидеть PENDING вместо IP например 192.168.100.105. То есть нельзя использовать уже занятые IP 100 и 101.
 
+**Добавление RBAC политик**
+Создание или обновление ConfigMap с необходимыми политиками:
+```yaml
+kubectl apply -f - <<EOF
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-rbac-cm
+  namespace: argocd
+  labels:
+    app.kubernetes.io/name: argocd-rbac-cm
+    app.kubernetes.io/part-of: argocd
+data:
+  policy.csv: |
+    g, admin, role:admin
+    p, role:admin, applications, *, */*, allow
+    p, role:admin, clusters, get, *, allow
+    p, role:admin, repositories, get, *, allow
+    p, role:admin, projects, get, *, allow
+  policy.default: role:readonly
+EOF
+```
+Проверка:
+```bash
+kubectl get configmap argocd-rbac-cm -n argocd -o yaml
+```
+Вывод:
+```
+admin@jumphost:~$ kubectl get configmap argocd-rbac-cm -n argocd -o yaml
+apiVersion: v1
+data:
+  policy.csv: |
+    g, admin, role:admin
+    p, role:admin, applications, *, */*, allow
+    p, role:admin, clusters, get, *, allow
+    p, role:admin, repositories, get, *, allow
+    p, role:admin, projects, get, *, allow
+  policy.default: role:readonly
+kind: ConfigMap
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"v1","data":{"policy.csv":"g, admin, role:admin\np, role:admin, applications, *, */*, allow\np, role:admin, clusters, get, *, allow\np, role:admin, repositories, get, *, allow\np, role:admin, projects, get, *, allow\n","policy.default":"role:readonly"},"kind":"ConfigMap","metadata":{"annotations":{},"labels":{"app.kubernetes.io/name":"argocd-rbac-cm","app.kubernetes.io/part-of":"argocd"},"name":"argocd-rbac-cm","namespace":"argocd"}}
+  creationTimestamp: "2025-11-08T10:07:00Z"
+  labels:
+    app.kubernetes.io/name: argocd-rbac-cm
+    app.kubernetes.io/part-of: argocd
+  name: argocd-rbac-cm
+  namespace: argocd
+  resourceVersion: "16354"
+  uid: b416cca7-191b-4815-9667-ad3ea2d0f9c6
+
+```
+
 
 **Добавление DNS записи**
 На DNS сервере (192.168.100.53):
