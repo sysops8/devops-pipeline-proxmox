@@ -3992,7 +3992,7 @@ pipeline {
         SONARQUBE_SERVER = "SonarQube"
         SONARQUBE_URL = "http://sonar.local.lab:9000"
         SONARQUBE_CREDENTIALS = "sonar-token"
-
+        
         // Kubernetes
         KUBECONFIG_CREDENTIALS = "k8s-kubeconfig"
 
@@ -4009,14 +4009,8 @@ pipeline {
         // Image 
         IMAGE_NAME = "${HARBOR_URL}/${HARBOR_PROJECT}/boardgame"
         IMAGE_TAG = "${env.BUILD_NUMBER}"
+       
 
-        // Tools
-        SCANNER_HOME = tool 'sonar-scanner'
-    }
-
-    tools {
-        jdk 'java17'
-        maven 'maven3.6'
     }
 
     stages {
@@ -4114,11 +4108,11 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis') {
+         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv("${SONARQUBE_SERVER}") {
                     sh """
-                        ${SCANNER_HOME}/bin/sonar-scanner \
+                        mvn sonar:sonar -Dsonar.host.url=${SONARQUBE_URL} \
                         -Dsonar.projectName=${MY_APP} \
                         -Dsonar.projectKey=${MY_APP} \
                         -Dsonar.host.url=${SONARQUBE_URL} \
@@ -4178,15 +4172,13 @@ pipeline {
                 script {
                     echo "🩺 Checking application health..."
                     withCredentials([file(credentialsId: KUBECONFIG_CREDENTIALS, variable: 'KUBECONFIG_FILE')]) {
-                        sh '''
+                        sh '''                
                             export KUBECONFIG=${KUBECONFIG_FILE}
-                            #kubectl wait --for=condition=available --timeout=60s deployment/boardgame-deployment
-                            #kubectl get pods -o wide | grep boardgame
                             # Короткое ожидание готовности
                             kubectl wait --for=condition=ready \
                             pod -l app=boardgame,managed-by=argocd \
                             -n production \
-                            --timeout=60s                            
+                            --timeout=60s  
                         '''
                     }
                 }
@@ -4198,8 +4190,8 @@ pipeline {
                 withCredentials([file(credentialsId: KUBECONFIG_CREDENTIALS, variable: 'KUBECONFIG_FILE')]) {                    
                     sh """
                         echo "✅ Verifying deployment in Kubernetes..."
-                        #export KUBECONFIG=${KUBECONFIG_FILE}
-                        #kubectl rollout status deployment/boardgame-deployment    
+                        export KUBECONFIG=${KUBECONFIG_FILE}
+                        kubectl rollout status deployment/boardgame-deployment    
                         echo "Checking pods..."
                         kubectl get pods -n production -l app=boardgame -o wide
                         
