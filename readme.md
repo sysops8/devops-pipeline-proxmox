@@ -4325,6 +4325,8 @@ pipeline {
     }
 }
 ```
+Если все работает хорошо, то мы получим сообщение на почту:
+<img width="1834" height="797" alt="image" src="https://github.com/user-attachments/assets/a2a81fd0-36fb-4a20-9f68-9f7885b93abe" />
 
 
 ---
