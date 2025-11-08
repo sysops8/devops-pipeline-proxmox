@@ -3564,7 +3564,7 @@ pod "boardgame-deployment-5d8c66bb9-m8ptf" deleted from default namespace
 ```
 Создаем новый namespace production:
 ```bash
-kubectl crate namespace production
+kubectl create namespace production
 ```
 
 Установка ArgoCD, делаем на Jumphost'е:
