@@ -3856,7 +3856,15 @@ kubectl apply -f argocd-application.yaml
 ```
 
 ## Обновление Jenkins Pipeline
-Вот обновленный Jenkinsfile с добавлением gitops, файл должен лежать в корне вашего Git репозитория:
+Вот обновленный Jenkinsfile с добавлением gitops, файл должен лежать в корне вашего Git репозитория.
+Получается теперь Jenkins делаетс стадии:
+- Build
+- Test
+- Save to container repository
+- Заходить в репозиторий Gitops -> Boardgame-GitOps ->  меняет тэг версии в файле /boardgame/kustomization.yaml
+- ArgoCD проверяет свой gitops репозиторий и види что сменилась версия контейнера, далее закачивает новый контейнер разворачивает в k8s
+
+
 ```Jenkinsfile
 pipeline {
     agent any
