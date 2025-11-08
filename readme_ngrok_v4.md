@@ -24,7 +24,7 @@
   - [Этап 8: Traefik Ingress](#этап-5-установка-traefik-ingress)
 - [Часть 3: CI/CD инструменты](#часть-3-cicd-инструменты)
   - [Этап 10: Установка инструментов](#этап-10-установка-инструментов-на-vm)
-  - [Этап 10.1 Jenkins Server (192.168.100.20 порт 8080)](#10.1-Jenkins-Server)
+  - [Этап 10.1 Jenkins Server](#10.1-Jenkins-Server)
   - [Этап 10.2 SonarQube Server](#10.2-sonarqube-server)
   - [Этап 10.3 Nexus Repository](#10.3-Nexus-Repository)
   - [Этап 10.4 Harbor Registry](#10.4-Harbor-Registry)
