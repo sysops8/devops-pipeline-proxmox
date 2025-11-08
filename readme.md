@@ -3656,6 +3656,27 @@ metadata:
 
 ```
 
+Создание приложение в production namespace, раньше был в default, перенесем его туда:
+```
+argocd app create boardgame \
+  --repo https://github.com/sysops8/boardgame-gitops.git \
+  --path apps/boardgame \
+  --dest-server https://kubernetes.default.svc \
+  --dest-namespace production \
+  --sync-policy automated \
+  --auto-prune \
+  --self-heal \
+  --server argocd.local.lab \
+  --auth-token "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhcmdvY2QiLCJzdWIiOiJhZG1pbjphcGlLZXkiLCJuYmYiOjE3NjI2MDgyMzMsImlhdCI6MTc2MjYwODIzMywianRpIjoiMWFmZWNmZjEtNGFlNS00MzZkLWFhOTEtYzY5OWJiOTk1OTcyIn0.OSluIoqwI6w_5wOqy8cyTUe5wp5l6Nwp0LLmAJH4YHs" \
+  --grpc-web \
+  --insecure
+```
+Здесь важные параметры:
+- repo - Репозитори GitOps
+- path - путь внутри репозитория GitOps к файлам развертывания
+- dest - в каком NS разворачивать приложение
+- sync-policy - тип синхронизации
+- auth-token - токен который мы получаем через команду `argocd account generate-token --account admin`
 
 **Добавление DNS записи**
 На DNS сервере (192.168.100.53):
