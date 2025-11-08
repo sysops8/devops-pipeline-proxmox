@@ -3356,7 +3356,7 @@ echo
 Логин: admin
 Пароль: (из команды выше)
 
-### Смена пароля admin в браузере через UI: User Info → Update Password
+**Смена пароля admin в браузере через UI: User Info → Update Password**
 Или через CLI:
 ```bash
 # Установка ArgoCD CLI на jumphost
