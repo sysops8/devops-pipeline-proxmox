@@ -3668,6 +3668,10 @@ metadata:
   uid: b416cca7-191b-4815-9667-ad3ea2d0f9c6
 
 ```
+Перезапуск Argocd (важно):
+```
+kubectl rollout restart deployment argocd-server -n argocd
+```
 
 Создание приложение в production namespace, раньше был в default, перенесем его туда:
 ```
