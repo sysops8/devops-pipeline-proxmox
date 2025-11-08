@@ -3305,7 +3305,7 @@ kubectl get pods -n argocd
 ```
 Создаем argocd-service-lb.yaml:
 ```bash
-sudo tee argocd-service-lb.yaml > /dev/null <<EOF
+sudo tee argocd-service-lb.yaml > /dev/null <<'EOF'
 apiVersion: v1
 kind: Service
 metadata:
