@@ -1351,7 +1351,7 @@ kubectl get svc -n traefik
 
 ## Этап 10: Установка инструментов на VM
 
-### 10.1 Jenkins Server (192.168.100.20 порт 8080)
+### 10.1 Jenkins Server
 
 ```bash
 ssh ubuntu@192.168.100.20
