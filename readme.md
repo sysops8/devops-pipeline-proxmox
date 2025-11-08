@@ -3539,6 +3539,12 @@ kubectl port-forward svc/boardgame-service 8080:80 -n default
 ---
 ## Часть 5: Опционально настройка GitOps
 
+Подключитесь к Jenkins серверу:
+```bash
+ssh admin@10.0.10.20
+# или
+ssh admin@jenkins.local.lab
+```
 ## Этап 16.1: Настройка Gitops ArgoCD
 
 - Установка ArgoCD
