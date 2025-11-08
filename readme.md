@@ -3651,10 +3651,10 @@ Password: github settings -> Developer Setting -> Personal Access Token -> Class
 
 Manage Jenkins → Credentials → System → Global credentials.
 Создайте запись с ID argocd-token.
-Тип: Secret text (если используешь токен)
+Тип: Secret text (если токен)
 Значение: твой токен ArgoCD
 ID: argocd-token (точно как в pipeline)
-Если запись отсутствует — создай её.
+Если запись отсутствует — нужно создать её.
 После этого Jenkins сможет подставлять токен в pipeline.
 
 
