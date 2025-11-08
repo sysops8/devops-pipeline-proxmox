@@ -18,7 +18,7 @@
   - [Этап 2: DNS Server](#этап-2-dns-server)
   - [Этап 3: Jumphost](#этап-3-jumphost)
   - [Этап 4: Ngrok Tunnel](#этап-4-ngrok-tunnel)
-  - [Этап 5: Создание VM через Terraform](#этап-5-создание-vm-через-terraform)
+- [Часть 2: Kubernetes кластер](Часть-2-Kubernetes-кластер)
   - [Этап 6: Установка K3s кластера](#этап-3-установка-k3s-кластера)
   - [Этап 7: MetalLB Load Balancer](#этап-4-установка-metallb-load-balancer)
   - [Этап 8: Traefik Ingress](#этап-5-установка-traefik-ingress)
@@ -1062,6 +1062,8 @@ dig jenkins.local.lab
 # Проверка маршрутизации
 ip route show
 ```
+
+## Часть 2: Kubernetes кластер
 
 ## Этап 6: Установка K3s кластера
 
