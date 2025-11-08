@@ -3355,12 +3355,12 @@ echo "argocd          IN      A       192.168.100.101" >> /etc/bind/db.local.lab
 Обновите Serial и перезагрузите:
 sudo rndc reload
 ```
-# Получение пароля admin на Jumphost:
+**Получение пароля admin на Jumphost:**
 ```bash
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
 echo
 ```
-# Вход в ArgoCD UI
+**Вход в ArgoCD UI**
 Откройте браузер:
 Внутренний доступ: https://argocd.local.lab или http://192.168.100.101
 Внешний доступ: https://argocd.your-domain.com
