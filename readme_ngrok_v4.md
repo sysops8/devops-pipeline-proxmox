@@ -38,7 +38,7 @@
 - [Часть 5: Опционально настройка GitOps с ArgoCD](#Часть-5-Опционально-настройка-GitOps)
   - [Этап 16.1: Настройка Gitops ArgoCD](#Этап-16.1-Настройка-Gitop--ArgoCD)
 - [Часть 6: Дополнительные настройки](#Часть-6-Дополнительные-настройки)
-  - [Backup и Recovery](#backup-и-recovery)    
+  - [Backup и Recovery](#Backup-и-Recovery)    
   
 ---
 
