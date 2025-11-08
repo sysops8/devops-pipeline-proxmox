@@ -1357,8 +1357,6 @@ kubectl get svc -n traefik
 ssh ubuntu@192.168.100.20
 ```
 ```bash
-ssh ubuntu@192.168.100.20
-
 # Обновление системы
 sudo apt update && sudo apt upgrade -y
 
