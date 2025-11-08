@@ -3315,7 +3315,7 @@ metadata:
     app.kubernetes.io/name: argocd-server
 spec:
   type: LoadBalancer
-  loadBalancerIP: 192.168.100.101   # выбераем свободный IP из пула Metallb, это приявязка статического IP к argocd, чтобы не менялся при перезагзуке
+  loadBalancerIP: 192.168.100.105   # выбераем свободный IP из пула Metallb, это приявязка статического IP к argocd, чтобы не менялся при перезагзуке
   selector:
     app.kubernetes.io/name: argocd-server
   ports:
@@ -3332,12 +3332,15 @@ EOF
 kubectl apply -f argocd-service-lb.yaml
 # Получение LoadBalancer IP
 kubectl get svc argocd-server-lb -n argocd
-# Запишите EXTERNAL-IP (например, 192.168.100.101)
+# Запишите EXTERNAL-IP (например, 192.168.100.105)
 ```
+Примечание: Здесь указываем внешний IP адрес на котором будет работать Argocd, запрашиваем IP у MetalLB из его диапозоно 192.168.100.100-150. Важно чтобы адрес был не занятый, у нас 100 принадлжеит Traefik и 101 у приложения Boargame, значить мы можем взять IP все что выше 102.
+
+
 **Добавление DNS записи**
 На DNS сервере (192.168.100.53):
 ```bash
-echo "argocd          IN      A       192.168.100.101" >> /etc/bind/db.local.lab
+echo "argocd          IN      A       192.168.100.105" >> /etc/bind/db.local.lab
 Обновите Serial и перезагрузите:
 sudo rndc reload
 ```
@@ -3348,7 +3351,7 @@ echo
 ```
 **Вход в ArgoCD UI**
 Откройте браузер:
-Внутренний доступ: https://argocd.local.lab или http://192.168.100.101
+Внутренний доступ: https://argocd.local.lab или http://192.168.100.105
 Внешний доступ: https://argocd.your-domain.com
 Логин: admin
 Пароль: (из команды выше)
