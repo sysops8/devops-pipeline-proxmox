@@ -4328,6 +4328,9 @@ pipeline {
 Если все работает хорошо, то мы получим сообщение на почту:
 <img width="1834" height="797" alt="image" src="https://github.com/user-attachments/assets/a2a81fd0-36fb-4a20-9f68-9f7885b93abe" />
 
+Pipeline:
+<img width="1920" height="995" alt="image" src="https://github.com/user-attachments/assets/1e605e30-95be-4494-ac69-2f2f536d994a" />
+
 
 ---
 ## Часть 6: Дополнительные настройки
