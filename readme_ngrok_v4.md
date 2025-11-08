@@ -23,7 +23,7 @@
   - [Этап 7: MetalLB Load Balancer](#этап-4-установка-metallb-load-balancer)
   - [Этап 8: Traefik Ingress](#этап-5-установка-traefik-ingress)
   - [Этап 9: Настройка внешнего доступа через Cloudflare Tunnel](#этап-6-настройка-внешнего-доступа-через-cloudflare-tunnel)
--  [Часть 3: CI/CD инструменты](#Часть-3-CI/CD-инструменты)
+-  [Часть 3: CI/CD инструменты](#Часть-3-CI-CD-инструменты)
   - [Этап 10: Установка инструментов - jenkins, sonarqube, nexus, harbor, monitoring server](#этап-7-установка-инструментов-на-vm)
   - [Этап 10.1 Jenkins Server (192.168.100.20 порт 8080)](#10.1-Jenkins-Server)
   - [Этап 10.2 SonarQube Server](#10.2-sonarqube-server)
