@@ -24,7 +24,7 @@
   - [Этап 8: Traefik Ingress](#Этап-8-Установка-Traefik-Ingress)
 - [Часть 3: CI/CD инструменты](#часть-3-cicd-инструменты)  
   - [Этап 10.1 Jenkins Server](#этап-10.1-jenkins-server)
-  - [Этап 10.2 SonarQube Server](#10.2-sonarqube-server)
+  - [Этап 10.2 SonarQube Server](#10.2-SonarQube-Server)
   - [Этап 10.3 Nexus Repository](#10.3-Nexus-Repository)
   - [Этап 10.4 Harbor Registry](#10.4-Harbor-Registry)
   - [Этап 10.5 Monitoring Server](#10.5-Monitoring-Server)
