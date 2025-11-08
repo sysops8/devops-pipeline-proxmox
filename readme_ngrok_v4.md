@@ -3540,19 +3540,19 @@ replicas:
 ## Создание ArgoCD Application
 Подключение Git репозитория
 В ArgoCD UI:
-
+```
 Settings → Repositories → Connect Repo
 Выберите метод: HTTPS
 Repository URL: https://github.com/YOUR_USERNAME/boardgame-gitops.git
 Username: (ваш GitHub username)
 Password: (Personal Access Token)
 Connect
-
+```
 ## Создание Application через UI
 Applications → New App
 Заполните поля:
-
-yamlApplication Name: boardgame
+```yaml
+Application Name: boardgame
 Project: default
 Sync Policy: Manual (пока)
 
@@ -3564,7 +3564,7 @@ Source:
 Destination:
   Cluster URL: https://kubernetes.default.svc
   Namespace: production
-
+```
 Нажать CREATE
 
 Создание Application через YAML
