@@ -1370,7 +1370,7 @@ curl -fsSL https://get.docker.com -o get-docker.sh
 sudo sh get-docker.sh
 ```
 ## Некоторые ошибки при работе Docker
-Ошибка: При работе этапа сборки контейнера Docker в пайплайне, может возникнуть ошибка "permision denied" :
+Ошибка: Если при во время сборки контейнера Docker в пайплайне, возникает ошибка "permision denied" :
 ```
 + docker build -t harbor.local.lab/library/boardgame:2 .
 
