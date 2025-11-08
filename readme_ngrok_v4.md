@@ -29,6 +29,7 @@
   - [Этап 10.3 Nexus Repository](#10.3-Nexus-Repository)
   - [Этап 10.4 Harbor Registry](#10.4-Harbor-Registry)
   - [Этап 10.5 Monitoring Server](#10.5-Monitoring-Server)
+- [Часть 4: Интеграция и Pipeline](Часть-4-Интеграция-и-Pipeline)
   - [Этап 11: Настройка Jenkins](#этап-8-настройка-jenkins-pipeline)
   - [Этап 12: Jenkins Pipeline](#этап-9-создание-jenkins-pipeline)
   - [Этап 13: Мониторинг Jenkins](#этап-10-установка-мониторинга-на-jenkins)
@@ -2461,7 +2462,7 @@ echo export KUBECONFIG=~/.kube/config  >> ~/.profile
 =========Возможно нужно удалить============================
 
 ---
-
+## Часть 4: Интеграция и Pipeline
 ## Этап 11: Настройка Jenkins Pipeline
 
 ### 11.1 Первоначальная настройка Jenkins
