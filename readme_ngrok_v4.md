@@ -2010,7 +2010,7 @@ sudo update-ca-certificates
 sudo systemctl restart docker
 ```
 
-### 10.5 Monitoring Server (192.168.100.40)
+### 10.5 Monitoring Server
 
 ```bash
 ssh ubuntu@192.168.100.40
