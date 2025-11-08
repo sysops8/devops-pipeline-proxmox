@@ -3554,9 +3554,11 @@ ssh admin@jumphost.local.lab
 - Обновление Jenkins Pipeline
 - Проверка работы
 
-Удаляем старые pods в namespace default чтобы потом их создавать в production:
+Удаляем старые pods, deplouments и service в namespace default чтобы потом их создавать в production:
 ```bash
-kubectl delete pod -l app=boardgame
+kubectl delete deployment boardgame-deployment -n default
+kubectl delete service boardgame-service -n default
+kubectl delete all -l app=boardgame -n default
 ```
 ```
 pod "boardgame-deployment-5d8c66bb9-jwv9f" deleted from default namespace
