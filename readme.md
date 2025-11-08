@@ -3554,11 +3554,22 @@ ssh admin@jumphost.local.lab
 - Обновление Jenkins Pipeline
 - Проверка работы
 
+Удаляем старые pods в namespace default чтобы потом их создавать в production:
+```bash
+kubectl delete pod -l app=boardgame
+pod "boardgame-deployment-5d8c66bb9-jwv9f" deleted from default namespace
+pod "boardgame-deployment-5d8c66bb9-m8ptf" deleted from default namespace
+```
+Создаем новый namespace production:
+```bash
+kubectl crate namespace production
+```
+
 Установка ArgoCD, делаем на Jumphost'е:
 ```bash
 # Создание namespace
 kubectl create namespace argocd
-
+kubectl create namespace production
 # Установка ArgoCD
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
