@@ -22,9 +22,8 @@
   - [Этап 6: Установка K3s кластера](#Этап-6-Установка-K3s-кластера)
   - [Этап 7: MetalLB Load Balancer](#Этап-7-Установка-MetalLB)
   - [Этап 8: Traefik Ingress](#Этап-8-Установка-Traefik-Ingress)
-- [Часть 3: CI/CD инструменты](#часть-3-cicd-инструменты)
-  - [Этап 10: Установка инструментов](#этап-10-установка-инструментов-на-vm)
-  - [Этап 10.1 Jenkins Server](#10.1-Jenkins-Server)
+- [Часть 3: CI/CD инструменты](#часть-3-cicd-инструменты)  
+  - [Этап 10.1 Jenkins Server](#10-1-Jenkins-Server)
   - [Этап 10.2 SonarQube Server](#10.2-sonarqube-server)
   - [Этап 10.3 Nexus Repository](#10.3-Nexus-Repository)
   - [Этап 10.4 Harbor Registry](#10.4-Harbor-Registry)
@@ -1351,8 +1350,6 @@ kubectl get svc -n traefik
 ---
 
 ## Часть 3: CI/CD инструменты
-
-## Этап 10: Установка инструментов на VM
 
 ### 10.1 Jenkins Server
 
