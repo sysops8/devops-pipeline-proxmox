@@ -38,17 +38,8 @@
 - [Часть 5: Опционально настройка GitOps с ArgoCD](#Часть-5-Опционально-настройка-GitOps)
   - [Этап 16.1: Настройка Gitops ArgoCD](#Этап-16.1-Настройка-Gitop--ArgoCD)
 - [Часть 6: Дополнительные настройки](#Часть-6-Дополнительные-настройки)
-  - [Этап 17: Оптимизация](#этап-14-оптимизация-и-best-practices)
-  - [Этап 18: Troubleshooting](#этап-15-troubleshooting)
-  - [Этап 19: Финальная проверка](#этап-16-финальная-проверка)
-  - [Использование](#использование)
-  - [Мониторинг](#мониторинг)
-  - [Backup и Recovery](#backup-и-recovery)
-  - [FAQ](#faq)
-  - [Contributing](#contributing)
-  - [Лицензия](#лицензия)
-  - [Безопасность изолированной сети](#-безопасность-изолированной-сети)
-  - [Проверка инфраструктуры](#-проверка-инфраструктуры)
+  - [Backup и Recovery](#backup-и-recovery)    
+  
 ---
 
 ## 🎯 О проекте
@@ -4594,7 +4585,6 @@ sudo rndc reload
 5. Откройте Pull Request
 
 **Идеи для улучшения:**
-- [ ] Добавить ArgoCD для GitOps
 - [ ] Интеграция с Slack для уведомлений
 - [ ] Добавить EFK (Elasticsearch, Fluentd, Kibana) stack
 - [ ] Настроить Vault для secrets
@@ -4605,11 +4595,6 @@ sudo rndc reload
 
 ---
 
-## 📝 Лицензия
-
-Этот проект распространяется под лицензией MIT. См. файл `LICENSE` для подробностей.
-
----
 
 ## 📧 Контакты
 
@@ -4630,26 +4615,6 @@ sudo rndc reload
 - Все open-source contributors
 
 ---
-
-## 📚 Дополнительные ресурсы
-
-**Документация:**
-- [Kubernetes](https://kubernetes.io/docs/)
-- [K3s](https://docs.k3s.io/)
-- [Jenkins](https://www.jenkins.io/doc/)
-- [Terraform](https://www.terraform.io/docs/)
-- [Proxmox](https://pve.proxmox.com/wiki/)
-
-**Обучающие материалы:**
-- [Kubernetes Tutorial](https://kubernetes.io/docs/tutorials/)
-- [Jenkins Pipeline Tutorial](https://www.jenkins.io/doc/book/pipeline/)
-- [Docker Documentation](https://docs.docker.com/)
-- [Prometheus Documentation](https://prometheus.io/docs/)
-
-**Сообщества:**
-- [Kubernetes Slack](https://slack.k8s.io/)
-- [DevOps Subreddit](https://reddit.com/r/devops)
-- [CNCF Slack](https://cloud-native.slack.com/)
 
 ---
 
