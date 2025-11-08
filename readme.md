@@ -3641,7 +3641,14 @@ argocd account generate-token --account admin
 или
 ### Сохраните этот токен!
 Перейди в Jenkins: 
-```
+
+Создайте учетную запись для ArgoCD доступа к Gitops repo:
+Manage Jenkins → Credentials → System → Global credentials.
+Создайте запись с ID github-gitops-token.
+Тип: Username with password
+Username: Ваш логин к github gitops репозиторий, у меня здесь sysops8
+Password: github settings -> Developer Setting -> Personal Access Token -> Classic toker -> Create -> github-argocd-token
+
 Manage Jenkins → Credentials → System → Global credentials.
 Создайте запись с ID argocd-token.
 Тип: Secret text (если используешь токен)
@@ -3649,7 +3656,7 @@ Manage Jenkins → Credentials → System → Global credentials.
 ID: argocd-token (точно как в pipeline)
 Если запись отсутствует — создай её.
 После этого Jenkins сможет подставлять токен в pipeline.
-```
+
 
 
 ## Подготовка Git репозитория
